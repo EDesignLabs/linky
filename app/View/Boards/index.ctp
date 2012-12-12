@@ -4,7 +4,7 @@
 				<li>
 					<h4><?php echo $b['Board']['title']; ?></h4>
 					<ul>
-						<li><?php echo $this->Html->link('view board','/boards/'.$b['Board']['id']); ?></li>
+						<li><?php echo $this->Html->link('view board','/boards/view/'.$b['Board']['id']); ?></li>
 						<li><?php echo $this->Html->link('add topics','/boards/'.$b['Board']['id'].'/topics/add'); ?></li>
 					</ul>
 				</li>
