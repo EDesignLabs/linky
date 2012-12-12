@@ -20,14 +20,20 @@
 #feed{
 	margin-top: 20px;
 	background-color: #efefef;
+	width: 500px;
 }
 
 #feed article{
-
+	padding: 5px;
 }
 
 #feed article img{
 	height: 100px;
+	margin-right: 20px;
+}
+
+#feed article p{
+
 }
 
 form{

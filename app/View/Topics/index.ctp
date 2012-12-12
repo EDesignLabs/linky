@@ -7,10 +7,12 @@
 	<?php if(!empty($topic['TopicPhoto'])): ?>
 	<?php foreach($topic['TopicPhoto'] as $photo): ?>
 	<article>
-		<?php if(!empty($photo['image'])) echo $this->Html->image($photo['image']); ?>
-		<?php if(!empty($photo['description'])) echo $this->Html->para($photo['description']); ?>
-		<small><?php echo !empty($photo['name']) ? $photo['name'] : 'anonymous'; ?></small>
-		<small>uploaded at <?php echo strtotime($photo['created']) ?></small>
+		<?php if(!empty($photo['image'])) echo $this->Html->image($photo['image'], array('class' => 'left')); ?>
+		<p class="left">
+		<?php if(!empty($photo['description'])) echo $photo['description'].'<br />'; ?>
+		<small><?php echo !empty($photo['name']) ? $photo['name'] : 'anonymous'; ?> <em><?php echo date('F j,Y',strftime($photo['created'])); ?></em></small>
+		</p>
+		<span class="clear"></span>
 	</article>
 	<?php endforeach; ?>
 	<?php endif; ?>

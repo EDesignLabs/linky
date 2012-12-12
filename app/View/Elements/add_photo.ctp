@@ -9,7 +9,7 @@
 			)
 		);
 	echo $this->Form->input(
-		'Board.description',
+		'TopicPhoto.description',
 		array(
 			'type' => 'textarea',
 			'label' => 'Description'
