@@ -11,8 +11,15 @@
 #add-photo{
 	display: none;
 }
-#feed{
+#add-photo.active{
+	display: block;
+}
+#add-link{
 
+}
+#feed{
+	margin-top: 20px;
+	background-color: #efefef;
 }
 
 #feed article{
