@@ -1,4 +1,6 @@
+<?php $collapsed = ' collapsed'; ?>
 <?php echo $this->element('board_details'); ?>
+<h3>Add a new topic to this board</h3>
 <?php 
 	echo $this->Form->create('Topic', array('boards/'.$board['Board']['id'].'/topics/add'));
 	echo $this->Form->input(

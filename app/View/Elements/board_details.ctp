@@ -1,7 +1,8 @@
-<section class="centered">
+<section class="centered<?php echo isset($collapsed) ? $collapsed : ''; ?>">
 	<h1><?php echo $board['Board']['title']; ?></h1>
-	<p><?php echo $board['Board']['description']; ?></p>
-	<?php echo $this->Html->image($board['Board']['image']); ?>
+	<?php echo $this->Html->image($board['Board']['image'], array('class' => 'left shrink')); ?>
+	<p class="left margin-20 width-big"><?php echo nl2br($board['Board']['description']); ?></p>
+	<span class="clear"></span>
 	<?php if(!empty($board['Topic'])): ?>
 	<ul class="nav nav-pills">
 		<?php foreach($board['Topic'] as $topic): 

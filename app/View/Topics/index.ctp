@@ -8,8 +8,8 @@
 	<article>
 		<?php 
 			echo $this->Html->image($photo['image']); 
-			echo $this->Html->para($photo['description']);
-			echo $this->Html->small($photo['created']);
+			//echo $this->Html->para($photo['description']);
+			//echo $this->Html->small($photo['created']);
 		?>
 	</article>
 	<?php endforeach; ?>

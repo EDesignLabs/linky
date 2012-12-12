@@ -21,6 +21,15 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 	Router::connect(
+		'/boards/',
+		array('controller' => 'boards', 'action' => 'index')
+		);
+	Router::connect(
+		'/boards/:id',
+		array('controller' => 'boards', 'action' => 'view'),
+		array('id' => '[0-9]+')
+		);
+	Router::connect(
 		'/boards/:id/topics/add', 
 		array('controller' => 'topics', 'action' => 'add'),
 		array('id' => '[0-9]+')
@@ -32,6 +41,10 @@
 			'id' => '[0-9]+',
 			'topic' => '[0-9]+'
 			)
+		);
+	Router::connect(
+		'/topic_photos/add', 
+		array('controller' => 'topicphotos', 'action' => 'add')
 		);
 /**
  * Here, we are connecting '/' (base path) to controller called 'Pages',

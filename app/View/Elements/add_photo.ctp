@@ -1,3 +1,5 @@
+<section id="add-photo">
+	<h4>Add a photo</h4>
 <?php 
 	echo $this->Form->create('TopicPhoto', array('controller' => 'TopicPhotos', 'action' => 'add'));
 	echo $this->Form->input(
@@ -11,6 +13,12 @@
 		array(
 			'type' => 'textarea',
 			'label' => 'Description'
+			)
+		);
+	echo $this->Form->input(
+		'TopicPhoto.name',
+		array(
+			'label' => 'Your Name'
 			)
 		);
 	echo $this->Form->input(
@@ -30,3 +38,4 @@
 	echo $this->Form->submit('Submit');
 	echo $this->Form->end();
 ?>
+</section>

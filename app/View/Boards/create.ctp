@@ -1,3 +1,4 @@
+<h2>Create new Board</h2>
 <?php 
 	echo $this->Form->create('Board', array('boards/create/'));
 	echo $this->Form->input(

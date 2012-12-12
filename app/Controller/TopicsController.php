@@ -33,13 +33,25 @@ class TopicsController extends AppController {
     	if(!empty($this->data)){
     		if ($this->Topic->validates()) {
     			$this->Topic->create();
-				$this->Topic->save($this->data);
-				$this->redirect('/boards/view/'.$id);
-				exit;
+				if($this->Topic->save($this->data)){
+                    $this->Session->setFlash('Topic has been added!');
+                    $this->redirect('/boards/view/'.$id);
+                    exit;
+                }else{
+                    $this->Session->setFlash('Topic was not added :(');
+                    $this->redirect('/boards/view/'.$id);
+                    exit;
+                }
 			} else {
 			    $errors = $this->Topic->validationErrors;
 			    report($errors);
 			}
 		}
 	}
+    public function delete($id){
+        $this->Topic->delete($id);
+        $this->Session->setFlash('Topic id '.$id.' was deleted');
+        $this->redirect('/boards/');
+        exit;
+    }
 }
