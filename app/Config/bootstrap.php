@@ -179,6 +179,7 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+date_default_timezone_set('America/New_York');
 
 	$constants = array('QUIT','REPORT_STYLE','TITLE_STYLE','PRE_STYLE','CLEARFLOAT_STYLE');
 	$reportAvailable = true;

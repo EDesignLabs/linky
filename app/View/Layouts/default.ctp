@@ -30,6 +30,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		echo $this->Html->css('/css/main.css');
 		echo $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js');
 		echo $this->Html->script('/js/main.js');
+		echo $this->Html->script('/js/bootstrap.js');
 	?>
 </head>
 <body>

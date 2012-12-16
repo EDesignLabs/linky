@@ -15,7 +15,7 @@ class BoardsController extends AppController {
     			$this->Board->create();
 				if($this->Board->save($this->data)){
 					$id = $this->Board->getLastInsertId();
-					$this->redirect('/boards/'.$id);
+					$this->redirect('/boards/view/'.$id);
 					exit;
 				}else{
 					$this->redirect('/boards/');

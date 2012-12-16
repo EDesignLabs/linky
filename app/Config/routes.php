@@ -21,6 +21,10 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 	Router::connect(
+		'/',
+		array('controller' => 'boards', 'action' => 'index')
+		);
+	Router::connect(
 		'/boards/',
 		array('controller' => 'boards', 'action' => 'index')
 		);
@@ -35,7 +39,25 @@
 		array('id' => '[0-9]+')
 		);
 	Router::connect(
+		'/boards/:id/categories/add', 
+		array('controller' => 'topics', 'action' => 'add'),
+		array('id' => '[0-9]+')
+		);
+	Router::connect(
 		'/boards/:id/topics/:topic', 
+		array('controller' => 'topics', 'action' => 'index'),
+		array(
+			'id' => '[0-9]+',
+			'topic' => '[0-9]+'
+			)
+		);
+	Router::connect(
+		'/boards/:id/categories/add', 
+		array('controller' => 'topics', 'action' => 'add'),
+		array('id' => '[0-9]+')
+		);
+	Router::connect(
+		'/boards/:id/categories/:topic', 
 		array('controller' => 'topics', 'action' => 'index'),
 		array(
 			'id' => '[0-9]+',
@@ -45,6 +67,17 @@
 	Router::connect(
 		'/topic_photos/add', 
 		array('controller' => 'topicphotos', 'action' => 'add')
+		);
+	Router::connect(
+		'/photos/add', 
+		array('controller' => 'topicphotos', 'action' => 'add')
+		);
+	Router::connect(
+		'/photos/edit/:id', 
+		array('controller' => 'topicphotos', 'action' => 'edit'),
+		array(
+			'id' => '[0-9]+'
+			)
 		);
 /**
  * Here, we are connecting '/' (base path) to controller called 'Pages',

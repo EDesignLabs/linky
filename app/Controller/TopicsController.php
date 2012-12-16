@@ -5,6 +5,7 @@ class TopicsController extends AppController {
 	public $uses = array('Topic','Board');
 	public $helpers = array('Form', 'Html', 'Session');
 	public function index() {
+        $this->set('title','Add a photo');
        	$id = $this->request->params['id'];
     	$this->Board->id = $id;
     	$board = $this->Board->read();
@@ -18,6 +19,24 @@ class TopicsController extends AppController {
     		$this->redirect('/boards/');
     		exit;
     	}
+        $topics = $this->Topic->find('all',
+            array(
+                'fields' => array(
+                    'Topic.id',
+                    'Topic.title'
+                    )
+                )
+            );
+        $topic_choices = array();
+        if(!empty($topics)){
+            foreach ($topics as $t) {
+               $topic_choices[$t['Topic']['id']] = $t['Topic']['title'];
+            }
+        }
+        $photo['Topic']['id'] = $this->request->params['topic'];
+        $photo['Topic']['board_id'] = $id;
+        $this->set('photo',$photo);
+        $this->set('topic_choices',$topic_choices);
     	$this->set('board',$board);
     	$this->set('topic',$topic);
     }
@@ -34,11 +53,11 @@ class TopicsController extends AppController {
     		if ($this->Topic->validates()) {
     			$this->Topic->create();
 				if($this->Topic->save($this->data)){
-                    $this->Session->setFlash('Topic has been added!');
+                    $this->Session->setFlash('Category has been created!');
                     $this->redirect('/boards/view/'.$id);
                     exit;
                 }else{
-                    $this->Session->setFlash('Topic was not added :(');
+                    $this->Session->setFlash('Category was not created :(');
                     $this->redirect('/boards/view/'.$id);
                     exit;
                 }
@@ -50,7 +69,7 @@ class TopicsController extends AppController {
 	}
     public function delete($id){
         $this->Topic->delete($id);
-        $this->Session->setFlash('Topic id '.$id.' was deleted');
+        $this->Session->setFlash('Category id '.$id.' was deleted');
         $this->redirect('/boards/');
         exit;
     }
