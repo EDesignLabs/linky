@@ -14,7 +14,7 @@
 		<?php if(!empty($photo['url'])) echo $this->Html->image($photo['url'], array('class' => 'left')); ?>
 		<?php if(!empty($photo['filename'])) echo $this->Html->image($photo['filepath'].$photo['filename'], array('class' => 'left')); ?>
 		<p class="left">
-			<?php if(!empty($photo['description'])) echo $photo['description'].'<br />'; ?>
+			<?php if(!empty($photo['description'])) echo nl2br($photo['description']).'<br />'; ?>
 			<small><?php echo !empty($photo['name']) ? $photo['name'] : 'anonymous'; ?> <em><?php echo date('F j,Y g:i a',strftime($photo['created'])); ?></em></small>
 			<?php echo $this->Html->link('edit','/photos/edit/'.$photo['id']); ?>
 		</p>
