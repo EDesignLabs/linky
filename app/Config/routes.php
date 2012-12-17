@@ -44,6 +44,16 @@
 		array('id' => '[0-9]+')
 		);
 	Router::connect(
+		'/topics/edit/:id', 
+		array('controller' => 'topics', 'action' => 'edit'),
+		array('id' => '[0-9]+')
+		);
+	Router::connect(
+		'/categories/edit/:id', 
+		array('controller' => 'topics', 'action' => 'edit'),
+		array('id' => '[0-9]+')
+		);
+	Router::connect(
 		'/boards/:id/topics/:topic', 
 		array('controller' => 'topics', 'action' => 'index'),
 		array(
@@ -65,6 +75,22 @@
 			)
 		);
 	Router::connect(
+		'/boards/:id/categories/:topic/add_photos', 
+		array('controller' => 'topic_photos', 'action' => 'add'),
+		array(
+			'id' => '[0-9]+',
+			'topic' => '[0-9]+'
+			)
+		);
+	Router::connect(
+		'/boards/:id/topics/:topic/add_photos', 
+		array('controller' => 'topic_photos', 'action' => 'add'),
+		array(
+			'id' => '[0-9]+',
+			'topic' => '[0-9]+'
+			)
+		);
+	Router::connect(
 		'/topic_photos/add', 
 		array('controller' => 'topicphotos', 'action' => 'add')
 		);
@@ -74,6 +100,13 @@
 		);
 	Router::connect(
 		'/photos/edit/:id', 
+		array('controller' => 'topicphotos', 'action' => 'edit'),
+		array(
+			'id' => '[0-9]+'
+			)
+		);
+	Router::connect(
+		'/topic_photos/edit/:id', 
 		array('controller' => 'topicphotos', 'action' => 'edit'),
 		array(
 			'id' => '[0-9]+'

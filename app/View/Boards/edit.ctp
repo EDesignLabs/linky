@@ -1,10 +1,9 @@
-<h2>Create new Board</h2>
+<h2>Edit your Board</h2>
 <?php 
 	echo $this->Form->create(
-		'Board', 
-		array(
+		'Board', array(
 			'controller' => 'boards',
-			'action' => 'create',
+			'action' => 'edit',
 			'inputDefaults' => array(
 				'class' => 'input-xxlarge',
 				'div' => array(
@@ -31,6 +30,7 @@
 			'label' => 'Image Url'
 			)
 		);
-	echo $this->Form->submit('Create Board');
+	echo $this->Html->link('Deactivate this board?','/boards/deactivate/'.$this->data['Board']['id']);
+	echo $this->Form->submit('Save Board');
 	echo $this->Form->end();
 ?>

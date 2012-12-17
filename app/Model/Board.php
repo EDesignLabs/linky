@@ -9,7 +9,10 @@ class Board extends AppModel {
 		  'conditions'   => '',
 		  'order'        => '',
 		  'dependent'    => true,
-		  'foreignKey'   => 'board_id'
+		  'foreignKey'   => 'board_id',
+		  'conditions'   => array(
+		  	'Topic.active' => 1
+		  	)
 	));
 } 
 ?>

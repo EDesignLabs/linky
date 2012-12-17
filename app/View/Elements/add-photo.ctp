@@ -1,26 +1,34 @@
 <section id="add-photo" class="margin-20">
-	<h4><?php echo $title; ?></h4>
+	<h4>Add your photo</h4>
 <?php
-	$action = $this->params['action'] != 'edit' ? 'add' : 'edit';
-	echo $this->Form->create('TopicPhoto', array('controller' => 'TopicPhotos', 'action' => $action));
-	if($action == 'edit'){
-		echo $this->Form->input(
-			'TopicPhoto.id',
-			array(
-				'type' => 'hidden',
-				'value' => $photo['TopicPhoto']['id']
-				)
-			);
-		echo $this->Html->image($photo['TopicPhoto']['image'], array('class' => 'shrink'));
-	}
-	echo $this->Form->input(
-		'TopicPhoto.image',
+	echo $this->Form->create(
+		'TopicPhoto', 
 		array(
-			'label' => 'Image Url',
-			'value' => isset( $photo['TopicPhoto']['image'] ) ? $photo['TopicPhoto']['image'] : ''
+			'controller' => 'TopicPhotos', 
+			'action' => 'add',
+			'type' => 'file',
+			'inputDefaults' => array(
+		        'div' => array(
+		        	'class' => 'control-group'
+		        	),
+		        'class' => 'input-xxlarge'
+		    	)
 			)
 		);
-	$selected = isset($photo['Topic']['id']) ? $photo['Topic']['id'] : null;
+	echo $this->Form->input(
+		'TopicPhoto.file', array(
+			'type' => 'file',
+			'label' => 'Upload a photo'
+			)
+		);
+	echo $this->Form->input(
+		'TopicPhoto.url',
+		array(
+			'label' => 'Image Url',
+			'value' => isset( $photo['TopicPhoto']['url'] ) ? $photo['TopicPhoto']['url'] : ''
+			)
+		);
+	$selected = isset($topic_id) ? $topic_id : null;
 	echo $this->Form->input(
 		'TopicPhoto.topic_id',
 		array(
@@ -34,28 +42,23 @@
 		'TopicPhoto.description',
 		array(
 			'type' => 'textarea',
-			'label' => 'How is this photo relevant to this category?',
-			'value' => isset($photo['TopicPhoto']['description']) ? $photo['TopicPhoto']['description'] : ''
+			'label' => 'How is this photo relevant to this category?'
 			)
 		);
 	echo $this->Form->input(
 		'TopicPhoto.name',
 		array(
-			'label' => 'Your Name (optional)',
-			'value' => isset($photo['TopicPhoto']['name']) ? $photo['TopicPhoto']['name'] : ''
+			'label' => 'Your Name (optional)'
 			)
 		);
 	echo $this->Form->input(
 		'TopicPhoto.board_id',
 		array(
 			'type' => 'hidden',
-			'value' => isset($photo['Topic']['board_id']) ? $photo['Topic']['board_id'] : ''
+			'value' => $board_id
 			)
 		);
-	if($action == 'edit'){
-		echo $this->Html->link('Delete this photo','/topic_photos/delete/'.$photo['TopicPhoto']['id']);
-	}
-	echo $this->Form->submit('Save');
+	echo $this->Form->submit('Add Photo');
 	echo $this->Form->end();
 ?>
 </section>

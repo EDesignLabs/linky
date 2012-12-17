@@ -53,11 +53,11 @@ class TopicsController extends AppController {
     		if ($this->Topic->validates()) {
     			$this->Topic->create();
 				if($this->Topic->save($this->data)){
-                    $this->Session->setFlash('Category has been created!');
+                    $this->Session->setFlash('Category has been created!', 'success');
                     $this->redirect('/boards/view/'.$id);
                     exit;
                 }else{
-                    $this->Session->setFlash('Category was not created :(');
+                    $this->Session->setFlash('Category was not created', 'fail');
                     $this->redirect('/boards/view/'.$id);
                     exit;
                 }
@@ -67,9 +67,42 @@ class TopicsController extends AppController {
 			}
 		}
 	}
+    public function edit() {
+        if(empty($this->data)){
+            $id = $this->request->params['id'];
+            $this->Topic->id = $id;
+            $topic = $this->Topic->read();
+            if(empty($topic)){
+                $this->redirect('/boards/');
+                exit;
+            }
+            $this->data = $topic;
+        }else{
+            if ($this->Topic->validates()) {
+                if($this->Topic->save($this->data)){
+                    $this->Session->setFlash('Category has been saved!', 'success');
+                    $this->redirect('/boards/view/'.$this->data['Topic']['board_id']);
+                    exit;
+                }else{
+                    $this->Session->setFlash('Category was not saved', 'fail');
+                    $this->redirect('/boards/view/'.$this->data['Topic']['board_id']);
+                    exit;
+                }
+            } else {
+                $errors = $this->Topic->validationErrors;
+                report($errors);
+            }
+        }
+    }
     public function delete($id){
         $this->Topic->delete($id);
-        $this->Session->setFlash('Category id '.$id.' was deleted');
+        $this->Session->setFlash('Category id '.$id.' was deleted', 'success');
+        $this->redirect('/boards/');
+        exit;
+    }
+    public function deactivate($id){
+        $photo = $this->Topic->deactivate($id);
+        $this->Session->setFlash('Category id '.$id.' was deactivated','success');
         $this->redirect('/boards/');
         exit;
     }

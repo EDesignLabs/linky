@@ -1,11 +1,9 @@
-<?php $collapsed = ' collapsed'; ?>
-<?php echo $this->element('board_details'); ?>
-<h3>Add a new category to this board</h3>
+<h3>Edit this category</h3>
 <?php 
 	echo $this->Form->create(
 		'Topic', 
 		array(
-			'url' => '/boards/'.$board['Board']['id'].'/categories/add',
+			'url' => '/categories/edit/'.$this->data['Topic']['board_id'],
 			'inputDefaults' => array(
 		        'div' => array(
 		        	'class' => 'control-group'
@@ -17,15 +15,19 @@
 	echo $this->Form->input(
 		'Topic.board_id',
 		array(
-			'type' => 'hidden',
-			'value' => $board['Board']['id']
+			'type' => 'hidden'
+			)
+		);
+	echo $this->Form->input(
+		'Topic.id',
+		array(
+			'type' => 'hidden'
 			)
 		);
 	echo $this->Form->input(
 		'Topic.title',
 		array(
-			'label' => 'Category Title',
-			'after' => '<span class="help"></span>'
+			'label' => 'Category Title'
 			)
 		);
 	echo $this->Form->input(
@@ -35,6 +37,7 @@
 			'label' => 'Category Prompt'
 			)
 		);
-	echo $this->Form->submit('Create Category');
+	echo $this->Html->link('Deactivate this category?','/topics/deactivate/'.$this->data['Topic']['id']);
+	echo $this->Form->submit('Save Category');
 	echo $this->Form->end();
 ?>
