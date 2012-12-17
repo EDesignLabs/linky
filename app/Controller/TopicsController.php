@@ -24,6 +24,9 @@ class TopicsController extends AppController {
                 'fields' => array(
                     'Topic.id',
                     'Topic.title'
+                    ),
+                'conditions' => array(
+                    'Topic.active' => 1
                     )
                 )
             );

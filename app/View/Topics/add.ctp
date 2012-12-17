@@ -35,6 +35,6 @@
 			'label' => 'Category Prompt'
 			)
 		);
-	echo $this->Form->submit('Create Category');
+	echo $this->Form->submit('Create Category',array('class' => 'btn btn-primary '));
 	echo $this->Form->end();
 ?>

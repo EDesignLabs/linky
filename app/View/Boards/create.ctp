@@ -31,6 +31,6 @@
 			'label' => 'Image Url'
 			)
 		);
-	echo $this->Form->submit('Create Board');
+	echo $this->Form->submit('Create Board',array('class' => 'btn btn-primary '));
 	echo $this->Form->end();
 ?>

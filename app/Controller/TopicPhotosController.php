@@ -8,15 +8,15 @@ class TopicPhotosController extends AppController {
        	
     }
     public function add() {
-        $topic_choices = $this->getTopics();
-        $this->set('topic_choices',$topic_choices);
         if(!empty($this->request->params['topic'])){
             $topic_id = $this->request->params['topic'];
-            $this->set('topic_id',$topic_id);
-            $board_id = $this->request->params['id'];
-            $this->set('board_id',$board_id);
+            $photo['TopicPhoto']['board_id'] = $this->request->params['id'];
+            $photo['TopicPhoto']['topic_id'] = $this->request->params['topic'];
+            $topic_choices = $this->getTopics($photo['TopicPhoto']['board_id']);
+            $this->set('topic_choices',$topic_choices);
         }
         if(!empty($this->data)){
+            $this->set('topic_choices',$this->getTopics($this->data['TopicPhoto']['board_id']));
             $this->TopicPhoto->set($this->data);
             if ($this->TopicPhoto->validates()) {
                 $this->TopicPhoto->create();
@@ -45,8 +45,6 @@ class TopicPhotosController extends AppController {
 
     public function edit() {
         $id = $this->request->params['id'];
-        $topic_choices = $this->getTopics();
-        $this->set('topic_choices',$topic_choices);
         if(empty($this->data)){
             $this->TopicPhoto->id = $id;
             $this->TopicPhoto->recursive = 2;
@@ -71,14 +69,16 @@ class TopicPhotosController extends AppController {
                 $this->Session->setFlash("It doesn't look like this photo exists", 'fail');
                 $this->redirect('/boards/');
             }
-            $this->data = $photo; 
+            $topic_choices = $this->getTopics($photo['Topic']['board_id']);
+            $this->set('topic_choices',$topic_choices);
+            $this->data = $photo;
         }else{
             $this->TopicPhoto->set($this->data);
             if ($this->TopicPhoto->validates()) {
                 $board = $this->data['Topic']['board_id'];
                 $topic = $this->data['TopicPhoto']['topic_id'];
                 $this->TopicPhoto->save($this->data);
-                if(!empty($this->data['TopicPhoto']['file'])){
+                if(!empty($this->data['TopicPhoto']['file']) && $this->data['TopicPhoto']['file']['error'] == 0){
                     $this->TopicPhoto->removePhoto($this->data);
                     unset($this->data['TopicPhoto']['filename']);
                     unset($this->data['TopicPhoto']['filepath']);
@@ -98,6 +98,8 @@ class TopicPhotosController extends AppController {
                 $this->redirect('/boards/'.$board.'/categories/'.$topic);
                 exit;
             } else {
+                $topic_choices = $this->getTopics($this->data['Topic']['board_id']);
+                $this->set('topic_choices',$topic_choices);
                 $this->Session->setFlash('There are errors in your submission, fix them and submit again','fail');
                 $errors = $this->TopicPhoto->validationErrors;
                 $this->set(compact('errors','data'));
@@ -122,12 +124,16 @@ class TopicPhotosController extends AppController {
         exit;
     }
 
-    public function getTopics(){
+    public function getTopics($board_id){
         $topics = $this->Topic->find('all',
             array(
                 'fields' => array(
                     'Topic.id',
                     'Topic.title'
+                    ),
+                'conditions' => array(
+                    'Topic.active' => 1,
+                    'Topic.board_id' => $board_id
                     )
                 )
             );

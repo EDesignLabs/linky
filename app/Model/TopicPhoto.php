@@ -4,8 +4,10 @@ class TopicPhoto extends AppModel {
 	var $name = 'TopicPhoto';
 	var $validate = array(
         'description' => array(
-            'rule' => 'alphaNumeric',
-            'required' => true
+            'rule' => array('minLength', '20'),
+            'message' => 'Minimum 20 characters long',
+            'required' => true,
+            'allowEmpty' => false
             ),
         'url' => array(
             'url' => array(

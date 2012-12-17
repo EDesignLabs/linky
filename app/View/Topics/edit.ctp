@@ -37,7 +37,10 @@
 			'label' => 'Category Prompt'
 			)
 		);
-	echo $this->Html->link('Deactivate this category?','/topics/deactivate/'.$this->data['Topic']['id']);
-	echo $this->Form->submit('Save Category');
+	echo $this->Html->link('Deactivate this category?','/topics/deactivate/'.$this->data['Topic']['id'], array('class' => 'btn btn-danger left margin-20 alpha'));
+	echo $this->Form->submit('Save Category', array('div' => array('class'=> 'left'), 'class' => 'btn btn-primary '));
+?>
+	<span class="clear"></span>
+<?php
 	echo $this->Form->end();
 ?>

@@ -18,16 +18,31 @@
 	echo $this->Form->input(
 		'TopicPhoto.file', array(
 			'type' => 'file',
-			'label' => 'Upload a photo'
+			'label' => 'Upload a photo',
+			'class' => 'left',
+			'div' => array(
+				'class' => 'control-group left'
+				)
 			)
 		);
+?>
+	<h3 class="or left margin-20">OR</h3>
+<?php
 	echo $this->Form->input(
 		'TopicPhoto.url',
 		array(
-			'label' => 'Image Url',
-			'value' => isset( $photo['TopicPhoto']['url'] ) ? $photo['TopicPhoto']['url'] : ''
+			'label' => 'Add an image url',
+			'value' => isset( $photo['TopicPhoto']['url'] ) ? $photo['TopicPhoto']['url'] : '',
+			'class' => 'input-xlarge',
+			'div' => array(
+				'class' => 'control-group right'
+				)
 			)
 		);
+?>
+	<span class="clear"></span>
+<?php
+	$topic_id = isset($this->data['TopicPhoto']['topic_id']) ? $this->data['TopicPhoto']['topic_id'] : $this->request->params['topic'];
 	$selected = isset($topic_id) ? $topic_id : null;
 	echo $this->Form->input(
 		'TopicPhoto.topic_id',
@@ -51,6 +66,7 @@
 			'label' => 'Your Name (optional)'
 			)
 		);
+	$board_id = isset($this->data['TopicPhoto']['board_id']) ? $this->data['TopicPhoto']['board_id'] : $this->request->params['id'];
 	echo $this->Form->input(
 		'TopicPhoto.board_id',
 		array(
@@ -58,7 +74,7 @@
 			'value' => $board_id
 			)
 		);
-	echo $this->Form->submit('Add Photo');
+	echo $this->Form->submit('Add Photo',array('class' => 'btn btn-primary '));
 	echo $this->Form->end();
 ?>
 </section>

@@ -501,3 +501,43 @@
 2012-12-16 23:19:14 Error: [MissingControllerException] Controller class CategoriesController could not be found.
 #0 C:\wamp\www\themeboard\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
+2012-12-17 00:11:09 Error: [MissingControllerException] Controller class FilesController could not be found.
+#0 C:\wamp\www\themeboard\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2012-12-17 00:11:16 Error: [MissingControllerException] Controller class FilesController could not be found.
+#0 C:\wamp\www\themeboard\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2012-12-17 00:12:53 Error: [MissingControllerException] Controller class FilesController could not be found.
+#0 C:\wamp\www\themeboard\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2012-12-17 00:12:56 Error: [MissingControllerException] Controller class FilesController could not be found.
+#0 C:\wamp\www\themeboard\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2012-12-17 00:32:52 Error: [MissingActionException] Action BoardsController::categories() could not be found.
+#0 C:\wamp\www\themeboard\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 C:\wamp\www\themeboard\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(BoardsController), Object(CakeRequest), Object(CakeResponse))
+#2 C:\wamp\www\themeboard\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-12-17 00:32:59 Error: [MissingActionException] Action BoardsController::categories() could not be found.
+#0 C:\wamp\www\themeboard\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 C:\wamp\www\themeboard\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(BoardsController), Object(CakeRequest), Object(CakeResponse))
+#2 C:\wamp\www\themeboard\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-12-17 00:33:05 Error: [MissingActionException] Action BoardsController::categories() could not be found.
+#0 C:\wamp\www\themeboard\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 C:\wamp\www\themeboard\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(BoardsController), Object(CakeRequest), Object(CakeResponse))
+#2 C:\wamp\www\themeboard\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-12-17 00:33:17 Error: [MissingActionException] Action BoardsController::categories() could not be found.
+#0 C:\wamp\www\themeboard\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 C:\wamp\www\themeboard\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(BoardsController), Object(CakeRequest), Object(CakeResponse))
+#2 C:\wamp\www\themeboard\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-12-17 00:40:58 Error: Fatal Error (4): parse error, expecting `')'' in [C:\wamp\www\themeboard\app\Model\TopicPhoto.php, line 9]
+2012-12-17 00:40:58 Error: [FatalErrorException] parse error, expecting `')''
+#0 C:\wamp\www\themeboard\lib\Cake\Error\ErrorHandler.php(161): ErrorHandler::handleFatalError(4, 'parse error, ex...', 'C:\wamp\www\the...', 9)
+#1 [internal function]: ErrorHandler::handleError(4, 'parse error, ex...', 'C:\wamp\www\the...', 9, Array)
+#2 C:\wamp\www\themeboard\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 4, 'parse error, ex...', 'C:\wamp\www\the...', 9, Array)
+#3 C:\wamp\www\themeboard\lib\Cake\Core\App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}

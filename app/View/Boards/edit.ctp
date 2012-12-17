@@ -13,6 +13,12 @@
 			)
 		);
 	echo $this->Form->input(
+		'Board.id',
+		array(
+			'type' => 'hidden'
+			)
+		);
+	echo $this->Form->input(
 		'Board.title',
 		array(
 			'label' => 'Board Title'
@@ -30,7 +36,10 @@
 			'label' => 'Image Url'
 			)
 		);
-	echo $this->Html->link('Deactivate this board?','/boards/deactivate/'.$this->data['Board']['id']);
-	echo $this->Form->submit('Save Board');
+	echo $this->Html->link('Deactivate this board?','/boards/deactivate/'.$this->data['Board']['id'], array('class' => 'btn btn-danger left margin-20 alpha'));
+	echo $this->Form->submit('Save Board', array('div' => array('class'=> 'left'), 'class' => 'btn btn-primary '));
+?>
+	<span class="clear"></span>
+<?php
 	echo $this->Form->end();
 ?>
