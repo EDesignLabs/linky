@@ -32,7 +32,6 @@
 		'TopicPhoto.url',
 		array(
 			'label' => 'Add an image url',
-			'value' => isset( $photo['TopicPhoto']['url'] ) ? $photo['TopicPhoto']['url'] : '',
 			'class' => 'input-xlarge',
 			'div' => array(
 				'class' => 'control-group right'

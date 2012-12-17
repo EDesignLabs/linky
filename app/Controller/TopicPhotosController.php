@@ -18,10 +18,10 @@ class TopicPhotosController extends AppController {
         if(!empty($this->data)){
             $this->set('topic_choices',$this->getTopics($this->data['TopicPhoto']['board_id']));
             $this->TopicPhoto->set($this->data);
+            $board = $this->data['TopicPhoto']['board_id'];
+            $topic = $this->data['TopicPhoto']['topic_id'];
             if ($this->TopicPhoto->validates()) {
-                $this->TopicPhoto->create();
-                $board = $this->data['TopicPhoto']['board_id'];
-                $topic = $this->data['TopicPhoto']['topic_id'];
+                $this->TopicPhoto->create();  
                 if(!empty($this->data['TopicPhoto']['file']) && $this->data['TopicPhoto']['file']['error'] == 0){
                     $uploaded = $this->TopicPhoto->uploadPhoto($this->data);
                     if(!empty($uploaded)){
@@ -35,6 +35,11 @@ class TopicPhotosController extends AppController {
                         $this->redirect('/boards/'.$board.'/categories/'.$topic);
                         exit;
                     }
+                }else{
+                    $this->TopicPhoto->save($this->data);
+                    $this->Session->setFlash('Yay! Your photo was added','success');
+                    $this->redirect('/boards/'.$board.'/categories/'.$topic);
+                    exit;
                 }                
             } else {
                 $this->Session->setFlash('There are errors in your submission, fix them and submit again','fail');
