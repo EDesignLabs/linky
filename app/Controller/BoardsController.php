@@ -74,7 +74,12 @@ class BoardsController extends AppController {
 		exit;
 	}
 	public function deactivate($id){
-        $photo = $this->Board->deactivate($id);
+        $this->Board->id = $id;
+        $this->Board->read();
+        $this->Board->set(array(
+            'active' => 0
+        ));
+        $this->Board->save();
         $this->Session->setFlash('Board id '.$id.' was deactivated','success');
         $this->redirect('/boards/');
         exit;

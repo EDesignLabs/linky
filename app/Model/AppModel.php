@@ -31,10 +31,12 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
-	function deactivate($id) {
+	function deactivate($id,$model) {
         $to_save = array(
-            'id' => $id,
-            'active' => 0
+        	$model => array(
+        		'id' => $id,
+            	'active' => 0
+        		)
             );
        return $this->save($to_save);
     }

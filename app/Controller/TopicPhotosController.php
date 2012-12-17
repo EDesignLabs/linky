@@ -125,9 +125,14 @@ class TopicPhotosController extends AppController {
 	}
 
     public function deactivate($id){
-        $photo = $this->TopicPhoto->deactivate($id);
+        $this->TopicPhoto->id = $id;
+        $photo = $this->TopicPhoto->read();
+        $this->TopicPhoto->set(array(
+            'active' => 0
+        ));
+        $this->TopicPhoto->save();
         $this->Session->setFlash('Photo id '.$id.' was deactivated','success');
-        $this->redirect('/boards/');
+        $this->redirect('/boards/'.$photo['Topic']['board_id'].'/categories/'.$photo['Topic']['id']);
         exit;
     }
 

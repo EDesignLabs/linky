@@ -17,9 +17,7 @@ class Topic extends AppModel {
 	array('className'    => 'TopicPhoto',
 		  'dependent'    => true,
 		  'foreignKey'   => 'topic_id',
-		  'conditions'   => array(
-		  	'TopicPhoto.active' => 1
-		  	)
+		  'conditions'   => array('TopicPhoto.active' => 1)
 	));
 } 
 ?>
