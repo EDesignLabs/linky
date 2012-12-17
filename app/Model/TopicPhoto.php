@@ -51,13 +51,16 @@ class TopicPhoto extends AppModel {
             ));
 
     function checkImageAdd($data){
-        if(isset($data['url']) && !empty($data['url'])){
+        if(isset($data['TopicPhoto']['filename']) && !empty($data['TopicPhoto']['filename'])){
             return true;
         }
-        if(isset($data['file']) && !empty($data['file'])){
+        if(isset($data['TopicPhoto']['url']) && !empty($data['TopicPhoto']['url'])){
             return true;
         }
-        return false;
+        if(isset($data['TopicPhoto']['file']) && $data['TopicPhoto']['file']['error'] == 0){
+            return true;
+        }
+        return true;
     }
 
     function checkUpload($data, $required = false){

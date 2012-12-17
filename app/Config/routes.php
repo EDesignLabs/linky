@@ -92,22 +92,22 @@
 		);
 	Router::connect(
 		'/topic_photos/add', 
-		array('controller' => 'topicphotos', 'action' => 'add')
+		array('controller' => 'topic_photos', 'action' => 'add')
 		);
 	Router::connect(
 		'/photos/add', 
-		array('controller' => 'topicphotos', 'action' => 'add')
+		array('controller' => 'topic_photos', 'action' => 'add')
 		);
 	Router::connect(
 		'/photos/edit/:id', 
-		array('controller' => 'topicphotos', 'action' => 'edit'),
+		array('controller' => 'topic_photos', 'action' => 'edit'),
 		array(
 			'id' => '[0-9]+'
 			)
 		);
 	Router::connect(
 		'/topic_photos/edit/:id', 
-		array('controller' => 'topicphotos', 'action' => 'edit'),
+		array('controller' => 'topic_photos', 'action' => 'edit'),
 		array(
 			'id' => '[0-9]+'
 			)

@@ -22,17 +22,19 @@ class TopicPhotosController extends AppController {
                 $this->TopicPhoto->create();
                 $board = $this->data['TopicPhoto']['board_id'];
                 $topic = $this->data['TopicPhoto']['topic_id'];
-                $uploaded = $this->TopicPhoto->uploadPhoto($this->data);
-                if(!empty($uploaded)){
-                    $this->data = array_merge($this->data['TopicPhoto'],$uploaded);
-                    $this->TopicPhoto->save($this->data);
-                    $this->Session->setFlash('Yay! Your photo was added','success');
-                    $this->redirect('/boards/'.$board.'/categories/'.$topic);
-                    exit;
-                }else{
-                    $this->Session->setFlash('There was a problem. Your photo could not be added. Please try again.','fail');
-                    $this->redirect('/boards/'.$board.'/categories/'.$topic);
-                    exit;
+                if(!empty($this->data['TopicPhoto']['file']) && $this->data['TopicPhoto']['file']['error'] == 0){
+                    $uploaded = $this->TopicPhoto->uploadPhoto($this->data);
+                    if(!empty($uploaded)){
+                        $this->data = array_merge($this->data['TopicPhoto'],$uploaded);
+                        $this->TopicPhoto->save($this->data);
+                        $this->Session->setFlash('Yay! Your photo was added','success');
+                        $this->redirect('/boards/'.$board.'/categories/'.$topic);
+                        exit;
+                    }else{
+                        $this->Session->setFlash('There was a problem. Your photo could not be added. Please try again.','fail');
+                        $this->redirect('/boards/'.$board.'/categories/'.$topic);
+                        exit;
+                    }
                 }                
             } else {
                 $this->Session->setFlash('There are errors in your submission, fix them and submit again','fail');
