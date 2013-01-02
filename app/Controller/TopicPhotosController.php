@@ -48,6 +48,7 @@ class TopicPhotosController extends AppController {
                 $errors = $this->TopicPhoto->validationErrors;
                 $this->set(compact('errors','data'));
                 $this->render();
+                
             }
         }
 	}
