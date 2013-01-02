@@ -9,6 +9,11 @@ class Topic extends AppModel {
     	array(
     		'className'    => 'Board',
 		  	'foreignKey'   => 'board_id'
+    		),
+    'User' => 
+    	array(
+    		'className'    => 'User',
+		  	'foreignKey'   => 'user_id'
     		)
     	);
 
@@ -21,5 +26,9 @@ class Topic extends AppModel {
 		  	'TopicPhoto.active' => 1
 		  	)
 	));
+
+	public function isOwnedBy($topic, $user) {
+	    return $this->field('id', array('id' => $topic, 'user_id' => $user)) === $topic;
+	}
 } 
 ?>

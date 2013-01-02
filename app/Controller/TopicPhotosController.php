@@ -16,9 +16,11 @@ class TopicPhotosController extends AppController {
             $this->set('topic_choices',$topic_choices);
         }
         if(!empty($this->data)){
+            report($this->data);
             $this->set('topic_choices',$this->getTopics($this->data['TopicPhoto']['board_id']));
             $this->TopicPhoto->set($this->data);
             if ($this->TopicPhoto->validates()) {
+                echo 'reached';
                 $this->TopicPhoto->create();
                 $board = $this->data['TopicPhoto']['board_id'];
                 $topic = $this->data['TopicPhoto']['topic_id'];
@@ -26,6 +28,7 @@ class TopicPhotosController extends AppController {
                     $uploaded = $this->TopicPhoto->uploadPhoto($this->data);
                     if(!empty($uploaded)){
                         $this->data = array_merge($this->data['TopicPhoto'],$uploaded);
+                        $this->request->data['TopicPhoto']['user_id'] = $this->Auth->user('id');
                         $this->TopicPhoto->save($this->data);
                         $this->Session->setFlash('Yay! Your photo was added','success');
                         $this->redirect('/boards/'.$board.'/categories/'.$topic);
@@ -35,7 +38,13 @@ class TopicPhotosController extends AppController {
                         $this->redirect('/boards/'.$board.'/categories/'.$topic);
                         exit;
                     }
-                }                
+                }else{
+                    $this->request->data['TopicPhoto']['user_id'] = $this->Auth->user('id');
+                    $this->TopicPhoto->save($this->data);
+                    $this->Session->setFlash('Yay! Your photo was added','success');
+                    $this->redirect('/boards/'.$board.'/categories/'.$topic);
+                    exit;
+                }            
             } else {
                 $this->Session->setFlash('There are errors in your submission, fix them and submit again','fail');
                 $errors = $this->TopicPhoto->validationErrors;
