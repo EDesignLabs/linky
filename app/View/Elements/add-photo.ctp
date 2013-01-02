@@ -60,11 +60,17 @@
 			)
 		);
 	echo $this->Form->input(
-		'TopicPhoto.name',
+		'TopicPhoto.anonymous',
 		array(
-			'label' => 'Your Name (optional)'
-			)
-		);
+			'legend' => 'Name shown in post',
+			'type' => 'radio',
+			'options' => array(
+				0 => "Yes, please show <b>my name</b> in my post",
+				1 => "Don't show my name and post as <b>anonymous</b> instead"
+			),
+			'checked' => 0
+		)
+	);
 	$board_id = isset($this->data['TopicPhoto']['board_id']) ? $this->data['TopicPhoto']['board_id'] : $this->request->params['id'];
 	echo $this->Form->input(
 		'TopicPhoto.board_id',
