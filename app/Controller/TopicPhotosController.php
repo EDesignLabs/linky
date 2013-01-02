@@ -26,6 +26,7 @@ class TopicPhotosController extends AppController {
                     $uploaded = $this->TopicPhoto->uploadPhoto($this->data);
                     if(!empty($uploaded)){
                         $this->data = array_merge($this->data['TopicPhoto'],$uploaded);
+                        $this->request->data['TopicPhoto']['user_id'] = $this->Auth->user('id');
                         $this->TopicPhoto->save($this->data);
                         $this->Session->setFlash('Yay! Your photo was added','success');
                         $this->redirect('/boards/'.$board.'/categories/'.$topic);
@@ -36,6 +37,7 @@ class TopicPhotosController extends AppController {
                         exit;
                     }
                 }else{
+                    $this->request->data['TopicPhoto']['user_id'] = $this->Auth->user('id');
                     $this->TopicPhoto->save($this->data);
                     $this->Session->setFlash('Yay! Your photo was added','success');
                     $this->redirect('/boards/'.$board.'/categories/'.$topic);

@@ -32,4 +32,29 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	public $components = array(
+        'Session',
+        'Auth' => array(
+            'loginRedirect' => array('controller' => 'boards', 'action' => 'index'),
+            'logoutRedirect' => array('controller' => 'boards', 'action' => 'index')
+        )
+    );
+
+    public function beforeFilter() {
+        //all index and view functions will be allowed on site
+        $this->Auth->allow('index', 'view');
+    }
+
+    public function isAuthorized($user) {
+	    // Admin can access every action
+	    if (isset($user['role']) && $user['role'] === 'admin') {
+	        return true;
+	    }
+
+	    if (isset($user['role']) && $user['role'] === 'teacher') {
+	        return true;
+	    }
+	    // Default deny
+	    return false;
+	}
 }

@@ -48,7 +48,13 @@ class TopicPhoto extends AppModel {
         'Topic' =>
             array('className'    => 'Topic',
                   'foreignKey'   => 'topic_id'
-            ));
+            ),
+        'User' => 
+            array(
+            'className'    => 'User',
+            'foreignKey'   => 'user_id'
+            )
+        );
 
     function checkImageAdd($data){
         if(isset($data['TopicPhoto']['filename']) && !empty($data['TopicPhoto']['filename'])){
@@ -137,6 +143,10 @@ class TopicPhoto extends AppModel {
     function removePhoto($data) {
         $data = array_shift($data);
         unlink(WWW_ROOT.$data['filepath'].$data['filename']);
+    }
+
+    public function isOwnedBy($photo, $user) {
+        return $this->field('id', array('id' => $photo, 'user_id' => $user)) === $photo;
     }
 } 
 ?>

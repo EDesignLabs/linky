@@ -39,7 +39,23 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 			<ul class="nav nav-pills">
 				<li><?php echo $this->Html->link('All Boards','/boards/'); ?></li>
 				<li><?php echo $this->Html->link('Create a new board!', '/boards/create'); ?></li>
+				<?php if(AuthComponent::user('id')): ?>
+				<li>
+					<?php 
+						echo $this->Html->link('Logout', '/users/logout');
+					?>
+				</li>
+				<?php else: ?>
+				<li>
+					<?php 
+						echo $this->Html->link('Log in', '/users/login');
+					?>
+				</li>
+				<?php endif; ?>
 			</ul>
+			<?php if(AuthComponent::user('id')): ?>
+			<h2><?php echo 'Hello '.AuthComponent::user('username').'!'; ?></h2>
+			<?php endif; ?>
 		</div>
 		<div id="content">
 			<?php echo $this->Session->flash(); ?>

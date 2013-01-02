@@ -23,6 +23,7 @@ class BoardsController extends AppController {
     	if(!empty($this->data)){
     		if ($this->Board->validates()) {
     			$this->Board->create();
+    			$this->request->data['Board']['user_id'] = $this->Auth->user('id');
 				if($this->Board->save($this->data)){
 					$id = $this->Board->getLastInsertId();
 					$this->redirect('/boards/view/'.$id);
@@ -84,4 +85,18 @@ class BoardsController extends AppController {
         $this->redirect('/boards/');
         exit;
     }
+    public function isAuthorized($user) {
+	    // All registered users can add posts
+	    if ($this->action === 'add') {
+	        return true;
+	    }
+	    // The owner of a post can edit and delete it
+	    if (in_array($this->action, array('edit', 'delete'))) {
+	        $boardId = $this->request->params['pass'][0];
+	        if ($this->Board->isOwnedBy($boardId, $user['id'])) {
+	            return true;
+	        }
+	    }
+	    return parent::isAuthorized($user);
+	}
 }

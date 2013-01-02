@@ -55,6 +55,7 @@ class TopicsController extends AppController {
     	if(!empty($this->data)){
     		if ($this->Topic->validates()) {
     			$this->Topic->create();
+                $this->request->data['Topic']['user_id'] = $this->Auth->user('id');
 				if($this->Topic->save($this->data)){
                     $this->Session->setFlash('Category has been created!', 'success');
                     $this->redirect('/boards/view/'.$id);
