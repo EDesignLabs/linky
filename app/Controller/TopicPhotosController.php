@@ -4,6 +4,18 @@ class TopicPhotosController extends AppController {
 	public $name = 'TopicPhotos';
 	public $uses = array('Topic','Board','TopicPhoto');
 	public $helpers = array('Form', 'Html', 'Session');
+    public function isAuthorized($user) {
+        if($this->action === 'add'){
+            return true;
+        }
+        if (in_array($this->action,array('edit','deactivate'))) {
+            $photo = $this->request->params['id'];
+            if ($this->TopicPhoto->isOwnedBy($photo, $user['id'])) {
+                return true;
+            }
+        }
+        return parent::isAuthorized($user);
+    }
 	public function index() {
        	
     }
@@ -48,7 +60,6 @@ class TopicPhotosController extends AppController {
                 $errors = $this->TopicPhoto->validationErrors;
                 $this->set(compact('errors','data'));
                 $this->render();
-                
             }
         }
 	}

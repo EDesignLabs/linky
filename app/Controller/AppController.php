@@ -34,14 +34,12 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 	public $components = array(
         'Session',
-        'Auth' => array(
-            'loginRedirect' => array('controller' => 'boards', 'action' => 'index'),
-            'logoutRedirect' => array('controller' => 'boards', 'action' => 'index')
-        )
+        'Auth' => array('authorize' => 'Controller'),
     );
 
     public function beforeFilter() {
         //all index and view functions will be allowed on site
+        //$this->Auth->deny();
         $this->Auth->allow('index', 'view');
     }
 

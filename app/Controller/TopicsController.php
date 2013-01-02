@@ -4,6 +4,12 @@ class TopicsController extends AppController {
 	public $name = 'Topics';
 	public $uses = array('Topic','Board');
 	public $helpers = array('Form', 'Html', 'Session');
+    public function isAuthorized($user) {
+        if (in_array($this->action,array('add','edit','deactivate')) && $user['role'] == 'teacher') {
+            return true;
+        }
+        return parent::isAuthorized($user);
+    }
 	public function index() {
         $this->set('title','Add a photo');
        	$id = $this->request->params['id'];

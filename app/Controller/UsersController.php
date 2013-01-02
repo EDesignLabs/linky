@@ -6,6 +6,13 @@ class UsersController extends AppController {
         $this->Auth->allow('add');
     }
 
+    public function isAuthorized($user) {
+        if (in_array($this->action,array('add','login','logout'))) {
+            return true;
+        }
+        return parent::isAuthorized($user);
+    }
+
     public function index() {
         $this->User->recursive = 0;
         $this->set('users', $this->paginate());
@@ -32,10 +39,12 @@ class UsersController extends AppController {
     }
 
     public function login() {
-        if ($this->Auth->login()) {
-            $this->redirect($this->Auth->redirect());
-        } else {
-            $this->Session->setFlash(__('Invalid username or password, try again'));
+        if(!empty($this->data)){
+            if ($this->Auth->login()) {
+                $this->redirect($this->Auth->redirect());
+            } else {
+                $this->Session->setFlash(__('Invalid username or password, try again'));
+            }
         }
     }
 
