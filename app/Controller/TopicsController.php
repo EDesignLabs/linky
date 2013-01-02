@@ -15,7 +15,32 @@ class TopicsController extends AppController {
        	$id = $this->request->params['id'];
     	$this->Board->id = $id;
     	$board = $this->Board->read();
+        $this->Topic->recursive = 2;
     	$this->Topic->id = $this->request->params['topic'];
+        $this->Topic->unbindModel(
+            array(
+                 'belongsTo' => array('Board', 'User')
+                )
+            );
+        $this->Topic->bindModel(
+            array(
+                'hasMany' => array('TopicPhoto')
+                )
+            );
+         $this->Topic->TopicPhoto->unbindModel(array(
+            'belongsTo' => array('Topic')
+            ));
+         $this->Topic->TopicPhoto->bindModel(
+            array(
+                'belongsTo' => array(
+                    'User' => array(
+                        'fields' => array(
+                            'User.username'
+                            )
+                        )
+                    )
+                )
+            );
     	$topic = $this->Topic->read();
     	if(empty($board)){
     		$this->redirect('/boards/');

@@ -17,7 +17,7 @@
 		<?php if(!empty($photo['filename'])) echo $this->Html->image($photo['filepath'].$photo['filename'], array('class' => 'left')); ?>
 		<p class="left">
 			<?php if(!empty($photo['description'])) echo nl2br($photo['description']).'<br />'; ?>
-			<small><?php echo !empty($photo['name']) ? $photo['name'] : 'anonymous'; ?> <em><?php echo date('F j,Y g:i a',strftime($photo['created'])); ?></em></small>
+			<small>Posted by <?php echo $photo['anonymous'] ? 'anonymous' : $photo['User']['username']; ?> <em><?php echo date('F j,Y g:i a',strftime($photo['created'])); ?></em></small>
 			<?php if(AuthComponent::user('id') && AuthComponent::user('id') == $photo['user_id']): ?>
 			<?php echo $this->Html->link('edit','/photos/edit/'.$photo['id']); ?>
 			<?php endif; ?>

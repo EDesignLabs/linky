@@ -86,13 +86,19 @@
 			'label' => 'How is this photo relevant to this category?'
 			)
 		);
+	$checked = $this->data['TopicPhoto']['anonymous'] === '0' ? 0 : 1;
 	echo $this->Form->input(
-		'TopicPhoto.name',
+		'TopicPhoto.anonymous',
 		array(
-			'label' => 'Your Name (optional)',
-			'value' => empty($this->data['TopicPhoto']['name']) ? 'anonymous' : $this->data['TopicPhoto']['name']
-			)
-		);
+			'legend' => 'Name shown in post',
+			'type' => 'radio',
+			'options' => array(
+				'0' => "Yes, please show <b>my name</b> in my post",
+				'1' => "Don't show my name and post as <b>anonymous</b> instead"
+			),
+			'checked' => $checked
+		)
+	);
 	echo $this->Form->input(
 			'Topic.board_id',
 			array(
