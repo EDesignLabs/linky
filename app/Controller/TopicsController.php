@@ -2,7 +2,7 @@
 App::uses('AppController', 'Controller');
 class TopicsController extends AppController {
 	public $name = 'Topics';
-	public $uses = array('Topic','Board');
+	public $uses = array('Topic','Board','Badge');
 	public $helpers = array('Form', 'Html', 'Session');
     public function isAuthorized($user) {
         if (in_array($this->action,array('add','edit','deactivate')) && $user['role'] == 'teacher') {
@@ -88,6 +88,8 @@ class TopicsController extends AppController {
         }
         $photo['Topic']['id'] = $this->request->params['topic'];
         $photo['Topic']['board_id'] = $id;
+        $badges = $this->Badge->find('list');
+        $this->set('badges',$badges);
         $this->set('photo',$photo);
         $this->set('topic_choices',$topic_choices);
     	$this->set('board',$board);

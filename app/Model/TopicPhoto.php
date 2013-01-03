@@ -55,11 +55,21 @@ class TopicPhoto extends AppModel {
             'foreignKey'   => 'user_id'
             )
         );
-    
+
     var $hasMany = array(
         'Comment' => array(
             'className' => 'Comment',
             'foreignKey' => 'topic_photo_id'
+            )
+        );
+
+    var $hasAndBelongsToMany = array(
+        'Badge' => array(
+            'className' => 'Badge',
+            'unique' => false,
+            'joinTable'              => 'topic_photo_badges',
+            'foreignKey'             => 'topic_photo_id',
+            'associationForeignKey'  => 'badge_id'
             )
         );
 

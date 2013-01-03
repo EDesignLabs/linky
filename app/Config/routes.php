@@ -30,6 +30,12 @@
 		array('photo' => '[0-9]+')
 		);
 	Router::connect(
+		'/badges/revoke/:photo/:badge',
+		array('controller' => 'badges', 'action' => 'revoke'),
+		array('photo' => '[0-9]+'),
+		array('badge' => '[0-9]+')
+		);
+	Router::connect(
 		'/boards/',
 		array('controller' => 'boards', 'action' => 'index')
 		);
