@@ -21,6 +21,18 @@
 			<?php if(AuthComponent::user('id') && AuthComponent::user('id') == $photo['user_id']): ?>
 			<?php echo $this->Html->link('edit','/photos/edit/'.$photo['id']); ?>
 			<?php endif; ?>
+			<?php if(!empty($photo['Comment'])): ?>
+			<?php foreach($photo['Comment'] as $c): ?>
+				<p>
+					<?php echo nl2br($c['comment']); ?>
+					<small>Posted by <?php echo $c['User']['username']; ?> <em><?php echo date('F j,Y g:i a',strftime($c['created'])); ?></em>
+					</small>
+				</p>
+			<?php endforeach; ?>
+			<?php endif; ?>
+			<?php if(AuthComponent::user('id')): ?>
+			<?php echo $this->Html->link('add comment','/comments/create/'.$photo['id']); ?>
+			<?php endif; ?>
 		</p>
 		<span class="clear"></span>
 	</article>

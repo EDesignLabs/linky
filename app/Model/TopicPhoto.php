@@ -55,6 +55,13 @@ class TopicPhoto extends AppModel {
             'foreignKey'   => 'user_id'
             )
         );
+    
+    var $hasMany = array(
+        'Comment' => array(
+            'className' => 'Comment',
+            'foreignKey' => 'topic_photo_id'
+            )
+        );
 
     function checkImageAdd($data){
         if(isset($data['TopicPhoto']['filename']) && !empty($data['TopicPhoto']['filename'])){

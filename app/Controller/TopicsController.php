@@ -15,7 +15,7 @@ class TopicsController extends AppController {
        	$id = $this->request->params['id'];
     	$this->Board->id = $id;
     	$board = $this->Board->read();
-        $this->Topic->recursive = 2;
+        $this->Topic->recursive = 3;
     	$this->Topic->id = $this->request->params['topic'];
         $this->Topic->unbindModel(
             array(
@@ -31,6 +31,25 @@ class TopicsController extends AppController {
             'belongsTo' => array('Topic')
             ));
          $this->Topic->TopicPhoto->bindModel(
+            array(
+                'belongsTo' => array(
+                    'User' => array(
+                        'fields' => array(
+                            'User.username'
+                            )
+                        )
+                    ),
+                'hasMany' => array('Comment')
+                )
+            );
+        $this->Topic->TopicPhoto->Comment->unbindModel(
+            array(
+                'belongsTo' => array(
+                    'TopicPhoto'
+                    )
+                )
+            );
+        $this->Topic->TopicPhoto->Comment->bindModel(
             array(
                 'belongsTo' => array(
                     'User' => array(

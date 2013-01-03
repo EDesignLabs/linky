@@ -25,6 +25,11 @@
 		array('controller' => 'boards', 'action' => 'index')
 		);
 	Router::connect(
+		'/comments/create/:photo',
+		array('controller' => 'comments', 'action' => 'create'),
+		array('photo' => '[0-9]+')
+		);
+	Router::connect(
 		'/boards/',
 		array('controller' => 'boards', 'action' => 'index')
 		);
