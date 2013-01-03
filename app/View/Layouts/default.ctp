@@ -28,6 +28,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<?php
 		echo $this->Html->css('/css/bootstrap.css');
 		echo $this->Html->css('/css/main.css');
+		echo $this->Html->css('http://fonts.googleapis.com/css?family=Amatic+SC:400,700');
 		echo $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js');
 		echo $this->Html->script('/js/main.js');
 		echo $this->Html->script('/js/bootstrap.js');
@@ -36,23 +37,19 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <body>
 	<div class="container">
 		<div id="header">
-			<ul class="nav nav-pills">
+			<div class="logo left"><?php echo $this->Html->link('Linky','/'); ?></div>
+			<ul class="nav nav-pills right">
+				<?php if(AuthComponent::user('id')): ?>
+				<li><?php echo $this->Html->link('Home','/'); ?></li>
 				<li><?php echo $this->Html->link('All Boards','/boards/'); ?></li>
 				<li><?php echo $this->Html->link('Create a new board!', '/boards/create'); ?></li>
-				<?php if(AuthComponent::user('id')): ?>
-				<li>
-					<?php 
-						echo $this->Html->link('Logout', '/users/logout');
-					?>
-				</li>
+				<li><?php echo $this->Html->link('Logout', '/users/logout'); ?></li>
 				<?php else: ?>
-				<li>
-					<?php 
-						echo $this->Html->link('Log in', '/users/login');
-					?>
-				</li>
+				<li><?php echo $this->Html->link('Log in', '/users/login'); ?></li>
 				<?php endif; ?>
+				
 			</ul>
+			<span class="clear"></span>
 			<?php if(AuthComponent::user('id')): ?>
 			<h2><?php echo 'Hello '.AuthComponent::user('username').'!'; ?></h2>
 			<?php endif; ?>

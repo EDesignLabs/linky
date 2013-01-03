@@ -1,10 +1,12 @@
 <div class="users form">
+	<h1>Linky</h1>
 <?php echo $this->Form->create('User'); ?>
     <fieldset>
-        <legend><?php echo __('Please enter your username and password'); ?></legend>
-        <?php echo $this->Form->input('username');
-        echo $this->Form->input('password');
+        <?php 
+        echo $this->Form->input('username', array('label' => false, 'placeholder' => 'username'));
+        echo $this->Form->input('password', array('label' => false, 'placeholder' => 'password'));
+        echo $this->Form->submit('log in',array('class' => 'btn btn-themeboard'));
     ?>
     </fieldset>
-<?php echo $this->Form->end(__('Login')); ?>
+<?php echo $this->Form->end(); ?>
 </div>
