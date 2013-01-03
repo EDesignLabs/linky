@@ -22,7 +22,7 @@
  */
 	Router::connect(
 		'/',
-		array('controller' => 'boards', 'action' => 'index')
+		array('controller' => 'boards', 'action' => 'activity')
 		);
 	Router::connect(
 		'/comments/create/:photo',

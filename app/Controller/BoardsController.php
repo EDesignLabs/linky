@@ -2,7 +2,7 @@
 App::uses('AppController', 'Controller');
 class BoardsController extends AppController {
 	public $name = 'Boards';
-	public $uses = array('Board');
+	public $uses = array('Board','TopicPhoto');
 	public $helpers = array('Form', 'Html', 'Session');
 	public function isAuthorized($user) {
 	    if ($this->action === 'create') {
@@ -27,6 +27,86 @@ class BoardsController extends AppController {
         		)
         	));
     }
+
+    public function activity() {
+        $this->layout = 'default';
+        $this->title = 'My Activity';
+        $this->Board->unbindModelAll();
+        $boards = $this->Board->find(
+        	'list',
+        	array(
+        		'conditions' => array(
+        			'Board.active' => 1
+        			),
+        		'order' => array(
+        			'Board.created' => 'DESC',
+        			'Board.user_id' => 'ASC'
+        			)
+        		)
+        	);
+        $this->TopicPhoto->unbindModelAll();
+        $this->TopicPhoto->bindModel(array(
+        	'belongsTo' => array(
+        		'Topic' => array('fields' => array('Topic.board_id','Topic.id'))
+        		)
+        	));
+        $photos = $this->TopicPhoto->find(
+        	'all', 
+        	array(
+        		'conditions' => array(
+        			'TopicPhoto.user_id' => $this->Auth->user('id')
+        			)
+        		)
+        	);
+        $sql = "SELECT Comment.id, Topic.board_id
+        		FROM comments AS Comment
+        		LEFT JOIN topic_photos AS TopicPhoto
+        		ON TopicPhoto.id = Comment.topic_photo_id
+        		LEFT JOIN topics AS Topic
+        		ON Topic.id = TopicPhoto.topic_id
+        		WHERE Comment.user_id = {$this->Auth->user('id')};";
+       	$comments = $this->Board->query($sql);
+
+        $sql = "SELECT TopicPhoto.id, Badge.title,Badge.id, Topic.board_id
+        		FROM topic_photo_badges AS PhotoBadge
+        		LEFT JOIN badges AS Badge
+        		ON PhotoBadge.badge_id = Badge.id
+        		LEFT JOIN topic_photos AS TopicPhoto
+        		ON TopicPhoto.id = PhotoBadge.topic_photo_id
+        		LEFT JOIN topics AS Topic
+        		ON Topic.id = TopicPhoto.topic_id
+        		WHERE TopicPhoto.user_id = {$this->Auth->user('id')};";
+        $badges = $this->Board->query($sql);
+        
+        $stats = array();
+        if(!empty($boards)){
+        	foreach($boards as $k=>$b){
+        		$stats[$k]['title'] = $b;
+        		$stats[$k]['photo_count'] = 0;
+        		$stats[$k]['badges'] = array();
+        		$stats[$k]['comment_count'] = 0;
+        	}
+        }
+        if(!empty($photos)){
+        	foreach($photos as $photo){
+        		$stats[$photo['Topic']['board_id']]['photo_count']++; 
+        	}
+        }
+
+        if(!empty($comments)){
+        	foreach($comments as $comment){
+        		$stats[$comment['Topic']['board_id']]['comment_count']++; 
+        	}
+        }
+
+        if(!empty($badges)){
+        	foreach($badges as $badge){
+        		$stats[$badge['Topic']['board_id']]['badges'][$badge['Badge']['id']] = $badge['Badge']['title'];
+        	}
+        }
+        $this->set(compact('stats'));
+    }
+
     public function create() {
     	if(!empty($this->data)){
     		if ($this->Board->validates()) {
