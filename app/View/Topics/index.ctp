@@ -25,7 +25,7 @@
 			<?php foreach($photo['Badge'] as $b): ?>
 				<p>
 					<?php echo $b['title'];
-						if(AuthComponent::user('role') != 'student'){
+						if(AuthComponent::user('id') && AuthComponent::user('role') != 'student'){
 							echo $this->Html->link('revoke badge?','/badges/revoke/'.$photo['id'].'/'.$b['id']);
 						}
 					?>
