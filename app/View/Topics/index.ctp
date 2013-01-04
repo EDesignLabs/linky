@@ -54,7 +54,7 @@
 				<small>Posted by <b><?php echo $photo['anonymous'] ? 'anonymous' : $photo['User']['username']; ?></b> <em><?php echo date('F j,Y g:i a',strftime($photo['created'])); ?></em></small>
 				<?php if(AuthComponent::user('id') && AuthComponent::user('id') == $photo['user_id']): ?>
 				<?php echo $this->Html->link('edit','/photos/edit/'.$photo['id']); ?>
-				<?php endif; ?>	
+				<?php endif; ?>
 			</p>
 			<div class="comments">
 			<?php if(!empty($photo['Comment'])): ?>
@@ -71,7 +71,7 @@
 			<?php endforeach; ?>
 			<?php endif; ?>
 			<?php if(AuthComponent::user('id')): ?>
-				<?php 
+				<?php
 					echo $this->Form->create(
 						'Comment',
 						array(
