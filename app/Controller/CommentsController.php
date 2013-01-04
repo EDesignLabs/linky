@@ -8,6 +8,13 @@ class CommentsController extends AppController {
 	    if ($this->action === 'create') {
 	    	return true;
 	    }
+        if ($this->action === 'delete') {
+            $comment = $this->request->params['pass'][0];
+            if ($this->Comment->isOwnedBy($comment, $user['id'])) {
+                return true;
+            }
+            return false;
+        }
 	    return parent::isAuthorized($user);
 	}
 	public function index() {
@@ -37,7 +44,7 @@ class CommentsController extends AppController {
 	}
 	public function delete($id){
 		$this->Comment->id = $id;
-         $this->Comment->recursive = 2;
+        $this->Comment->recursive = 2;
         $this->Comment->unbindModelAll();
         $this->Comment->bindModel(array(
             'belongsTo' => array('TopicPhoto')
@@ -47,8 +54,12 @@ class CommentsController extends AppController {
             'belongsTo' => array('Topic' => array('fields' => array('Topic.id','Topic.board_id')))
             ));
         $comment = $this->Comment->read();
+        if(empty($comment)){
+            $this->Session->setFlash('Comment was not found', 'fail');
+        }
         $redirect_url = '/boards/'.$comment['TopicPhoto']['Topic']['board_id'].'/categories/'.$comment['TopicPhoto']['Topic']['id'].'/#'.$comment['Comment']['topic_photo_id'];
         $this->Comment->delete($id);
+        $this->Session->setFlash('Comment was deleted', 'success');
 		$this->redirect($redirect_url);
 		exit;
 	}
