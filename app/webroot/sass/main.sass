@@ -1,6 +1,9 @@
+@import compass
 $f : 'Amatic SC', cursive
 h1,h2,h3,h4,h5,h6
 	font-family: $f
+p
+	font-size: 12px
 a
 	color: #6699FF
 .shrink
@@ -18,12 +21,6 @@ a
 	color: #B94A48
 .centered
 	margin: 0 auto 20px
-	background-color: #F8F8F8
-	padding: 5px
-	.nav
-		background-color: #fff
-		margin: 0px
-		padding: 10px
 #add-photo
 	/*display: none*/
 	width: 700px
@@ -31,16 +28,28 @@ a
 		display: block
 #feed
 	margin-top: 20px
-	background-color: #efefef
-	//width: 500px
 	article
-		padding: 5px
-		p
-			width: 500px
-		img
-			height: 100px
+		padding: 10px
+		@include border-radius(10px)
+		border: 1px solid #999
+		.info-area
+			width: 490px
+			.comments
+				#CommentCreateForm
+					textarea
+						width: 475px
+				p
+					padding: 5px
+					background-color: #eee
+					small
+						color: #666
+						font-size: 10px
+						display: block
+		.image-area
 			margin-right: 20px
-			max-width: 310px
+			width: 400px
+		&+article
+			margin-top: 20px
 
 .width-big
 	width: 75%
@@ -53,31 +62,97 @@ a
 		size: 14px
 textarea.input-xxlarge
 	height: 300px
+.badges
+	width: 24px
+	height: 24px
+	background-image: url(../images_sys/badges.png)
+	background-repeat: no-repeat
+	display: block
+	float: left
+.award
+	margin: 0
+	font-size: 20px
+	line-height: 20px
+	&+.award
+		margin-left: 20px
+	.badges
+		margin-right: 5px
 #header
+	background-color: #000
+	margin-bottom: 10px
 	h2
-		line-height: 60px
+		line-height: 30px
 	.logo
-		font-size: 60px
+		font-size: 30px
+		font-weight: bold
 		font-family: $f
-		line-height: 60px
+		line-height: 40px
 		margin-right: 20px
 		a
-			color: #000
+			color: #fff
 			text-decoration: none
 	.nav
-		margin-top: 15px
+		margin: 0
+		a
+			color: #fff
+			font-size: 20px
+			&:hover
+				background-color: #fff
+				color: #000
 .nav.nav-pills
 	font-family: $f
 	font-weight: bold
 	font-size: 20px
-
+#action-bar
+	margin-bottom: 20px
 #footer
 	height: 150px
-.btn.btn-themeboard
+.btn-themeboard
 	background-color: #fff
-	border: 1px solid #000
+	padding: 5px 10px
+	@include border-radius(10px)
 	font-family: $f
 	font-size: 20px
+	color: #000
+	&:hover
+		text-decoration: none
+		background-color: #eee
+		color: #000
+	&.plus
+		background-image: url('../images_sys/plus.png')
+		background-position: left center
+		background-repeat: no-repeat
+		padding: 5px 15px 5px 50px
+		font-size: 20px
+		font-weight: bold
+		border: 1px dashed #000
+p+.plus
+	margin-top: 20px
+.nav-topics
+	li
+		&+li
+			margin-left: 10px
+		a
+			color: #000
+			border-width: 1px 
+			border-style: solid 
+			border-color : #999
+			@include border-radius(10px)
+			padding: 5px 10px
+			height: 25px
+			line-height: 25px
+			font-size: 20px
+			font-family: $f
+		a:hover
+			color: #fff
+			background-color: #000
+	.active
+		a
+			color: #fff
+			background-color: #000
+		a:hover
+			color: #fff
+			background-color: #000
 .users.form
 	width: 530px
 	text-align: center
@@ -87,3 +162,40 @@ textarea.input-xxlarge
 		line-height: 120px
 		margin-bottom: 100px
 
+#activity
+	h2
+		font-size: 50px
+		padding-bottom: 20px
+		font-weight: normal
+		border-bottom: 1px solid #999
+	.feed
+		&+h2
+			margin-top: 100px
+		article
+			width: 260px
+			height: 160px
+			float: left
+			margin-top: 10px
+			margin-left: 50px
+			ul,li
+				list-style: none
+			ul
+				margin-top: 10px
+				font-size: 12px
+				li
+					height: 24px
+					line-height: 24px
+			a
+				@include border-radius(10px)
+				padding: 10px
+				border: 1px solid #999
+				color: #000
+				font-size: 35px
+				font-weight: normal
+				width: 200px
+				text-align: center
+				display: block
+				&:hover
+					background-color: #000
+					color: #fff
+					text-decoration: none

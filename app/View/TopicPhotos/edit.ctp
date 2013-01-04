@@ -87,7 +87,7 @@
 			)
 		);
 	$checked = $this->data['TopicPhoto']['anonymous'] === '0' ? 0 : 1;
-	echo $this->Form->input(
+	/*echo $this->Form->input(
 		'TopicPhoto.anonymous',
 		array(
 			'legend' => 'Name shown in post',
@@ -98,7 +98,7 @@
 			),
 			'checked' => $checked
 		)
-	);
+	);*/
 	echo $this->Form->input(
 			'Topic.board_id',
 			array(
@@ -106,7 +106,7 @@
 				)
 			);
 	echo $this->Html->link('Deactivate this photo','/topic_photos/deactivate/'.$this->data['TopicPhoto']['id'], array('class' => 'btn btn-danger left margin-20 alpha'));
-	echo $this->Form->submit('Save', array('div' => array('class'=> 'left'), 'class' => 'btn btn-primary '));
+	echo $this->Form->submit('Save Photo', array('div' => array('class'=> 'left'), 'class' => 'plus btn-themeboard '));
 ?>
 	<span class="clear"></span>
 <?php

@@ -6,8 +6,15 @@ class User extends AppModel {
         'username' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'A username is required'
-            )
+                'notEmpty' => true
+            ),
+            'isUnique' => array(
+                'rule' => 'isUnique',
+                'message' => 'username is already taken'
+                ),
+            'alphaNumeric' => array(
+                'rule' => 'alphaNumeric'
+                )
         ),
         'password' => array(
             'required' => array(
@@ -17,7 +24,7 @@ class User extends AppModel {
         ),
         'role' => array(
             'valid' => array(
-                'rule' => array('inList', array('admin', 'author')),
+                'rule' => array('inList', array('admin', 'student','teacher')),
                 'message' => 'Please enter a valid role',
                 'allowEmpty' => false
             )
