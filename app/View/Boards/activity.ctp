@@ -20,6 +20,8 @@
 		</article>
 		<?php endforeach; ?>
 		<span class="clear"></span>
+		<?php else: ?>
+			<p>Oh no! There are no boards for you to view :(</p>
 		<?php endif; ?>
 	</section>
 	<h2>Your Photos</h2>
@@ -50,7 +52,7 @@
 		</article>
 		<?php endforeach; ?>
 		<?php else: ?>
-		0 badges
+		You have uploaded no photos yet :( What are you waiting for?
 		<?php endif; ?>
 	</section>
 </div>
