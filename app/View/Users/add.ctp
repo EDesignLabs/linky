@@ -1,14 +1,16 @@
 <!-- app/View/Users/add.ctp -->
 <div class="users form">
-<?php echo $this->Form->create('User'); ?>
+<?php echo $this->Form->create('User',array('controller' => 'users', 'action' => 'add')); ?>
     <fieldset>
-        <legend><?php echo __('Add User'); ?></legend>
-        <?php echo $this->Form->input('username');
-        echo $this->Form->input('password');
+        <legend><?php echo __('Create a new account'); ?></legend>
+        <?php echo $this->Form->input('username', array('label' => false, 'placeholder'=> 'username'));
+        echo $this->Form->input('password', array('label' => false, 'placeholder'=> 'password'));
         echo $this->Form->input('role', array(
-            'options' => array('admin' => 'Admin', 'author' => 'Author')
+            'type' => 'hidden',
+            'value' => 'student'
         ));
+        echo $this->Form->submit('Create Account', array('class' => 'plus btn-themeboard'));
     ?>
     </fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->Form->end(); ?>
 </div>

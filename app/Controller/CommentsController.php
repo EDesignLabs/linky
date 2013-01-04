@@ -20,7 +20,7 @@ class CommentsController extends AppController {
     			$this->Comment->create();
     			$this->Comment->save($this->data);
     			$this->Session->setFlash('Comment was saved','success');
-    			$this->redirect('/boards/');
+    			$this->redirect('/boards/'.$this->data['Topic']['board_id'].'/categories/'.$this->data['Topic']['id'].'/#'.$photo);
     			exit;
     		}else{
     			$this->Session->setFlash('Comment was not saved','fail');
@@ -36,8 +36,20 @@ class CommentsController extends AppController {
 	public function edit($id){
 	}
 	public function delete($id){
-		$this->Comment->delete($id);
-		//$this->redirect('/boards/');
+		$this->Comment->id = $id;
+         $this->Comment->recursive = 2;
+        $this->Comment->unbindModelAll();
+        $this->Comment->bindModel(array(
+            'belongsTo' => array('TopicPhoto')
+            ));
+        $this->Comment->TopicPhoto->unbindModelAll();
+        $this->Comment->TopicPhoto->bindModel(array(
+            'belongsTo' => array('Topic' => array('fields' => array('Topic.id','Topic.board_id')))
+            ));
+        $comment = $this->Comment->read();
+        $redirect_url = '/boards/'.$comment['TopicPhoto']['Topic']['board_id'].'/categories/'.$comment['TopicPhoto']['Topic']['id'].'/#'.$comment['Comment']['topic_photo_id'];
+        $this->Comment->delete($id);
+		$this->redirect($redirect_url);
 		exit;
 	}
 }

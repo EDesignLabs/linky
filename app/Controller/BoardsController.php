@@ -10,6 +10,9 @@ class BoardsController extends AppController {
 	    		return true;
 	    	}else return false;
 	    }
+        if($this->action === 'activity'){
+            return true;
+        }
 	    return parent::isAuthorized($user);
 	}
 	public function index() {
@@ -39,12 +42,20 @@ class BoardsController extends AppController {
         			'Board.active' => 1
         			),
         		'order' => array(
-        			'Board.created' => 'DESC',
-        			'Board.user_id' => 'ASC'
+        			'Board.user_id' => 'ASC',
+                    'Board.created' => 'DESC'
         			)
         		)
         	);
         $this->TopicPhoto->unbindModelAll();
+        $this->TopicPhoto->bindModel(array(
+            'hasAndBelongsToMany' => array(
+                'Badge' => array(
+                    'joinTable' => 'topic_photo_badges',
+                    'fields' => array('Badge.id', 'Badge.title')
+                    )
+                )
+            ));
         $this->TopicPhoto->bindModel(array(
         	'belongsTo' => array(
         		'Topic' => array('fields' => array('Topic.board_id','Topic.id'))
@@ -67,7 +78,7 @@ class BoardsController extends AppController {
         		WHERE Comment.user_id = {$this->Auth->user('id')};";
        	$comments = $this->Board->query($sql);
 
-        $sql = "SELECT TopicPhoto.id, Badge.title,Badge.id, Topic.board_id
+        $sql = "SELECT TopicPhoto.*, Badge.title,Badge.id, Topic.board_id
         		FROM topic_photo_badges AS PhotoBadge
         		LEFT JOIN badges AS Badge
         		ON PhotoBadge.badge_id = Badge.id
@@ -82,6 +93,7 @@ class BoardsController extends AppController {
         if(!empty($boards)){
         	foreach($boards as $k=>$b){
         		$stats[$k]['title'] = $b;
+                $stats[$k]['id'] = $k;
         		$stats[$k]['photo_count'] = 0;
         		$stats[$k]['badges'] = array();
         		$stats[$k]['comment_count'] = 0;
@@ -104,7 +116,8 @@ class BoardsController extends AppController {
         		$stats[$badge['Topic']['board_id']]['badges'][$badge['Badge']['id']] = $badge['Badge']['title'];
         	}
         }
-        $this->set(compact('stats'));
+        $stats = array_merge($stats,array());
+        $this->set(compact('stats','photos','boards'));
     }
 
     public function create() {

@@ -35,25 +35,25 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	?>
 </head>
 <body>
-	<div class="container">
-		<div id="header">
+	<div id="header">
+		<div class="container">
 			<div class="logo left"><?php echo $this->Html->link('Linky','/'); ?></div>
 			<ul class="nav nav-pills right">
 				<?php if(AuthComponent::user('id')): ?>
-				<li><?php echo $this->Html->link('Home','/'); ?></li>
-				<li><?php echo $this->Html->link('All Boards','/boards/'); ?></li>
+				<li><?php echo $this->Html->link('My stuff','/'); ?></li>
+				<?php if(AuthComponent::user('role') != 'student'): ?>
 				<li><?php echo $this->Html->link('Create a new board!', '/boards/create'); ?></li>
+				<?php endif; ?>
 				<li><?php echo $this->Html->link('Logout', '/users/logout'); ?></li>
 				<?php else: ?>
 				<li><?php echo $this->Html->link('Log in', '/users/login'); ?></li>
+				<li><?php echo $this->Html->link('create account', '/users/add'); ?></li>
 				<?php endif; ?>
-				
 			</ul>
 			<span class="clear"></span>
-			<?php if(AuthComponent::user('id')): ?>
-			<h2><?php echo 'Hello '.AuthComponent::user('username').'!'; ?></h2>
-			<?php endif; ?>
 		</div>
+	</div>
+	<div class="container">
 		<div id="content">
 			<?php echo $this->Session->flash(); ?>
 			<?php echo $this->fetch('content'); ?>

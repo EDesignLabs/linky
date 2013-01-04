@@ -59,7 +59,7 @@
 			'label' => 'How is this photo relevant to this category?'
 			)
 		);
-	echo $this->Form->input(
+	/*echo $this->Form->input(
 		'TopicPhoto.anonymous',
 		array(
 			'legend' => 'Name shown in post',
@@ -70,7 +70,7 @@
 			),
 			'checked' => 0
 		)
-	);
+	);*/
 	$board_id = isset($this->data['TopicPhoto']['board_id']) ? $this->data['TopicPhoto']['board_id'] : $this->request->params['id'];
 	echo $this->Form->input(
 		'TopicPhoto.board_id',
@@ -79,7 +79,7 @@
 			'value' => $board_id
 			)
 		);
-	echo $this->Form->submit('Add Photo',array('class' => 'btn btn-primary '));
+	echo $this->Form->submit('Add Photo',array('class' => 'btn-themeboard plus '));
 	echo $this->Form->end();
 ?>
 </section>
