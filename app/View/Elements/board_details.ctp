@@ -18,7 +18,7 @@
 		<?php endforeach; ?>
 		<?php endif; ?>
 		<li><?php if(AuthComponent::user('id') && AuthComponent::user('role') != 'student'): ?>
-	<?php echo $this->Html->link('Add Categories','/boards/'.$board['Board']['id'].'/categories/add', array('class' => 'btn-themeboard plus')); ?>
+	<?php echo $this->Html->link('Add more themes','/boards/'.$board['Board']['id'].'/categories/add', array('class' => 'btn-themeboard plus')); ?>
 	<?php endif; ?></li>
 	</ul>
 </section>

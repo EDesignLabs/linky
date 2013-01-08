@@ -1,5 +1,5 @@
 <section id="add-photo" class="margin-20">
-	<h4>Add your photo</h4>
+	<h4>Add your connection</h4>
 <?php
 	echo $this->Form->create(
 		'TopicPhoto', 

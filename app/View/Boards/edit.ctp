@@ -36,6 +36,14 @@
 			'label' => 'Image Url'
 			)
 		);
+	echo $this->Form->input(
+		'Board.pool',
+		array(
+			'label' => 'Enable story building by students?',
+			'type' => 'checkbox',
+			'class' => 'left'
+			)
+		);
 	echo $this->Html->link('Deactivate this board?','/boards/deactivate/'.$this->data['Board']['id'], array('class' => 'btn btn-danger left margin-20 alpha'));
 	echo $this->Form->submit('Save Board', array('div' => array('class'=> 'left'), 'class' => 'btn btn-primary '));
 ?>
