@@ -65,7 +65,7 @@
 		array('id' => '[0-9]+')
 		);
 	Router::connect(
-		'/boards/:id/topics/:topic', 
+		'/boards/:id/categories/:topic/*', 
 		array('controller' => 'topics', 'action' => 'index'),
 		array(
 			'id' => '[0-9]+',

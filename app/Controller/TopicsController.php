@@ -2,7 +2,7 @@
 App::uses('AppController', 'Controller');
 class TopicsController extends AppController {
 	public $name = 'Topics';
-	public $uses = array('Topic','Board','Badge');
+	public $uses = array('Topic','Board','Badge','TopicPhoto');
 	public $helpers = array('Form', 'Html', 'Session');
     public function isAuthorized($user) {
         if (in_array($this->action,array('add','edit','deactivate')) && $user['role'] == 'teacher') {
@@ -11,89 +11,44 @@ class TopicsController extends AppController {
         return parent::isAuthorized($user);
     }
 	public function index() {
+        $limit = 15;
+        $page = isset($this->request->named['page']) ? $this->request->named['page'] : 1;
         $this->set('title','Add a photo');
        	$id = $this->request->params['id'];
     	$this->Board->id = $id;
-    	$board = $this->Board->read();
-        $this->Topic->recursive = 3;
-    	$this->Topic->id = $this->request->params['topic'];
-        $this->Topic->unbindModel(
-            array(
-                 'belongsTo' => array('Board', 'User')
-                )
-            );
-        $this->Topic->bindModel(
-            array(
-                'hasMany' => array('TopicPhoto')
-                )
-            );
-         $this->Topic->TopicPhoto->unbindModel(array(
-            'belongsTo' => array('Topic')
-            ));
-         $this->Topic->TopicPhoto->bindModel(
-            array(
-                'belongsTo' => array(
-                    'User' => array(
-                        'fields' => array(
-                            'User.username'
-                            )
-                        )
-                    ),
-                'hasMany' => array('Comment')
-                )
-            );
-        $this->Topic->TopicPhoto->Comment->unbindModel(
-            array(
-                'belongsTo' => array(
-                    'TopicPhoto'
-                    )
-                )
-            );
-        $this->Topic->TopicPhoto->Comment->bindModel(
-            array(
-                'belongsTo' => array(
-                    'User' => array(
-                        'fields' => array(
-                            'User.username'
-                            )
-                        )
-                    )
-                )
-            );
+        $this->Board->unbindModelAll();
+        $board = $this->Board->read();
+        $this->Topic->id = $this->request->params['topic'];
+        $this->Topic->unbindModelAll();
     	$topic = $this->Topic->read();
-    	if(empty($board)){
-    		$this->redirect('/boards/');
-    		exit;
-    	}
-    	if(empty($topic)){
-    		$this->redirect('/boards/');
-    		exit;
-    	}
-        $topics = $this->Topic->find('all',
+        if(empty($board) || empty($topic)){
+            $this->redirect('/boards/');
+            exit;
+        }
+        $this->TopicPhoto->unbindModelAll();
+        $this->TopicPhoto->bindModel(array(
+            'belongsTo' => array('User' => array('fields' => 'User.username'))
+            ));
+        $photos = $this->TopicPhoto->find(
+            'all',
             array(
-                'fields' => array(
-                    'Topic.id',
-                    'Topic.title'
-                    ),
-                'conditions' => array(
-                    'Topic.active' => 1
-                    )
+                'conditions' => array('TopicPhoto.topic_id' => $this->request->params['topic']),
+                'limit' => $limit,
+                'page' => $page,
+                'recursive' => 2
                 )
             );
-        $topic_choices = array();
-        if(!empty($topics)){
-            foreach ($topics as $t) {
-               $topic_choices[$t['Topic']['id']] = $t['Topic']['title'];
-            }
-        }
-        $photo['Topic']['id'] = $this->request->params['topic'];
-        $photo['Topic']['board_id'] = $id;
-        $badges = $this->Badge->find('list');
-        $this->set('badges',$badges);
-        $this->set('photo',$photo);
-        $this->set('topic_choices',$topic_choices);
-    	$this->set('board',$board);
-    	$this->set('topic',$topic);
+        $all_photos = $this->TopicPhoto->find(
+            'count',
+            array(
+                'conditions' => array('TopicPhoto.topic_id' => $this->request->params['topic'])
+                )
+            );
+        $total_pages = ceil($all_photos / $limit);
+        $this->set('board',$board);
+        $this->set('topic',$topic);
+        $this->set('photos',$photos);
+        $this->set('total_pages',$total_pages);
     }
     public function add() {
     	$id = $this->request->params['id'];
