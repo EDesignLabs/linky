@@ -36,11 +36,16 @@ class BoardsController extends AppController {
         $this->title = 'My Activity';
         $this->Board->unbindModelAll();
         $boards = $this->Board->find(
-        	'list',
+        	'all',
         	array(
         		'conditions' => array(
         			'Board.active' => 1
         			),
+                'fields' => array(
+                    'Board.id',
+                    'Board.title',
+                    'Board.pool'
+                    ),
         		'order' => array(
         			'Board.user_id' => 'ASC',
                     'Board.created' => 'DESC'
@@ -48,14 +53,6 @@ class BoardsController extends AppController {
         		)
         	);
         $this->TopicPhoto->unbindModelAll();
-        $this->TopicPhoto->bindModel(array(
-            'hasAndBelongsToMany' => array(
-                'Badge' => array(
-                    'joinTable' => 'topic_photo_badges',
-                    'fields' => array('Badge.id', 'Badge.title')
-                    )
-                )
-            ));
         $this->TopicPhoto->bindModel(array(
         	'belongsTo' => array(
         		'Topic' => array('fields' => array('Topic.board_id','Topic.id'))
@@ -68,54 +65,31 @@ class BoardsController extends AppController {
         			'TopicPhoto.user_id' => $this->Auth->user('id')
         			)
         		)
-        	);
-        $sql = "SELECT Comment.id, Topic.board_id
-        		FROM comments AS Comment
-        		LEFT JOIN topic_photos AS TopicPhoto
-        		ON TopicPhoto.id = Comment.topic_photo_id
-        		LEFT JOIN topics AS Topic
-        		ON Topic.id = TopicPhoto.topic_id
-        		WHERE Comment.user_id = {$this->Auth->user('id')};";
-       	$comments = $this->Board->query($sql);
-
-        $sql = "SELECT TopicPhoto.*, Badge.title,Badge.id, Topic.board_id
-        		FROM topic_photo_badges AS PhotoBadge
-        		LEFT JOIN badges AS Badge
-        		ON PhotoBadge.badge_id = Badge.id
-        		LEFT JOIN topic_photos AS TopicPhoto
-        		ON TopicPhoto.id = PhotoBadge.topic_photo_id
-        		LEFT JOIN topics AS Topic
-        		ON Topic.id = TopicPhoto.topic_id
-        		WHERE TopicPhoto.user_id = {$this->Auth->user('id')};";
-        $badges = $this->Board->query($sql);
-        
+        	);        
         $stats = array();
         if(!empty($boards)){
-        	foreach($boards as $k=>$b){
-        		$stats[$k]['title'] = $b;
-                $stats[$k]['id'] = $k;
-        		$stats[$k]['photo_count'] = 0;
-        		$stats[$k]['badges'] = array();
-        		$stats[$k]['comment_count'] = 0;
+        	foreach($boards as $b){
+        		$stats[$b['Board']['id']]['title'] = $b['Board']['title'];
+                $stats[$b['Board']['id']]['pool'] = $b['Board']['pool'];
+                $stats[$b['Board']['id']]['id'] = $b['Board']['id'];
+        		$stats[$b['Board']['id']]['my_photos'] = 0;
+                $sql = "SELECT TopicPhoto.id
+                FROM topic_photos as TopicPhoto
+                LEFT JOIN topics AS Topic
+                ON Topic.id = TopicPhoto.topic_id
+                WHERE Topic.board_id = {$b['Board']['id']} AND TopicPhoto.active = 1;";
+                $results = $this->Board->query($sql);
+                $results = !empty($results) ? count($results) : 0;
+        		$stats[$b['Board']['id']]['total_photos'] = $results;
         	}
         }
+
         if(!empty($photos)){
         	foreach($photos as $photo){
-        		$stats[$photo['Topic']['board_id']]['photo_count']++; 
+        		$stats[$photo['Topic']['board_id']]['my_photos']++; 
         	}
         }
 
-        if(!empty($comments)){
-        	foreach($comments as $comment){
-        		$stats[$comment['Topic']['board_id']]['comment_count']++; 
-        	}
-        }
-
-        if(!empty($badges)){
-        	foreach($badges as $badge){
-        		$stats[$badge['Topic']['board_id']]['badges'][$badge['Badge']['id']] = $badge['Badge']['title'];
-        	}
-        }
         $stats = array_merge($stats,array());
         $this->set(compact('stats','photos','boards'));
     }

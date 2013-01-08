@@ -1,21 +1,16 @@
 <div id="activity">
 	<h2><b>Welcome <?php echo AuthComponent::user('username'); ?>!</b> Your Boards</h2>
 	<section class="feed">
-		<?php if(!empty($stats)): ?>
+		<?php if(!empty($stats)):?>
 		<?php foreach($stats as $k => $board): ?>
 		<article<?php echo $k%3 == 0 ? ' class="alpha"' : ''; ?>>
 			<h3><?php echo $this->Html->link($board['title'],'/boards/view/'.$board['id']); ?></h3>
+			<?php if($board['pool']): ?>
+			<h3><?php echo $this->Html->link('Create story','/boards/story/'.$board['id']); ?></h3>
+			<?php endif; ?>
 			<ul>
-				<li><?php echo $board['photo_count']; ?> images</li>
-				<li><?php if(!empty($board['badges'])): ?>
-					<?php foreach($board['badges'] as $key => $badge): ?>
-					<span style="background-position: 0px <?php echo -24*($key-1); ?>px;" class="badges"></span>
-					<?php endforeach; ?>
-					<?php else: ?>
-					0 badges
-					<?php endif; ?>
-				</li>
-				<li><?php echo $board['comment_count']; ?> comments</li>
+				<li>Your connections:  <?php echo $board['my_photos']; ?></li>
+				<li>Total connections: <?php echo $board['total_photos']; ?></li>
 			</ul>
 		</article>
 		<?php endforeach; ?>
