@@ -1,21 +1,22 @@
 <?php
 class UsersController extends AppController {
-
+    public $components = array('Email');
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('add');
+        $this->Auth->allow('reset');
+        $this->Auth->allow('login');
     }
 
     public function isAuthorized($user) {
-        if (in_array($this->action,array('add','login','logout'))) {
+        if (in_array($this->action,array('add','logout'))) {
             return true;
         }
         return parent::isAuthorized($user);
     }
 
     public function index() {
-        $this->User->recursive = 0;
-        $this->set('users', $this->paginate());
+        $this->set('users', $this->User->find('all'));
     }
 
     public function view($id = null) {
@@ -29,7 +30,7 @@ class UsersController extends AppController {
     public function add() {
         if (!empty($this->data)) {
             if($this->User->validates()){
-                 $this->User->create();
+                $this->User->create();
                 if ($this->User->save($this->data)) {
                     $this->Session->setFlash('New account was successfully created, welcome to Linky!', 'success');
                     $this->Auth->login();
@@ -39,6 +40,41 @@ class UsersController extends AppController {
                     $this->Session->setFlash('The user could not be saved. Please, try again.','fail');
                 }
             }
+        }
+    }
+
+    public function reset() {
+        if (!empty($this->data)) {
+           report($this->data);
+            if(empty($this->data['User']['username'])){
+                $this->Session->setFlash('Please Provide Your Email Adress that You used to Register with Us');
+                $this->render('login');
+            }else{
+                $user_email = $this->data['User']['username'];
+                $fu = $this->User->find('first',array('conditions'=>array('User.username'=>$user_email)));
+                if($fu){
+                    $newpass = substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$' ) , 0 , 10 ); ;
+                    $this->User->id=$fu['User']['id'];
+                    $this->User->password = AuthComponent::password($newpass);
+                    if($this->User->save()) {
+                        //============Email================//
+                        $line = 'Your new password is : '.$newpass;
+                        $line .= 'Log in to <a href="http://nilaratna.com/linky">Linky</a> to log in and change your password';
+                        CakeEmail::deliver($user_email, 'Password reset for Linky', $line, array('from' => 'contact@nilaratna.com'));
+                        //============EndEmail=============//
+                        $this->Session->setFlash('Check Your Email for a new password', 'success');
+                        $this->render('login');
+                    }else{
+                        $this->Session->setFlash("Error Generating Reset link", 'fail');
+                        $this->render('login');
+                    }
+                }else{
+                    $this->Session->setFlash("Error Generating Reset link", 'fail');
+                    $this->render('login');
+                }
+            }
+            $this->Session->setFlash('Email does Not Exist', 'fail');
+            $this->render('login');
         }
     }
 

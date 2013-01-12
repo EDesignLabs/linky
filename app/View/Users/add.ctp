@@ -3,7 +3,7 @@
 <?php echo $this->Form->create('User',array('controller' => 'users', 'action' => 'add')); ?>
     <fieldset>
         <legend><?php echo __('Create a new account'); ?></legend>
-        <?php echo $this->Form->input('username', array('label' => false, 'placeholder'=> 'username'));
+        <?php echo $this->Form->input('username', array('label' => false, 'placeholder'=> 'email'));
         echo $this->Form->input('password', array('label' => false, 'placeholder'=> 'password'));
         echo $this->Form->input('role', array(
             'type' => 'hidden',

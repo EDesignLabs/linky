@@ -12,8 +12,9 @@ class User extends AppModel {
                 'rule' => 'isUnique',
                 'message' => 'username is already taken'
                 ),
-            'alphaNumeric' => array(
-                'rule' => 'alphaNumeric'
+            'email' => array(
+                'rule' => 'email',
+                'message' => 'A valid email is needed'
                 )
         ),
         'password' => array(
