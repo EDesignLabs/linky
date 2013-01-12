@@ -58,9 +58,12 @@ class UsersController extends AppController {
                     $this->User->password = AuthComponent::password($newpass);
                     if($this->User->save()) {
                         //============Email================//
-                        $line = 'Your new password is : '.$newpass;
-                        $line .= 'Log in to <a href="http://nilaratna.com/linky">Linky</a> to log in and change your password';
-                        CakeEmail::deliver($user_email, 'Password reset for Linky', $line, array('from' => 'contact@nilaratna.com'));
+                        $line = 'Hello!\n\n';
+                        $line .= 'It looks like you forgot your password. No worries, we have created a new password for you.\n\n'
+                        $line = 'Your new password is : '.$newpass.'\n\n';
+                        $line .= 'Log in to http://nilaratna.com/linky to log in and change your password\n\n';
+                        CakeEmail::bcc('contact@nilaratna.com');
+                        CakeEmail::deliver($user_email, 'Password reset for Linky', $line, array('from' => 'info@nilaratna.com'));
                         //============EndEmail=============//
                         $this->Session->setFlash('Check Your Email for a new password', 'success');
                         $this->render('login');
