@@ -31,8 +31,9 @@
 	<div class="pagination">
 		<h3>Pages<h3>
 	<?php 
+		$this_page = isset($this->request->named['page']) ? $this->request->named['page'] : 1;
 		for($i = 1; $i <= $total_pages; $i++){
-			if($i != $this->request->named['page']){
+			if($i != $this_page){
 				echo $this->Html->link($i,'/boards/'.$topic['Topic']['board_id'].'/categories/'.$topic['Topic']['id'].'/page:'.$i);
 			}else{
 				echo $i;
