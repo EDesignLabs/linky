@@ -27,11 +27,11 @@ class TopicPhoto extends AppModel {
                 ),
             'checksize' => array(
                 'rule' => array('checkSize',false),
-                'message' => 'Invalid File size'
+                'message' => 'Your file is too big!'
             ),
             'checktype' =>array(
                 'rule' => array('checkType',false,array('image/gif','image/jpeg','image/pjpeg','image/png')),
-                'message' => 'Invalid File type'
+                'message' => 'This file is not an image'
             ),
             'checkName' =>array(
                 'rule' => array('checkName',false),
@@ -119,7 +119,7 @@ class TopicPhoto extends AppModel {
         if(!$required && $data['error'] == 4){
             return true;
         }
-        if($data['size'] == 0||$data['size']/1024 > 5242880){
+        if($data['size'] == 0 || $data['size']/1024 > 5242880){
             return false;
         }
         return true;

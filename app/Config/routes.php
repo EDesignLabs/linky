@@ -65,7 +65,23 @@
 		array('id' => '[0-9]+')
 		);
 	Router::connect(
-		'/boards/:id/categories/:topic/*', 
+		'/boards/:id/categories/:topic/add_photos', 
+		array('controller' => 'topic_photos', 'action' => 'add'),
+		array(
+			'id' => '[0-9]+',
+			'topic' => '[0-9]+'
+			)
+		);
+	Router::connect(
+		'/boards/:id/topics/:topic/add_photos', 
+		array('controller' => 'topic_photos', 'action' => 'add'),
+		array(
+			'id' => '[0-9]+',
+			'topic' => '[0-9]+'
+			)
+		);
+	Router::connect(
+		'/boards/:id/topics/:topic/*', 
 		array('controller' => 'topics', 'action' => 'index'),
 		array(
 			'id' => '[0-9]+',
@@ -80,22 +96,6 @@
 	Router::connect(
 		'/boards/:id/categories/:topic', 
 		array('controller' => 'topics', 'action' => 'index'),
-		array(
-			'id' => '[0-9]+',
-			'topic' => '[0-9]+'
-			)
-		);
-	Router::connect(
-		'/boards/:id/categories/:topic/add_photos', 
-		array('controller' => 'topic_photos', 'action' => 'add'),
-		array(
-			'id' => '[0-9]+',
-			'topic' => '[0-9]+'
-			)
-		);
-	Router::connect(
-		'/boards/:id/topics/:topic/add_photos', 
-		array('controller' => 'topic_photos', 'action' => 'add'),
 		array(
 			'id' => '[0-9]+',
 			'topic' => '[0-9]+'
