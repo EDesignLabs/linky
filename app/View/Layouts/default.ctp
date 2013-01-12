@@ -43,6 +43,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 			<ul class="nav nav-pills right">
 				<?php if(AuthComponent::user('id')): ?>
 				<li><?php echo $this->Html->link('My stuff','/'); ?></li>
+				<li><?php echo $this->Html->link('My Account Settings','/settings'); ?></li>
 				<?php if(AuthComponent::user('role') != 'student'): ?>
 				<li><?php echo $this->Html->link('Create a new board!', '/boards/create'); ?></li>
 				<?php endif; ?>

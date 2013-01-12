@@ -41,7 +41,7 @@ class AppController extends Controller {
     public function beforeFilter() {
         //all index and view functions will be allowed on site
         //$this->Auth->deny();
-        $this->Auth->allow('index', 'view');
+        $this->Auth->allow('view');
     }
 
     public function isAuthorized($user) {

@@ -10,7 +10,7 @@ class BoardsController extends AppController {
 	    		return true;
 	    	}else return false;
 	    }
-        if($this->action === 'activity'){
+        if($this->action === 'activity' || $this->action === 'index'){
             return true;
         }
 	    return parent::isAuthorized($user);

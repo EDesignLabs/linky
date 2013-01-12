@@ -25,6 +25,10 @@
 		array('controller' => 'boards', 'action' => 'activity')
 		);
 	Router::connect(
+		'/settings',
+		array('controller' => 'users', 'action' => 'settings')
+		);
+	Router::connect(
 		'/comments/create/:photo',
 		array('controller' => 'comments', 'action' => 'create'),
 		array('photo' => '[0-9]+')

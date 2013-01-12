@@ -9,8 +9,11 @@ class UsersController extends AppController {
     }
 
     public function isAuthorized($user) {
-        if (in_array($this->action,array('add','logout'))) {
+        if (in_array($this->action,array('add','logout','settings'))) {
             return true;
+        }
+        if ($this->action === 'index' && $user['role'] == 'admin') {
+           return true;
         }
         return parent::isAuthorized($user);
     }
@@ -39,6 +42,48 @@ class UsersController extends AppController {
                 } else {
                     $this->Session->setFlash('The user could not be saved. Please, try again.','fail');
                 }
+            }
+        }
+    }
+
+    public function edit($id = null) {
+        $this->User->id = $id;
+        if (!$this->User->exists()) {
+            throw new NotFoundException(__('Invalid user'));
+        }
+        if(empty($this->request->data['User']['password'])) {
+           unset($this->request->data['User']['password']);
+        }
+        if ($this->request->is('post') || $this->request->is('put')) {
+            if ($this->User->save($this->request->data)) {
+                $this->Session->setFlash('The user has been saved', 'success');
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash('The user could not be saved. Please, try again.', 'fail');
+               $this->redirect(array('action' => 'index'));
+            }
+        } else {
+            $this->request->data = $this->User->read(null, $id);
+            unset($this->request->data['User']['password']);
+        }
+    }
+
+    public function settings() {
+        $this->User->unbindModelAll();
+        $user = $this->User->find('first', array('conditions' => array('User.id' => AuthComponent::user('id'))));
+        $this->set('user', $user);
+        if(!empty($this->data)){
+            if(empty($this->request->data['User']['password'])){
+                unset($this->request->data['User']['password']);
+            }
+            $this->User->id = $this->data['User']['id'];
+            if($this->User->save($this->request->data)){
+                $this->Session->setFlash('Your settings were changed successfully', 'success');
+            }else{
+                $this->Session->setFlash('Your settings could not be changed', 'fail');
+                $errors = $this->User->validationErrors;
+                $this->set(compact('errors','data'));
+                $this->render();
             }
         }
     }
@@ -92,24 +137,6 @@ class UsersController extends AppController {
 
     public function logout() {
         $this->redirect($this->Auth->logout());
-    }
-
-    public function edit($id = null) {
-        $this->User->id = $id;
-        if (!$this->User->exists()) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->User->read(null, $id);
-            unset($this->request->data['User']['password']);
-        }
     }
 
     public function delete($id = null) {

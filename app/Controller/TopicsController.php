@@ -8,6 +8,9 @@ class TopicsController extends AppController {
         if (in_array($this->action,array('add','edit','deactivate')) && $user['role'] == 'teacher') {
             return true;
         }
+        if ($this->action === 'index') {
+           return true;
+        }
         return parent::isAuthorized($user);
     }
 	public function index() {
