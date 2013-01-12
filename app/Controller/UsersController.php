@@ -45,7 +45,6 @@ class UsersController extends AppController {
 
     public function reset() {
         if (!empty($this->data)) {
-           report($this->data);
             if(empty($this->data['User']['username'])){
                 $this->Session->setFlash('Please Provide Your Email Adress that You used to Register with Us');
                 $this->render('login');
@@ -55,21 +54,17 @@ class UsersController extends AppController {
                 if($fu){
                     $newpass = substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$' ) , 0 , 10 ); ;
                     $this->User->id=$fu['User']['id'];
-                    $this->User->password = AuthComponent::password($newpass);
+                    $this->User->saveField('password', $newpass);
                     if($this->User->save()) {
                         //============Email================//
-                        $line = 'Hello!'.PHP_EOL;
-                        $line .= 'It looks like you forgot your password. No worries, we have created a new password for you.'.PHP_EOL;
-                        $line .= 'Your new password is : '.$newpass.PHP_EOL;
-                        $line .= 'Log in to http://nilaratna.com/linky to log in and change your password'.PHP_EOL;
-                        //CakeEmail::bcc('contact@nilaratna.com');
-                        //CakeEmail::deliver($user_email, 'Password reset for Linky', $line, array('from' => 'contact@nilaratna.com'));
                         $email = new CakeEmail();
-                        $email->from(array('contact@nilaratna.com' => 'Linky'))
+                        $email->viewVars(array('newpass' => $newpass));
+                        $email->template('password_reset','default')
+                            ->emailFormat('both')
+                            ->from(array('contact@nilaratna.com' => 'Linky'))
                             ->to($user_email)
                             ->subject('Password reset for Linky')
-                            ->emailFormat('both')
-                            ->send($line);
+                            ->send();
                         //============EndEmail=============//
                         $this->Session->setFlash('Check Your Email for a new password', 'success');
                         $this->render('login');
@@ -78,12 +73,10 @@ class UsersController extends AppController {
                         $this->render('login');
                     }
                 }else{
-                    $this->Session->setFlash("Error Generating Reset link", 'fail');
+                    $this->Session->setFlash("Error Generating Reset link, is this the right email?", 'fail');
                     $this->render('login');
                 }
             }
-            $this->Session->setFlash('Email does Not Exist', 'fail');
-            $this->render('login');
         }
     }
 
