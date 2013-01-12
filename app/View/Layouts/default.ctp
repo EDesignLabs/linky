@@ -44,6 +44,9 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 				<?php if(AuthComponent::user('role') != 'student'): ?>
 				<li><?php echo $this->Html->link('Create a new board!', '/boards/create'); ?></li>
 				<?php endif; ?>
+				<?php if(AuthComponent::user('role') == 'admin'): ?>
+				<li><?php echo $this->Html->link('Manage users', '/users/index'); ?></li>
+				<?php endif; ?>
 				<li><?php echo $this->Html->link('Logout', '/users/logout'); ?></li>
 				<?php else: ?>
 				<li><?php echo $this->Html->link('Log in', '/users/login'); ?></li>
