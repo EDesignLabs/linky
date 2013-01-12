@@ -23,6 +23,13 @@ class User extends AppModel {
                 'message' => 'A password is required'
             )
         ),
+        'repeat_password' => array(
+            'required' => 'notEmpty',
+            'match' => array(
+                'rule' => 'validatePasswdConfirm',
+                'message' => 'Passwords do not match'
+            )
+        ),
         'role' => array(
             'valid' => array(
                 'rule' => array('inList', array('admin', 'student','teacher')),
@@ -31,6 +38,13 @@ class User extends AppModel {
             )
         )
     );
+
+    function validatePasswdConfirm($data){
+        if ($this->data['User']['password'] !== $data['repeat_password']){
+          return false;
+        }
+        return true;
+      }
     var $hasMany = array(
         'TopicPhoto',
         'Board',
@@ -40,6 +54,9 @@ class User extends AppModel {
     public function beforeSave($options = array()) {
         if (isset($this->data[$this->alias]['password'])) {
             $this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
+        }
+        if (isset($this->data['User']['repeat_password'])){
+            unset($this->data['User']['repeat_password']);
         }
         return true;
     }
