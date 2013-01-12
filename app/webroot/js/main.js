@@ -23,4 +23,7 @@ var showAddForm = (function(){
 $(function(){
 	var linkCheck = document.getElementById('add-link');
 	if(!!linkCheck) showAddForm.init();
+	$(document).ready(function() {
+		$(".fancybox").fancybox();
+	});
 });

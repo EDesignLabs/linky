@@ -32,6 +32,8 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		echo $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js');
 		echo $this->Html->script('/js/main.js');
 		echo $this->Html->script('/js/bootstrap.js');
+		echo $this->Html->css('/fancybox/source/jquery.fancybox.css?v=2.1.3');
+		echo $this->Html->script('/fancybox/source/jquery.fancybox.pack.js?v=2.1.3');
 	?>
 </head>
 <body>

@@ -25,15 +25,28 @@
 		<?php foreach($photos as $photo): ?>
 		<article>
 			<div class="image-area left">
-				<?php if(!empty($photo['TopicPhoto']['url'])) echo $this->Html->image($photo['TopicPhoto']['url']); ?>
-				<?php if(!empty($photo['TopicPhoto']['filename'])) echo $this->Html->image($photo['TopicPhoto']['filepath'].$photo['TopicPhoto']['filename']); ?>
-				<?php if(!empty($photo['Badge'])): ?>
-				<h3>Badges</h3>
-				<?php foreach($photo['Badge'] as $badge): ?>
-				<h3 class="award left"><span style="background-position: 0px <?php echo -24*($badge['id']-1); ?>px;" class="badges"></span><?php echo $badge['title']; ?></h3>
-				<?php endforeach; ?>
-				<span class="clear"></span>
-				<?php endif; ?>
+				<?php if(!empty($photo['TopicPhoto']['url']))
+						echo $this->Html->link(
+						    $this->Html->image($photo['TopicPhoto']['url']),
+						    $photo['TopicPhoto']['url'],
+						    array(
+						    	'escape' => false,
+						    	'class' => 'fancybox',
+						    	'rel' => 'group'
+						    )
+						  );
+				?>
+				<?php if(!empty($photo['TopicPhoto']['filename'])) 
+					echo $this->Html->link(
+						    $this->Html->image($photo['TopicPhoto']['filepath'].$photo['TopicPhoto']['filename']),
+						    $photo['TopicPhoto']['filepath'].$photo['TopicPhoto']['filename'],
+						    array(
+						    	'escape' => false,
+						    	'class' => 'fancybox',
+						    	'rel' => 'group'
+						    )
+						  );
+				?>
 			</div>
 			<div class="info-area right">
 				<p>
