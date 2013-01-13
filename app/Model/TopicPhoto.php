@@ -141,11 +141,19 @@ class TopicPhoto extends AppModel {
         if(!IS_DIR(WWW_ROOT.DS.'files'.DS.'images')){
             MKDIR(WWW_ROOT.DS.'files'.DS.'images');
         }
+        if(!IS_DIR(WWW_ROOT.DS.'files'.DS.'thumbnails')){
+            MKDIR(WWW_ROOT.DS.'files'.DS.'thumbnails');
+        }
         $info = pathinfo($data['file']['name']);
         $remove_these = array(' ','`','"','\'','\\','/','%','#');
         $newFileName = str_replace($remove_these, '', $info['filename']);
         $target_name = date('U').'_'.$newFileName.'.'.$info['extension'];
         $move = @move_uploaded_file($data['file']['tmp_name'], WWW_ROOT.DS.'files'.DS.'images'.DS.$target_name);
+        //creating a thumbnail for uploaded files
+        $thumb = WideImage::load(WWW_ROOT.DS.'files'.DS.'images'.DS.$target_name);
+        $newImage = $thumb->resize(200, 150, 'outside')->crop('center', 'middle', 150, 150);
+        $newImage->saveToFile(WWW_ROOT.DS.'files'.DS.'thumbnails'.DS.$target_name);
+        //
         if(!$move){
             return false;
         }

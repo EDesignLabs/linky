@@ -22,6 +22,7 @@
 
 App::uses('Controller', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
+App::import('Vendor','WideImage',array('file' => 'wideimage/lib/WideImage.php'));
 
 /**
  * Application Controller
