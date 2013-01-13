@@ -44,7 +44,7 @@ class BoardsController extends AppController {
                 'fields' => array(
                     'Board.id',
                     'Board.title',
-                    'Board.pool'
+                    'Board.summary'
                     ),
         		'order' => array(
         			'Board.user_id' => 'ASC',
@@ -70,7 +70,7 @@ class BoardsController extends AppController {
         if(!empty($boards)){
         	foreach($boards as $b){
         		$stats[$b['Board']['id']]['title'] = $b['Board']['title'];
-                $stats[$b['Board']['id']]['pool'] = $b['Board']['pool'];
+                $stats[$b['Board']['id']]['summary'] = $b['Board']['summary'];
                 $stats[$b['Board']['id']]['id'] = $b['Board']['id'];
         		$stats[$b['Board']['id']]['my_photos'] = 0;
                 $sql = "SELECT TopicPhoto.id

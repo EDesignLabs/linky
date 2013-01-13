@@ -21,13 +21,13 @@
 	echo $this->Form->input(
 		'Board.title',
 		array(
-			'label' => 'Board Title'
+			'label' => 'Board name'
 			)
 		);
 	echo $this->Form->input(
 		'Board.description',
 		array(
-			'label' => 'Text Prompt'
+			'label' => 'Board description'
 			)
 		);
 	echo $this->Form->input(
@@ -37,11 +37,19 @@
 			)
 		);
 	echo $this->Form->input(
-		'Board.pool',
+		'Board.summary',
 		array(
-			'label' => 'Enable story building by students?',
+			'label' => 'Ask students to contribute an illustrated summary?',
 			'type' => 'checkbox',
 			'class' => 'left'
+			)
+		);
+	echo $this->Form->input(
+		'Board.summary_prompt',
+		array(
+			'label' => 'What is the prompt for the illustrated summary?',
+			'type' => 'textarea',
+			'class' => 'input-xxlarge'
 			)
 		);
 	echo $this->Html->link('Deactivate this board?','/boards/deactivate/'.$this->data['Board']['id'], array('class' => 'btn btn-danger left margin-20 alpha'));
