@@ -5,5 +5,8 @@
 	        'Board',
 	        'User'
 	    );
+	    public function isOwnedBy($summary, $user) {
+		    return $this->field('id', array('id' => $summary, 'user_id' => $user)) === $summary;
+		}
 	}
 ?>

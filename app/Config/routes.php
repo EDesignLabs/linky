@@ -59,8 +59,13 @@
 		array('id' => '[0-9]+')
 		);
 	Router::connect(
-		'/boards/:id/summary/add',
+		'/boards/:id/summary/add/*',
 		array('controller' => 'summaries', 'action' => 'add'),
+		array('id' => '[0-9]+')
+		);
+	Router::connect(
+		'/summary/edit/:id',
+		array('controller' => 'summaries', 'action' => 'edit'),
 		array('id' => '[0-9]+')
 		);
 	Router::connect(
