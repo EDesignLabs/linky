@@ -48,7 +48,8 @@ class User extends AppModel {
     var $hasMany = array(
         'TopicPhoto',
         'Board',
-        'Topic'
+        'Topic',
+        'Summary'
     );
 
     public function beforeSave($options = array()) {

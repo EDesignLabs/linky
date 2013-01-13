@@ -30,70 +30,6 @@ class BoardsController extends AppController {
         		)
         	));
     }
-
-    public function activity() {
-        $this->layout = 'default';
-        $this->title = 'My Activity';
-        $this->Board->unbindModelAll();
-        $boards = $this->Board->find(
-        	'all',
-        	array(
-        		'conditions' => array(
-        			'Board.active' => 1
-        			),
-                'fields' => array(
-                    'Board.id',
-                    'Board.title',
-                    'Board.summary'
-                    ),
-        		'order' => array(
-        			'Board.user_id' => 'ASC',
-                    'Board.created' => 'DESC'
-        			)
-        		)
-        	);
-        $this->TopicPhoto->unbindModelAll();
-        $this->TopicPhoto->bindModel(array(
-        	'belongsTo' => array(
-        		'Topic' => array('fields' => array('Topic.board_id','Topic.id'))
-        		)
-        	));
-        $photos = $this->TopicPhoto->find(
-        	'all', 
-        	array(
-        		'conditions' => array(
-        			'TopicPhoto.user_id' => $this->Auth->user('id')
-        			)
-        		)
-        	);        
-        $stats = array();
-        if(!empty($boards)){
-        	foreach($boards as $b){
-        		$stats[$b['Board']['id']]['title'] = $b['Board']['title'];
-                $stats[$b['Board']['id']]['summary'] = $b['Board']['summary'];
-                $stats[$b['Board']['id']]['id'] = $b['Board']['id'];
-        		$stats[$b['Board']['id']]['my_photos'] = 0;
-                $sql = "SELECT TopicPhoto.id
-                FROM topic_photos as TopicPhoto
-                LEFT JOIN topics AS Topic
-                ON Topic.id = TopicPhoto.topic_id
-                WHERE Topic.board_id = {$b['Board']['id']} AND TopicPhoto.active = 1;";
-                $results = $this->Board->query($sql);
-                $results = !empty($results) ? count($results) : 0;
-        		$stats[$b['Board']['id']]['total_photos'] = $results;
-        	}
-        }
-
-        if(!empty($photos)){
-        	foreach($photos as $photo){
-        		$stats[$photo['Topic']['board_id']]['my_photos']++; 
-        	}
-        }
-
-        $stats = array_merge($stats,array());
-        $this->set(compact('stats','photos','boards'));
-    }
-
     public function create() {
     	if(!empty($this->data)){
     		if ($this->Board->validates()) {
@@ -144,6 +80,68 @@ class BoardsController extends AppController {
 			}
 		}
 	}
+    public function activity() {
+        $this->layout = 'default';
+        $this->title = 'My Activity';
+        $this->Board->unbindModelAll();
+        $boards = $this->Board->find(
+            'all',
+            array(
+                'conditions' => array(
+                    'Board.active' => 1
+                    ),
+                'fields' => array(
+                    'Board.id',
+                    'Board.title',
+                    'Board.summary'
+                    ),
+                'order' => array(
+                    'Board.user_id' => 'ASC',
+                    'Board.created' => 'DESC'
+                    )
+                )
+            );
+        $this->TopicPhoto->unbindModelAll();
+        $this->TopicPhoto->bindModel(array(
+            'belongsTo' => array(
+                'Topic' => array('fields' => array('Topic.board_id','Topic.id'))
+                )
+            ));
+        $photos = $this->TopicPhoto->find(
+            'all', 
+            array(
+                'conditions' => array(
+                    'TopicPhoto.user_id' => $this->Auth->user('id')
+                    )
+                )
+            );        
+        $stats = array();
+        if(!empty($boards)){
+            foreach($boards as $b){
+                $stats[$b['Board']['id']]['title'] = $b['Board']['title'];
+                $stats[$b['Board']['id']]['summary'] = $b['Board']['summary'];
+                $stats[$b['Board']['id']]['id'] = $b['Board']['id'];
+                $stats[$b['Board']['id']]['my_photos'] = 0;
+                $sql = "SELECT TopicPhoto.id
+                FROM topic_photos as TopicPhoto
+                LEFT JOIN topics AS Topic
+                ON Topic.id = TopicPhoto.topic_id
+                WHERE Topic.board_id = {$b['Board']['id']} AND TopicPhoto.active = 1;";
+                $results = $this->Board->query($sql);
+                $results = !empty($results) ? count($results) : 0;
+                $stats[$b['Board']['id']]['total_photos'] = $results;
+            }
+        }
+
+        if(!empty($photos)){
+            foreach($photos as $photo){
+                $stats[$photo['Topic']['board_id']]['my_photos']++; 
+            }
+        }
+
+        $stats = array_merge($stats,array());
+        $this->set(compact('stats','photos','boards'));
+    }
 	public function delete($id){
 		$this->Board->delete($id);
 		$this->redirect('/boards/');

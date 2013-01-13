@@ -13,7 +13,9 @@ class Board extends AppModel {
 		  'conditions'   => array(
 		  	'Topic.active' => 1
 		  	)
-	));
+	),
+	'Summary'
+	);
 
 	var $belongsTo = array(
     'User' => 

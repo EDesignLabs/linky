@@ -6,7 +6,7 @@
 		<article<?php echo $k%3 == 0 ? ' class="alpha"' : ''; ?>>
 			<h3><?php echo $this->Html->link($board['title'],'/boards/view/'.$board['id']); ?></h3>
 			<?php if($board['summary']): ?>
-			<h3><?php echo $this->Html->link('Create summary','/boards/summary/'.$board['id']); ?></h3>
+			<h3><?php echo $this->Html->link('Create summary','/boards/'.$board['id'].'/summary/add'); ?></h3>
 			<?php endif; ?>
 			<ul>
 				<li>Your connections:  <?php echo $board['my_photos']; ?></li>
