@@ -25,7 +25,7 @@
 				  );
 			 if(!empty($photo['TopicPhoto']['filename'])) 
 				echo $this->Html->link(
-					    $this->Html->image($photo['TopicPhoto']['filepath'].$photo['TopicPhoto']['filename']),
+					    $this->Html->image('/files/thumbnails/'.$photo['TopicPhoto']['filename']),
 					    $photo['TopicPhoto']['filepath'].$photo['TopicPhoto']['filename'],
 					    array(
 					    	'escape' => false,

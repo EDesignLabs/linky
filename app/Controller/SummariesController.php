@@ -24,6 +24,13 @@ class SummariesController extends AppController{
 	}
 	public function add(){
 		$board_id = $this->request->params['id'];
+		$this->Board->unbindModelAll();
+		$this->Board->id = $board_id;
+		$board = $this->Board->read();
+		if(empty($board)){
+			$this->redirect('/');
+			exit;
+		}
 		$sql =	"SELECT TopicPhoto.* 
 				FROM topic_photos as TopicPhoto
 				LEFT JOIN topics as Topic
@@ -34,7 +41,7 @@ class SummariesController extends AppController{
 				LIMIT 1*/";
 		$photos = $this->Board->query($sql);
 		//report($photos);
-		$this->set(compact('photos'));
+		$this->set(compact('photos', 'board'));
 		if(!empty($this->data)){
 			report($this->data);
 			exit;
