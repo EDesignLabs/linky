@@ -3,12 +3,6 @@
 class TopicPhoto extends AppModel {
 	var $name = 'TopicPhoto';
 	var $validate = array(
-        'description' => array(
-            'rule' => array('minLength', '20'),
-            'message' => 'Minimum 20 characters long',
-            'required' => true,
-            'allowEmpty' => false
-            ),
         'url' => array(
             'url' => array(
                 'rule' => array('url'),
@@ -136,6 +130,13 @@ class TopicPhoto extends AppModel {
         return true;
     }
 
+    function generateThumb($target_name){
+        $thumb = WideImage::load(WWW_ROOT.DS.'files'.DS.'images'.DS.$target_name);
+        $newImage = $thumb->resize(200, 150, 'outside')->crop('center', 'middle', 150, 150);
+        $newImage->saveToFile(WWW_ROOT.DS.'files'.DS.'thumbnails'.DS.$target_name);
+        return true;
+    }
+
     function uploadPhoto($data) {
         $data = array_shift($data);
         if(!IS_DIR(WWW_ROOT.DS.'files'.DS.'images')){
@@ -149,12 +150,9 @@ class TopicPhoto extends AppModel {
         $newFileName = str_replace($remove_these, '', $info['filename']);
         $target_name = date('U').'_'.$newFileName.'.'.$info['extension'];
         $move = @move_uploaded_file($data['file']['tmp_name'], WWW_ROOT.DS.'files'.DS.'images'.DS.$target_name);
-        //creating a thumbnail for uploaded files
-        $thumb = WideImage::load(WWW_ROOT.DS.'files'.DS.'images'.DS.$target_name);
-        $newImage = $thumb->resize(200, 150, 'outside')->crop('center', 'middle', 150, 150);
-        $newImage->saveToFile(WWW_ROOT.DS.'files'.DS.'thumbnails'.DS.$target_name);
-        //
-        if(!$move){
+        if($move){
+            $this->generateThumb($target_name);
+        }else{
             return false;
         }
         $file_array = array();
@@ -165,9 +163,48 @@ class TopicPhoto extends AppModel {
         return($file_array);
     }
 
+    function uploadUrlPhoto($data) {
+        if(!IS_DIR(WWW_ROOT.DS.'files'.DS.'images')){
+            MKDIR(WWW_ROOT.DS.'files'.DS.'images');
+        }
+        if(!IS_DIR(WWW_ROOT.DS.'files'.DS.'thumbnails')){
+            MKDIR(WWW_ROOT.DS.'files'.DS.'thumbnails');
+        }
+        $file_array = array();
+        $allowedMime = array('image/gif','image/jpeg','image/pjpeg','image/png');
+        $ch = curl_init ($data['TopicPhoto']['url']);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+        $rawdata=curl_exec($ch);
+        $mime = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+        $size = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+        curl_close ($ch);
+        if($rawdata == false || ($size/1024) > 5242880 || !(in_array($mime,$allowedMime))){
+            return false;
+        }
+        $info = pathinfo($data['TopicPhoto']['url']);
+        $newFileName = substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' ) , 0 , 10 ); ;
+        $target_name = date('U').'_'.$newFileName.'.'.$info['extension'];
+        $fp = fopen(WWW_ROOT.DS.'files'.DS.'images'.DS.$target_name,'x');
+        fwrite($fp, $rawdata);
+        fclose($fp);
+        $this->generateThumb($target_name);
+        $file_array['filetype'] = $mime;
+        $file_array['filesize'] = $size;
+        $file_array['filename'] = $target_name;
+        $file_array['filepath'] = '/files/images/';
+        return $file_array;
+    }
+
     function removePhoto($data) {
         $data = array_shift($data);
-        unlink(WWW_ROOT.$data['filepath'].$data['filename']);
+        if(file_exists(WWW_ROOT.$data['filepath'].$data['filename'])){
+            unlink(WWW_ROOT.$data['filepath'].$data['filename']);
+        }
+        if(file_exists(WWW_ROOT.'/files/thumbnails/'.$data['filename'])){
+            unlink(WWW_ROOT.'/files/thumbnails/'.$data['filename']);
+        }
     }
 
     public function isOwnedBy($photo, $user) {
