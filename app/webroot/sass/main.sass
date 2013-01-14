@@ -29,27 +29,13 @@ a
 #feed
 	margin-top: 20px
 	article
-		padding: 10px
-		@include border-radius(10px)
-		border: 1px solid #999
+		width: 470px
+		float: left
 		.info-area
-			width: 490px
-			.comments
-				#CommentCreateForm
-					textarea
-						width: 475px
-				p
-					padding: 5px
-					background-color: #eee
-					small
-						color: #666
-						font-size: 10px
-						display: block
+			width: 310px
 		.image-area
-			margin-right: 20px
-			width: 400px
-		&+article
-			margin-top: 20px
+			margin-right: 10px
+			width: 150px
 
 .width-big
 	width: 75%
@@ -232,4 +218,34 @@ p+.plus
 		width: 700px
 		height: 500px
 	width: 700px
+.push
+	height: 20px
+.pagination
+	width: 265px
+	float: right
+	h3
+		float: left
+		margin: 0 20px 0
+		line-height: 30px
+	.page
+		padding: 10px
+		line-height: 10px
+		font-size: 18px
+		text-align: center
+		display: block
+		float: left
+		&+.page
+			margin-left: 2px
+	span
+		background-color: #efefef
+		color: #000
+	a
+		background-color: #000
+		color: #fff
+		&:hover
+			background-color: #efefef
+			color: #000
+			text-decoration: none
+
+
 				
