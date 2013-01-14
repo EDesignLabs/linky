@@ -69,6 +69,11 @@
 		array('id' => '[0-9]+')
 		);
 	Router::connect(
+		'/summary/changePhotos/:id',
+		array('controller' => 'summaries', 'action' => 'changePhotos'),
+		array('id' => '[0-9]+')
+		);
+	Router::connect(
 		'/topics/edit/:id', 
 		array('controller' => 'topics', 'action' => 'edit'),
 		array('id' => '[0-9]+')

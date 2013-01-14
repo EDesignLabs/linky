@@ -26,7 +26,7 @@ var addSummaryPhoto = (function(){
 		init: function(){
 			_ = this;
 			photo = $('.photo-choice');
-			form = $('#SummaryAddForm');
+			form = $('#photo-selects');
 			submit = $('.submit');
 			_.bindKeys();
 		},

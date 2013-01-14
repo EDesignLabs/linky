@@ -31,52 +31,92 @@ class SummariesController extends AppController{
 			$this->redirect('/');
 			exit;
 		}
-		if(!empty($this->data)){
-			if($this->request->params['pass'][0] == 2){
-				//second stage
-				if(!empty($this->data['Summary'])){
-					$this->request->data['Summary']['board_id'] = $board_id;
-					$this->request->data['Summary']['user_id'] = $this->Auth->user('id');
-					$this->Summary->create();
-					if($this->Summary->save($this->data)){
-						$summary_id = $this->Summary->getLastInsertId();
-						$this->redirect('/summary/edit/'.$summary_id);
-						exit;
-					}else{
-						$this->Session->setFlash('Something went wrong, please try again!');
-					}
-				}
-				exit;
-			}else{
-				//submitting summary
-			}
+		$this->Summary->unbindModelAll();
+		$summary = $this->Summary->find('first', array('conditions' => array(
+			'Summary.board_id' => $board_id,
+			'Summary.user_id' => $this->Auth->user('id')
+			)));
+		if(!empty($summary)){
+			$this->redirect('/summary/edit/'.$summary['Summary']['id']);
+			exit;
 		}
-		$sql =	"SELECT TopicPhoto.* 
-				FROM topic_photos as TopicPhoto
-				LEFT JOIN topics as Topic
-				ON Topic.id = TopicPhoto.topic_id
-				WHERE Topic.board_id = $board_id
-				AND TopicPhoto.active = 1
-				/*ORDER BY RAND()
-				LIMIT 1*/";
-		$photos = $this->Board->query($sql);
-		$this->set(compact('photos', 'board'));
+		$this->request->data['Summary']['board_id'] = $board_id;
+		$this->request->data['Summary']['user_id'] = $this->Auth->user('id');
+		$this->Summary->create();
+		if($this->Summary->save($this->data)){
+			$summary_id = $this->Summary->getLastInsertId();
+			$this->redirect('/summary/edit/'.$summary_id);
+			exit;
+		}else{
+			$this->Session->setFlash('Something went wrong, please try again!');
+			$this->redirect('/');
+			exit;
+		}
 	}
 
 	public function edit() {
 		$this->Summary->id = $this->request->params['id'];
 		$summary = $this->Summary->read();
-		$id_list[] = $summary['Summary']['photo1'];
-		$id_list[] = $summary['Summary']['photo2'];
-		$id_list[] = $summary['Summary']['photo3'];
-		$board = $summary;
-		$sql = "SELECT 
-					TopicPhoto.id,
-					TopicPhoto.filename,
-					TopicPhoto.filepath
-				FROM topic_photos AS TopicPhoto
-				WHERE TopicPhoto.id IN (".implode(',',$id_list).");";
-		$photos = $this->Summary->query($sql);
-		$this->set(compact('board','photos'));
+		//first load
+		//first load, second page
+		//second load, landing
+		//second load, first page
+		if(empty($summary['Summary']['photo1']) || empty($summary['Summary']['photo2']) || empty($summary['Summary']['photo3'] )){
+			$sql =	"SELECT TopicPhoto.* 
+				FROM topic_photos as TopicPhoto
+				LEFT JOIN topics as Topic
+				ON Topic.id = TopicPhoto.topic_id
+				WHERE Topic.board_id = {$summary['Summary']['board_id']}
+				AND TopicPhoto.active = 1
+				/*ORDER BY RAND()
+				LIMIT 1*/";
+			$board = $summary;
+			$photos = $this->Board->query($sql);
+			$this->set(compact('photos', 'board','summary'));
+			$this->render('add');
+		}else{
+			$id_list[] = $summary['Summary']['photo1'];
+			$id_list[] = $summary['Summary']['photo2'];
+			$id_list[] = $summary['Summary']['photo3'];
+			$board = $summary;
+			$sql = "SELECT 
+						TopicPhoto.id,
+						TopicPhoto.filename,
+						TopicPhoto.filepath
+					FROM topic_photos AS TopicPhoto
+					WHERE TopicPhoto.id IN (".implode(',',$id_list).");";
+			$photos = $this->Summary->query($sql);
+			$this->set(compact('board','photos','summary'));
+			$this->render('edit');
+		}
+		if(!empty($this->data)){
+			$this->Summary->save($this->data);
+			$this->Session->setFlash('Your summary has been saved.', 'success');
+			$this->redirect('/summary/edit/'.$summary['Summary']['id']);
+			exit;
+		}
+	}
+
+	public function changePhotos(){
+		$this->Summary->id = $this->request->params['id'];
+		$summary = $this->Summary->read();
+		$this->Summary->set(array(
+		    'photo1' => '',
+		    'photo2' => '',
+		    'photo3' => ''
+		));
+		$this->Summary->save();
+		$this->redirect('/summary/edit/'.$summary['Summary']['id']);
+		exit;
+	}
+	public function complete(){
+		$this->Summary->id = $this->request->params['id'];
+		$summary = $this->Summary->read();
+		$this->Summary->set(array(
+		    'complete' => '1'
+		));
+		$this->Summary->save();
+		$this->redirect('/');
+		exit;
 	}
 }

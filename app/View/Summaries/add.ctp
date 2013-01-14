@@ -1,8 +1,9 @@
-<h1><?php echo $board['Board']['title']; ?></h1>
-<div id="demo" class="collapse in"><p class="lead"><?php echo $board['Board']['summary_prompt']; ?></p></div>
-<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo">
-  Close Description
-</button>
+<h1><?php echo $board['Board']['title']; ?>
+	<button type="button" class="btn btn-link" data-toggle="collapse" data-target="#demo">
+  		<i class="icon-plus-sign"></i>Learn More
+	</button>
+</h1>
+<div id="demo" class="collapse in"><p><?php echo $board['Board']['summary_prompt']; ?></p></div>
 <h2>Pick 3 images that you want to use for your summary. When you are ready, hit next.</h2>
 <section id="add-summary-photos">
 <?php
@@ -45,10 +46,17 @@
 	<span class="clear"></span>
 <?php
 	endif;
-	echo $this->Form->create('Summary', array('url' => '/boards/'.$board['Board']['id'].'/summary/add/2'));
-	echo $this->Form->hidden('Summary.photo1', array('value' => 'pritika'));
-	echo $this->Form->hidden('Summary.photo2');
-	echo $this->Form->hidden('Summary.photo3');
+	echo $this->Form->create('Summary', array('url' => '/summary/edit/'.$summary['Summary']['id']));
+	echo $this->Form->hidden('Summary.id', array('value' => $summary['Summary']['id']));
+?>
+	<div id="photo-selects">
+<?php
+	echo $this->Form->hidden('Summary.photo1', array('value' => $summary['Summary']['photo1'] ));
+	echo $this->Form->hidden('Summary.photo2', array('value' => $summary['Summary']['photo2'] ));
+	echo $this->Form->hidden('Summary.photo3', array('value' => $summary['Summary']['photo3'] ));
+?>
+	</div>
+<?php
 	echo $this->Form->submit('Next');
 	echo $this->Form->end();
 ?>
