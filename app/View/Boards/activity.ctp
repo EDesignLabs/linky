@@ -41,7 +41,7 @@
 				<p>
 				<?php if(!empty($photo['TopicPhoto']['description'])) echo nl2br($photo['TopicPhoto']['description']).'<br />'; ?>
 				<small>
-					Posted in <?php echo $this->Html->link($boards[$photo['Topic']['board_id']], '/boards/'.$photo['Topic']['board_id'].'/categories/'.$photo['Topic']['id'].'/#'.$photo['TopicPhoto']['id']); ?>
+					Posted in <?php echo $this->Html->link($board_titles[$photo['Topic']['board_id']], '/boards/'.$photo['Topic']['board_id'].'/categories/'.$photo['Topic']['id'].'/#'.$photo['TopicPhoto']['id']); ?>
 					<em><?php echo date('F j,Y g:i a',strftime($photo['TopicPhoto']['created'])); ?></em></small>
 				</p>
 			</div>

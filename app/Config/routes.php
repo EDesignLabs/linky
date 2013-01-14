@@ -59,8 +59,23 @@
 		array('id' => '[0-9]+')
 		);
 	Router::connect(
+		'/summary/:id',
+		array('controller' => 'summaries', 'action' => 'index'),
+		array('id' => '[0-9]+')
+		);
+	Router::connect(
 		'/boards/:id/summary/add/*',
 		array('controller' => 'summaries', 'action' => 'add'),
+		array('id' => '[0-9]+')
+		);
+	Router::connect(
+		'/summary/complete/:id',
+		array('controller' => 'summaries', 'action' => 'complete'),
+		array('id' => '[0-9]+')
+		);
+	Router::connect(
+		'/summary/undoComplete/:id',
+		array('controller' => 'summaries', 'action' => 'undoComplete'),
 		array('id' => '[0-9]+')
 		);
 	Router::connect(

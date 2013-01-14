@@ -116,7 +116,7 @@ class BoardsController extends AppController {
                     )
                 )
             );        
-        $stats = array();
+        $stats = $board_titles = array();
         if(!empty($boards)){
             foreach($boards as $b){
                 $stats[$b['Board']['id']]['title'] = $b['Board']['title'];
@@ -132,6 +132,9 @@ class BoardsController extends AppController {
                 $results = !empty($results) ? count($results) : 0;
                 $stats[$b['Board']['id']]['total_photos'] = $results;
             }
+            foreach($boards as $b){
+                $board_titles[$b['Board']['id']] = $b['Board']['title']; 
+            }
         }
 
         if(!empty($photos)){
@@ -141,7 +144,7 @@ class BoardsController extends AppController {
         }
 
         $stats = array_merge($stats,array());
-        $this->set(compact('stats','photos','boards'));
+        $this->set(compact('stats','photos','boards','board_titles'));
     }
 	public function delete($id){
 		$this->Board->delete($id);

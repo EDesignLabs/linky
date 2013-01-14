@@ -11,16 +11,31 @@ class SummariesController extends AppController{
 	    if ($this->action === 'add') {
 	    	return true;
 	    }
-        if($this->action === 'edit'){
-            $summary = $this->request->params['id'];
+	    if (in_array($this->action, array('changePhotos', 'edit', 'complete', 'undoComplete'))) {
+	    	$summary = $this->request->params['id'];
             if ($this->Summary->isOwnedBy($summary, $user['id'])) {
                 return true;
             }
-        }
+	    }
 	    return parent::isAuthorized($user);
 	}
 	public function index(){
-
+		$this->Summary->id = $this->request->params['id'];
+		$summary = $this->Summary->read();
+		$id_list = array();
+		$id_list[] = $summary['Summary']['photo1'];
+		$id_list[] = $summary['Summary']['photo2'];
+		$id_list[] = $summary['Summary']['photo3'];
+		$board = $summary;
+		$sql = "SELECT 
+					TopicPhoto.id,
+					TopicPhoto.filename,
+					TopicPhoto.filepath
+				FROM topic_photos AS TopicPhoto
+				WHERE TopicPhoto.id IN (".implode(',',$id_list).");";
+		$photos = $this->Summary->query($sql);
+		$this->set(compact('board','photos','summary'));
+		$this->set(compact('summary','photos','board'));
 	}
 	public function add(){
 		$board_id = $this->request->params['id'];
@@ -37,8 +52,14 @@ class SummariesController extends AppController{
 			'Summary.user_id' => $this->Auth->user('id')
 			)));
 		if(!empty($summary)){
-			$this->redirect('/summary/edit/'.$summary['Summary']['id']);
-			exit;
+			if($summary['Summary']['complete'] != 1){
+				$this->redirect('/summary/edit/'.$summary['Summary']['id']);
+				exit;
+			}else{
+				$this->Session->setFlash('Your summary for <b>'.$summary['Board']['title'].'</b> was completed and submitted on '.date('F j,Y g:i a',strtotime($summary['Summary']['modified'])).'. If this was done in error, then click <a href="'.Router::url('<b>undo</b>',array('url' => '/summary/undoComplete/'.$summary['Summary']['id'])).'"><b>undo submit</b></a>','success');
+				$this->redirect('/summary/'.$summary['Summary']['id']);
+				exit;
+			}
 		}
 		$this->request->data['Summary']['board_id'] = $board_id;
 		$this->request->data['Summary']['user_id'] = $this->Auth->user('id');
@@ -57,6 +78,11 @@ class SummariesController extends AppController{
 	public function edit() {
 		$this->Summary->id = $this->request->params['id'];
 		$summary = $this->Summary->read();
+		if($summary['Summary']['complete'] == 1){
+			$this->Session->setFlash('Your summary for <b>'.$summary['Board']['title'].'</b> was completed and submitted on <b>'.date('F j,Y g:i a',strtotime($summary['Summary']['modified'])).'</b>. If this was done in error, then click <a href="'.Router::url('<b>undo</b>',array('url' => '/summary/undoComplete/'.$summary['Summary']['id'])).'"><b>undo submit</b></a>','success');
+			$this->redirect('/summary/'.$summary['Summary']['id']);
+			exit;
+		}
 		//first load
 		//first load, second page
 		//second load, landing
@@ -75,6 +101,7 @@ class SummariesController extends AppController{
 			$this->set(compact('photos', 'board','summary'));
 			$this->render('add');
 		}else{
+			$id_list = array();
 			$id_list[] = $summary['Summary']['photo1'];
 			$id_list[] = $summary['Summary']['photo2'];
 			$id_list[] = $summary['Summary']['photo3'];
@@ -116,7 +143,19 @@ class SummariesController extends AppController{
 		    'complete' => '1'
 		));
 		$this->Summary->save();
-		$this->redirect('/');
+		$this->Session->setFlash('Your summary for <b>'.$summary['Board']['title'].'</b> was completed and submitted on <b>'.date('F j,Y g:i a',strtotime($summary['Summary']['modified'])).'</b>. If this was done in error, then click <a href="'.Router::url('<b>undo</b>',array('url' => '/summary/undoComplete/'.$summary['Summary']['id'])).'"><b>undo submit</b></a>','success');
+		$this->redirect('/summary/'.$summary['Summary']['id']);
+		exit;
+	}
+	public function undoComplete(){
+		$this->Summary->id = $this->request->params['id'];
+		$summary = $this->Summary->read();
+		$this->Summary->set(array(
+		    'complete' => '0'
+		));
+		$this->Summary->save();
+		$this->Session->setFlash('Your summary for '.$summary['Board']['title'].' can now be edited again','success');
+		$this->redirect('/summary/edit/'.$summary['Summary']['id']);
 		exit;
 	}
 }

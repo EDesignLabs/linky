@@ -27,7 +27,8 @@
  		'value' => $summary['Summary']['description'],
  		'class' => 'input-huge'
  		));
- 	echo $this->Form->submit('Save your summary', array('class' => 'left btn btn-primary'));
+ 	echo $this->Form->hidden('Summary.complete',array('value' => '1'));
+ 	echo $this->Form->submit('Complete and submit your summary', array('class' => 'right btn btn-danger'));
  	echo $this->Form->end();
  ?>
 </section>
