@@ -31,7 +31,7 @@ class TopicsController extends AppController {
         }
         $this->TopicPhoto->unbindModelAll();
         $this->TopicPhoto->bindModel(array(
-            'belongsTo' => array('User' => array('fields' => 'User.username'))
+            'belongsTo' => array('User' => array('fields' => 'User.name'))
             ));
         $photos = $this->TopicPhoto->find(
             'all',
