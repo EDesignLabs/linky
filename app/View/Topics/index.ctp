@@ -28,7 +28,7 @@
 		<div class="info-area right">
 			<p>
 				<?php if(!empty($photo['TopicPhoto']['description'])) echo nl2br(trim($photo['TopicPhoto']['description'])).'<br />'; ?>
-				<small>Posted by <b><?php echo $photo['TopicPhoto']['anonymous'] ? 'anonymous' : $photo['User']['username']; ?></b> <em><?php echo date('F j,Y g:i a',strftime($photo['TopicPhoto']['created'])); ?></em></small>
+				<small>Posted by <b><?php echo $photo['User']['name']; ?></b> <em><?php echo date('F j,Y g:i a',strftime($photo['TopicPhoto']['created'])); ?></em></small>
 				<?php if(AuthComponent::user('id') && AuthComponent::user('id') == $photo['TopicPhoto']['user_id']): ?>
 				<?php echo $this->Html->link('edit','/photos/edit/'.$photo['TopicPhoto']['id']); ?>
 				<?php endif; ?>
