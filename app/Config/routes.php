@@ -136,6 +136,14 @@
 			)
 		);
 	Router::connect(
+		'/boards/:id/categories/:topic/*', 
+		array('controller' => 'topics', 'action' => 'index'),
+		array(
+			'id' => '[0-9]+',
+			'topic' => '[0-9]+'
+			)
+		);
+	Router::connect(
 		'/topic_photos/add', 
 		array('controller' => 'topic_photos', 'action' => 'add')
 		);

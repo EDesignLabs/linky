@@ -14,12 +14,13 @@ class TopicsController extends AppController {
         return parent::isAuthorized($user);
     }
 	public function index() {
-        $limit = 15;
+        $limit = 20;
         $page = isset($this->request->named['page']) ? $this->request->named['page'] : 1;
         $this->set('title','Add a photo');
        	$id = $this->request->params['id'];
     	$this->Board->id = $id;
         $this->Board->unbindModelAll();
+        $this->Board->bindModel(array('hasMany' => array('Topic')));
         $board = $this->Board->read();
         $this->Topic->id = $this->request->params['topic'];
         $this->Topic->unbindModelAll();
@@ -47,7 +48,10 @@ class TopicsController extends AppController {
         $all_photos = $this->TopicPhoto->find(
             'count',
             array(
-                'conditions' => array('TopicPhoto.topic_id' => $this->request->params['topic'])
+                'conditions' => array(
+                    'TopicPhoto.topic_id' => $this->request->params['topic'],
+                    'TopicPhoto.active' => 1
+                    )
                 )
             );
         $total_pages = ceil($all_photos / $limit);

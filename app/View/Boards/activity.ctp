@@ -1,5 +1,5 @@
 <div id="activity">
-	<h2><b>Welcome <?php echo AuthComponent::user('username'); ?>!</b> Your Boards</h2>
+	<h2><b>Welcome <?php echo AuthComponent::user('name'); ?>!</b> Your Boards</h2>
 	<section class="feed">
 		<?php if(!empty($stats)):?>
 		<?php foreach($stats as $k => $board): ?>
@@ -22,7 +22,7 @@
 	<h2>Your Photos</h2>
 	<section id="feed">
 		<?php if(!empty($photos)): ?>
-		<?php foreach($photos as $photo): ?>
+		<?php foreach($photos as $k=>$photo): ?>
 		<article>
 			<div class="image-area left">
 				<?php if(!empty($photo['TopicPhoto']['filename'])) 
@@ -39,7 +39,7 @@
 			</div>
 			<div class="info-area right">
 				<p>
-				<?php if(!empty($photo['TopicPhoto']['description'])) echo nl2br($photo['TopicPhoto']['description']).'<br />'; ?>
+				<?php if(!empty($photo['TopicPhoto']['description'])) echo nl2br(trim($photo['TopicPhoto']['description'])).'<br />'; ?>
 				<small>
 					Posted in <?php echo $this->Html->link($board_titles[$photo['Topic']['board_id']], '/boards/'.$photo['Topic']['board_id'].'/categories/'.$photo['Topic']['id'].'/#'.$photo['TopicPhoto']['id']); ?>
 					<em><?php echo date('F j,Y g:i a',strftime($photo['TopicPhoto']['created'])); ?></em></small>
@@ -47,7 +47,9 @@
 			</div>
 			<span class="clear"></span>
 		</article>
+		<?php if($k%2 == 1): ?><span class="push clear"></span><?php endif; ?>
 		<?php endforeach; ?>
+		<span class="clear"></span>
 		<?php else: ?>
 		You have uploaded no photos yet :( What are you waiting for?
 		<?php endif; ?>
