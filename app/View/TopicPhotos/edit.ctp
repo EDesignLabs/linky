@@ -39,7 +39,6 @@
 			);
 		echo $this->Html->image($this->data['TopicPhoto']['filepath'].$this->data['TopicPhoto']['filename'], array('class' => 'shrink'));
 	}
-	if(!empty($this->data['TopicPhoto']['url'])) echo $this->Html->image($this->data['TopicPhoto']['url'], array('class' => 'shrink'));
 ?>
 	<span class="clear"></span>
 <?php

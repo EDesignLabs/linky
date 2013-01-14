@@ -97,7 +97,7 @@ class UsersController extends AppController {
                 $user_email = $this->data['User']['username'];
                 $fu = $this->User->find('first',array('conditions'=>array('User.username'=>$user_email)));
                 if($fu){
-                    $newpass = substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$' ) , 0 , 10 ); ;
+                    $newpass = substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$' ) , 0 , 10 );
                     $this->User->id=$fu['User']['id'];
                     $this->User->saveField('password', $newpass);
                     if($this->User->save()) {

@@ -35,7 +35,10 @@ class TopicsController extends AppController {
         $photos = $this->TopicPhoto->find(
             'all',
             array(
-                'conditions' => array('TopicPhoto.topic_id' => $this->request->params['topic']),
+                'conditions' => array(
+                    'TopicPhoto.topic_id' => $this->request->params['topic'],
+                    'TopicPhoto.active' => 1 
+                    ),
                 'limit' => $limit,
                 'page' => $page,
                 'recursive' => 2

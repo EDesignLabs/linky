@@ -25,17 +25,6 @@
 		<?php foreach($photos as $photo): ?>
 		<article>
 			<div class="image-area left">
-				<?php if(!empty($photo['TopicPhoto']['url']))
-						echo $this->Html->link(
-						    $this->Html->image($photo['TopicPhoto']['url']),
-						    $photo['TopicPhoto']['url'],
-						    array(
-						    	'escape' => false,
-						    	'class' => 'fancybox',
-						    	'rel' => 'group'
-						    )
-						  );
-				?>
 				<?php if(!empty($photo['TopicPhoto']['filename'])) 
 					echo $this->Html->link(
 						    $this->Html->image('/files/thumbnails/'.$photo['TopicPhoto']['filename']),

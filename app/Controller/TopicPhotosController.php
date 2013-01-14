@@ -36,24 +36,18 @@ class TopicPhotosController extends AppController {
                 $this->TopicPhoto->create();  
                 if(!empty($this->data['TopicPhoto']['file']) && $this->data['TopicPhoto']['file']['error'] == 0){
                     $uploaded = $this->TopicPhoto->uploadPhoto($this->data);
-                    if(!empty($uploaded)){
-                        $this->data = array_merge($this->data['TopicPhoto'],$uploaded);
-                        $this->request->data['user_id'] = $this->Auth->user('id');
-                        $this->TopicPhoto->save($this->data);
-                        $this->Session->setFlash('Yay! Your photo was added','success');
-                        $this->redirect('/boards/'.$board.'/categories/'.$topic);
-                        exit;
-                    }else{
-                        $this->Session->setFlash('There was a problem. Your photo could not be added. Please try again.','fail');
-                        $this->redirect('/boards/'.$board.'/categories/'.$topic);
-                        exit;
-                    }
                 }else{
-                    $this->request->data['TopicPhoto']['user_id'] = $this->Auth->user('id');
+                    $uploaded = $this->TopicPhoto->uploadUrlPhoto($this->data);
+                }
+                if(!empty($uploaded)){
+                    $this->data = array_merge($this->data['TopicPhoto'],$uploaded);
+                    $this->request->data['user_id'] = $this->Auth->user('id');
                     $this->TopicPhoto->save($this->data);
-                    $this->Session->setFlash('Yay! Your photo was added','success');
+                    $this->Session->setFlash('Your photo was added','success');
                     $this->redirect('/boards/'.$board.'/categories/'.$topic);
                     exit;
+                }else{
+                    $this->Session->setFlash('There was a problem. Your photo could not be added. Please try again.','fail');
                 }                
             } else {
                 $this->Session->setFlash('There are errors in your submission, fix them and submit again','fail');

@@ -111,7 +111,8 @@ class BoardsController extends AppController {
             'all', 
             array(
                 'conditions' => array(
-                    'TopicPhoto.user_id' => $this->Auth->user('id')
+                    'TopicPhoto.user_id' => $this->Auth->user('id'),
+                    'TopicPhoto.active' => 1
                     )
                 )
             );        
