@@ -8,9 +8,9 @@
 <section id="add-summary-photos">
 <?php
 	if(!empty($photos)):
-		foreach($photos as $photo):
+		foreach($photos as $k=>$photo):
 ?>
-	<article class="photo-choice" data-id="<?php echo $photo['TopicPhoto']['id']; ?>">
+	<article<?php echo $k%5 == 0 ? ' class="alpha"' : '' ;?> class="photo-choice" data-id="<?php echo $photo['TopicPhoto']['id']; ?>">
 <?php
 			if(!empty($photo['TopicPhoto']['filename'])) 
 				echo $this->Html->link(
@@ -46,8 +46,9 @@
 	echo $this->Form->hidden('Summary.photo3', array('value' => $summary['Summary']['photo3'] ));
 ?>
 	</div>
+	<span class="clear"></span>
 <?php
-	echo $this->Form->submit('Next');
+	echo $this->Form->submit('Next', array('class' => 'btn btn-primary right'));
 	echo $this->Form->end();
 ?>
 </section>

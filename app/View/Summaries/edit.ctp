@@ -5,7 +5,7 @@
 </h1>
 <div id="demo" class="collapse"><p><?php echo $board['Board']['summary_prompt']; ?></p>
 </div>
-<section id="edit-summary-photos">
+<section id="edit-summary-photos" class="summary">
 <?php foreach($photos as $photo): 
 	echo $this->Html->link(
 	    $this->Html->image('/files/thumbnails/'.$photo['TopicPhoto']['filename']),
