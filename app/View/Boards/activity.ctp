@@ -13,6 +13,7 @@
 				<li>Total connections: <?php echo $board['total_photos']; ?></li>
 			</ul>
 		</article>
+		<?php if($k%2 == 0 && $k > 0): ?> <span class="clear"></span><?php endif; ?>
 		<?php endforeach; ?>
 		<span class="clear"></span>
 		<?php else: ?>
@@ -48,7 +49,7 @@
 		<?php foreach($photos as $k=>$photo): ?>
 		<article>
 			<div class="image-area left">
-				<?php if(!empty($photo['TopicPhoto']['filename'])) 
+				<?php if(!empty($photo['TopicPhoto']['filename']))
 					echo $this->Html->link(
 						    $this->Html->image('/files/thumbnails/'.$photo['TopicPhoto']['filename']),
 						    $photo['TopicPhoto']['filepath'].$photo['TopicPhoto']['filename'],
