@@ -1,6 +1,7 @@
 <?php
 class UsersController extends AppController {
     public $components = array('Email');
+    public $uses = array('TopicPhoto','User', 'Board', 'Topic');
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('add');
@@ -9,7 +10,7 @@ class UsersController extends AppController {
     }
 
     public function isAuthorized($user) {
-        if (in_array($this->action,array('add','logout','settings'))) {
+        if (in_array($this->action,array('add','logout','settings', 'view'))) {
             return true;
         }
         if ($this->action === 'index' && $user['role'] == 'admin') {
@@ -22,12 +23,40 @@ class UsersController extends AppController {
         $this->set('users', $this->User->find('all'));
     }
 
-    public function view($id = null) {
+    public function view($id) {
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
-        $this->set('user', $this->User->read(null, $id));
+        $topics = $this->Topic->find('list', array('fields' => array('Board.id'), 'recursive' => 2));
+        $photos = $this->TopicPhoto->find(
+            'list',array(
+                'conditions' => array('TopicPhoto.active' => 1),
+                'fields' => array(
+                    'TopicPhoto.id',
+                    'TopicPhoto.filename',
+                    )
+                )
+            );
+        $boards = $this->Board->find(
+            'list',array('conditions' => array('Board.active' => 1)));
+        $this->User->id = $id;
+        $this->User->unbindModelAll();
+        $this->User->bindModel(array(
+            'hasMany' => array(
+                    'TopicPhoto' => array(
+                        'fields' => array('TopicPhoto.filename', 'TopicPhoto.filepath', 'TopicPhoto.description', 'TopicPhoto.created', 'TopicPhoto.topic_id'),
+                        'conditions' => array('TopicPhoto.active' => 1),
+                        'order' => array('TopicPhoto.created')
+                        ),
+                    'Summary' => array(
+                        'fields' => array('Summary.photo1','Summary.photo2','Summary.photo3', 'Summary.description','Summary.board_id'),
+                        'conditions' => array('Summary.complete' => 1)
+                        )
+                    )
+            ));
+        $user = $this->User->read();
+        $this->set(compact('user', 'photos','boards', 'topics'));
     }
 
     public function add() {

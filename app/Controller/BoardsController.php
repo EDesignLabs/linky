@@ -2,7 +2,7 @@
 App::uses('AppController', 'Controller');
 class BoardsController extends AppController {
 	public $name = 'Boards';
-	public $uses = array('Board','TopicPhoto');
+	public $uses = array('Board','TopicPhoto', 'User');
 	public $helpers = array('Form', 'Html', 'Session');
 	public function isAuthorized($user) {
 	    if ($this->action === 'create') {
@@ -142,9 +142,18 @@ class BoardsController extends AppController {
                 $stats[$photo['Topic']['board_id']]['my_photos']++; 
             }
         }
-
+        $this->User->unbindModelAll();
+        $this->User->bindModel(array('hasMany' => array(
+            'TopicPhoto' => array('conditions' => array('TopicPhoto.active' => 1), 'fields' => array('TopicPhoto.id')), 
+            'Summary' => array('conditions' => array('Summary.complete' => 1), 'fields' => array('Summary.id'))
+            )));
+        $students = $this->User->find('all', array(
+            'conditions' => array('User.role' => 'student'),
+            'fields' => array('User.id', 'User.name', 'User.username', 'User.created'),
+            'order' => array('User.name')
+            ));
         $stats = array_merge($stats,array());
-        $this->set(compact('stats','photos','boards','board_titles'));
+        $this->set(compact('stats','photos','boards','board_titles','students'));
     }
 	public function delete($id){
 		$this->Board->delete($id);

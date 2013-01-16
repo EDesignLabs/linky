@@ -36,6 +36,12 @@ class User extends AppModel {
                 'message' => 'Please enter a valid role',
                 'allowEmpty' => false
             )
+        ),
+        'name' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Name is required'
+            )
         )
     );
 

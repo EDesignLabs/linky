@@ -19,6 +19,29 @@
 			<p>Oh no! There are no boards for you to view :(</p>
 		<?php endif; ?>
 	</section>
+	<?php if(AuthComponent::user('role') != 'student'): ?>
+	<h2>Students</h2>
+	<table class="table table-bordered">
+		<thead>
+			<th>#</th>
+			<th>Name</th>
+			<th>Username / Email</th>
+			<th>Photos</th>
+			<th>Summaries</th>
+			<th>Joined</th>
+		</thead>
+		<?php foreach($students as $k=>$s): ?>
+		<tr>
+			<td><?php echo ++$k; ?></td>
+			<td><?php echo $this->Html->link($s['User']['name'], '/profile/'.$s['User']['id']); ?></td>
+			<td><?php echo $s['User']['username']; ?></td>
+			<td><?php echo count($s['TopicPhoto']); ?></td>
+			<td><?php echo count($s['Summary']); ?></td>
+			<td><?php echo date('F j, Y g:i a', strtotime($s['User']['created'])); ?></td>
+		<tr>
+		<?php endforeach; ?>
+	</table>
+	<?php endif; ?>
 	<h2>Your Photos</h2>
 	<section id="feed">
 		<?php if(!empty($photos)): ?>
