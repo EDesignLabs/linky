@@ -47,6 +47,7 @@ class SummariesController extends AppController{
 			exit;
 		}
 		$this->Summary->unbindModelAll();
+		$this->Summary->bindModel(array('belongsTo' => array('Board')));
 		$summary = $this->Summary->find('first', array('conditions' => array(
 			'Summary.board_id' => $board_id,
 			'Summary.user_id' => $this->Auth->user('id')
