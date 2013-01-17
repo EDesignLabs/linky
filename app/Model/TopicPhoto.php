@@ -14,6 +14,11 @@ class TopicPhoto extends AppModel {
                 'message' => 'Image is required either via URL or through browse'
                 ),
             ),
+        'description' => array(
+            'rule'    => 'notEmpty',
+            'required' => true,
+            'message' => 'Please write some more'
+            ),
         'file' => array(
             'checkimageadd' => array(
                 'rule' => array('checkImageAdd'),
