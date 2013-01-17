@@ -40,7 +40,7 @@ class BoardsController extends AppController {
 					$this->redirect('/boards/view/'.$id);
 					exit;
 				}else{
-					$this->redirect('/boards/');
+					$this->redirect('/');
 					exit;
 				}				
 			} else {
@@ -61,7 +61,7 @@ class BoardsController extends AppController {
 			$board = $this->Board->read();
 			if(empty($board)){
 				$this->Session->setFlash('This board does not exist', 'fail');
-				$this->redirect('/boards/');
+				$this->redirect('/');
 			}
 			$this->title = $board['Board']['title'];
 			$this->data = $board;
@@ -71,7 +71,7 @@ class BoardsController extends AppController {
 					$this->redirect('/boards/view/'.$this->data['Board']['id']);
 					exit;
 				}else{
-					$this->redirect('/boards/');
+					$this->redirect('/');
 					exit;
 				}				
 			} else {
@@ -139,7 +139,9 @@ class BoardsController extends AppController {
 
         if(!empty($photos)){
             foreach($photos as $photo){
-                $stats[$photo['Topic']['board_id']]['my_photos']++; 
+                if(isset($stats[$photo['Topic']['board_id']])){
+                    $stats[$photo['Topic']['board_id']]['my_photos']++; 
+                }
             }
         }
         $this->User->unbindModelAll();
@@ -157,7 +159,7 @@ class BoardsController extends AppController {
     }
 	public function delete($id){
 		$this->Board->delete($id);
-		$this->redirect('/boards/');
+		$this->redirect('/');
 		exit;
 	}
 	public function deactivate($id){
@@ -168,7 +170,7 @@ class BoardsController extends AppController {
         ));
         $this->Board->save();
         $this->Session->setFlash('Board id '.$id.' was deactivated','success');
-        $this->redirect('/boards/');
+        $this->redirect('/');
         exit;
     }
 }
