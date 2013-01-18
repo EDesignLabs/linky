@@ -1,5 +1,5 @@
 <section id="add-photo" class="margin-20">
-	<h4>Add your connection</h4>
+	<h1>Add your connection</h1>
 <?php
 	echo $this->Form->create(
 		'TopicPhoto', 
@@ -65,7 +65,7 @@
 			'value' => $selected
 			)
 		);
-	echo $this->Form->submit('Add Photo',array('class' => 'btn-themeboard plus '));
+	echo $this->Form->submit('Add Connection',array('class' => 'btn-themeboard btn'));
 	echo $this->Form->end();
 ?>
 </section>

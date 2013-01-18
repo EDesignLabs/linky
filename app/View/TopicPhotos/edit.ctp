@@ -1,5 +1,5 @@
 <section id="add-photo" class="margin-20">
-	<h4>Edit your connection</h4>
+	<h1>Edit your connection</h1>
 <?php
 	echo $this->Form->create(
 		'TopicPhoto', 
@@ -104,8 +104,8 @@
 				'type' => 'hidden'
 				)
 			);
-	echo $this->Html->link('Deactivate this photo','/topic_photos/deactivate/'.$this->data['TopicPhoto']['id'], array('class' => 'btn btn-danger left margin-20 alpha'));
-	echo $this->Form->submit('Save Photo', array('div' => array('class'=> 'left'), 'class' => 'plus btn-themeboard '));
+	echo $this->Html->link('Deactivate this photo','/topic_photos/deactivate/'.$this->data['TopicPhoto']['id'], array('class' => 'btn btn-themeboard btn-danger left margin-20 alpha'));
+	echo $this->Form->submit('Save connection', array('div' => array('class'=> 'left'), 'class' => 'btn-themeboard btn'));
 ?>
 	<span class="clear"></span>
 <?php

@@ -1,16 +1,14 @@
-<h1><?php echo $board['Board']['title']; ?>
-	<button type="button" class="btn btn-link" data-toggle="collapse" data-target="#demo">
-  		<i class="icon-plus-sign"></i>Learn More
-	</button>
-</h1>
-<div id="demo" class="collapse in"><p><?php echo $board['Board']['summary_prompt']; ?></p></div>
-<h2>Pick 3 images that you want to use for your summary. When you are ready, hit next.</h2>
+<header id="summary">
+	<h1><?php echo $board['Board']['title']; ?></h1>
+	<p><?php echo $board['Board']['summary_prompt']; ?></p>
+	<p>Pick 3 images that you want to use for your summary. When you are ready, hit next.</p>
+</header>
 <section id="add-summary-photos">
 <?php
 	if(!empty($photos)):
 		foreach($photos as $k=>$photo):
 ?>
-	<article<?php echo $k%5 == 0 ? ' class="alpha"' : '' ;?> class="photo-choice" data-id="<?php echo $photo['TopicPhoto']['id']; ?>">
+	<article class="<?php echo $k%5 == 0 ? 'alpha ' : '' ;?>photo-choice" data-id="<?php echo $photo['TopicPhoto']['id']; ?>">
 <?php
 			if(!empty($photo['TopicPhoto']['filename'])) 
 				echo $this->Html->link(
@@ -48,7 +46,7 @@
 	</div>
 	<span class="clear"></span>
 <?php
-	echo $this->Form->submit('Next', array('class' => 'btn btn-primary right'));
+	echo $this->Form->submit('Next', array('class' => 'btn btn-themeboard right'));
 	echo $this->Form->end();
 ?>
 </section>

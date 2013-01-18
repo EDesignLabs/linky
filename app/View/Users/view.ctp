@@ -49,10 +49,11 @@
 				else echo '<em>-BLANK-</em>';
 			?>
 				<small>
-				Posted in <?php echo $this->Html->link($boards[$topics[$photo['topic_id']]] , '/boards/'.$topics[$photo['topic_id']].'/categories/'.$photo['topic_id']); ?>
+				Posted in <?php if(isset($boards[$topics[$photo['topic_id']]])) echo $this->Html->link($boards[$topics[$photo['topic_id']]] , '/boards/'.$topics[$photo['topic_id']].'/categories/'.$photo['topic_id']); ?>
 				<em><?php echo date('F j,Y g:i a',strftime($photo['created'])); ?></em>
 				</small>
 			</p>
+			<?php if(AuthComponent::user('role') != 'student') echo $this->html->link('deactivate this photo','/topic_photos/deactivate/'.$photo['id']); ?>
 			<span class="clear"></span>
 		</article>
 		<?php endforeach; ?>

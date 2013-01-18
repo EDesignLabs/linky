@@ -31,7 +31,7 @@ class TopicsController extends AppController {
         }
         $this->TopicPhoto->unbindModelAll();
         $this->TopicPhoto->bindModel(array(
-            'belongsTo' => array('User' => array('fields' => 'User.name'))
+            'belongsTo' => array('User' => array('fields' => 'User.name,User.id'))
             ));
         $photos = $this->TopicPhoto->find(
             'all',
@@ -40,6 +40,7 @@ class TopicsController extends AppController {
                     'TopicPhoto.topic_id' => $this->request->params['topic'],
                     'TopicPhoto.active' => 1 
                     ),
+                'order' => array('TopicPhoto.created DESC'),
                 'limit' => $limit,
                 'page' => $page,
                 'recursive' => 2

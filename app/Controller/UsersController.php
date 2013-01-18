@@ -45,7 +45,7 @@ class UsersController extends AppController {
         $this->User->bindModel(array(
             'hasMany' => array(
                     'TopicPhoto' => array(
-                        'fields' => array('TopicPhoto.filename', 'TopicPhoto.filepath', 'TopicPhoto.description', 'TopicPhoto.created', 'TopicPhoto.topic_id'),
+                        'fields' => array('TopicPhoto.filename', 'TopicPhoto.filepath', 'TopicPhoto.description', 'TopicPhoto.created', 'TopicPhoto.topic_id', 'TopicPhoto.id'),
                         'conditions' => array('TopicPhoto.active' => 1),
                         'order' => array('TopicPhoto.created')
                         ),

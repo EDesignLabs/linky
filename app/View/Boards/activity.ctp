@@ -1,13 +1,19 @@
 <div id="activity">
-	<h2><b>Welcome <?php echo AuthComponent::user('name'); ?>!</b> Your Boards</h2>
+	<h2><b>Welcome <?php echo AuthComponent::user('name'); ?>!</b> <?php echo $this->Html->link('Your profile', '/profile/'.AuthComponent::user('id')); ?></h2>
 	<section class="feed">
 		<?php if(!empty($stats)):?>
 		<?php foreach($stats as $k => $board): ?>
 		<article<?php echo $k%3 == 0 ? ' class="alpha"' : ''; ?>>
-			<h3><?php echo $this->Html->link($board['title'],'/boards/view/'.$board['id']); ?></h3>
-			<?php if($board['summary']): ?>
-			<h3><?php echo $this->Html->link('Create summary','/boards/'.$board['id'].'/summary/add'); ?></h3>
-			<?php endif; ?>
+			<h3><?php echo $board['title']; ?></h3>
+			<div class="action">
+				<?php echo $this->Html->link('go to board','/boards/view/'.$board['id'], array('class' => 'left btn link')); ?>
+				<?php if($board['summary']): ?>
+				<?php echo $this->Html->link('go to summary','/boards/'.$board['id'].'/summary/add', array('class' => 'right btn link')); ?>
+				<?php else: ?>
+					<span class="right link">go to summary</span>
+				<?php endif; ?>
+				<span class="clear"></span>
+			</div>
 			<ul>
 				<li>Your connections:  <?php echo $board['my_photos']; ?></li>
 				<li>Total connections: <?php echo $board['total_photos']; ?></li>
