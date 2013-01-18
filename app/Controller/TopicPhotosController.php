@@ -9,6 +9,9 @@ class TopicPhotosController extends AppController {
             return true;
         }
         if (in_array($this->action,array('edit','deactivate'))) {
+            if(in_array($user['role'], array('teacher','admin'))){
+                return true;
+            }
             $photo = $this->request->params['id'];
             if ($this->TopicPhoto->isOwnedBy($photo, $user['id'])) {
                 return true;
@@ -138,10 +141,15 @@ class TopicPhotosController extends AppController {
         $this->TopicPhoto->set(array(
             'active' => 0
         ));
-        $this->TopicPhoto->save();
-        $this->Session->setFlash('Photo id '.$id.' was deactivated','success');
-        $this->redirect('/boards/'.$photo['Topic']['board_id'].'/categories/'.$photo['Topic']['id']);
-        exit;
+        if( $this->TopicPhoto->save()) {
+            $this->Session->setFlash('Photo id '.$id.' was deactivated','success');
+            $this->redirect('/boards/'.$photo['Topic']['board_id'].'/categories/'.$photo['Topic']['id']);
+            exit;
+        }else{
+            $this->Session->setFlash('Something went wrong, could not deactivate the photo','fail');
+            $this->redirect('/boards/'.$photo['Topic']['board_id'].'/categories/'.$photo['Topic']['id']);
+            exit;
+        }        
     }
 
     public function getTopics($board_id){

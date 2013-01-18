@@ -50,8 +50,14 @@ class BoardsController extends AppController {
 		}
 	}
 	public function view($id){
-		$this->Board->id = $id;
+        $this->Board->unbindModelAll();
+        $this->Board->bindModel(array('hasMany' => array('Topic' => array('conditions' => array('Topic.active' => 1)))));
+        $this->Board->id = $id;
 		$board = $this->Board->read();
+        if(isset($board['Topic']) && !empty($board['Topic'][0]['id'])){
+            $this->redirect('/boards/'.$id.'/categories/'.$board['Topic'][0]['id']);
+            exit;
+        }
 		$this->title = $board['Board']['title'];
 		$this->set('board',$board);
 	}

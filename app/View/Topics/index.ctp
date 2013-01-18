@@ -1,12 +1,13 @@
 <?php echo $this->element('board_details'); ?>
 <div id="action-bar">
-	<p><?php echo !empty($topic['Topic']['description']) ? $topic['Topic']['description']: ''; ?>
+	<p class="left"><?php echo !empty($topic['Topic']['description']) ? $topic['Topic']['description']: ''; ?>
 	<?php if(AuthComponent::user('id') && AuthComponent::user('role') != 'student'): ?>
 		<?php echo $this->Html->link('edit this theme','/categories/edit/'.$topic['Topic']['id']); ?>
 	<?php endif; ?>
 	</p>
+	<?php echo $this->Html->link('Add a connection','/boards/'.$board['Board']['id'].'/categories/'.$topic['Topic']['id'].'/add_photos',array('class' => 'btn-themeboard btn left')); ?>
+	<span class="clear"></span>
 </div>
-<?php echo $this->Html->link('Add a connection','/boards/'.$board['Board']['id'].'/categories/'.$topic['Topic']['id'].'/add_photos',array('class' => 'btn-themeboard plus')); ?>
 <section id="feed">
 	<?php  ?>
 	<?php if(!empty($photos)): ?>
@@ -28,7 +29,7 @@
 		<div class="info-area right">
 			<p>
 				<?php if(!empty($photo['TopicPhoto']['description'])) echo nl2br(trim($photo['TopicPhoto']['description'])).'<br />'; ?>
-				<small>Posted by <b><?php echo $photo['User']['name']; ?></b> <em><?php echo date('F j,Y g:i a',strftime($photo['TopicPhoto']['created'])); ?></em></small>
+				<small>Posted by <b><?php echo $this->Html->link($photo['User']['name'],'/profile/'.$photo['User']['id']); ?></b> <em><?php echo date('F j,Y g:i a',strftime($photo['TopicPhoto']['created'])); ?></em></small>
 				<?php if(AuthComponent::user('id') && AuthComponent::user('id') == $photo['TopicPhoto']['user_id']): ?>
 				<?php echo $this->Html->link('edit','/photos/edit/'.$photo['TopicPhoto']['id']); ?>
 				<?php endif; ?>

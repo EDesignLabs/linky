@@ -9,7 +9,7 @@
 	<p class="left width-big"><?php echo nl2br($board['Board']['description']); ?></p>
 	<?php if(!empty($board['Board']['image'])) echo $this->Html->image($board['Board']['image'], array('class' => 'right shrink')); ?>
 	<span class="clear"></span>
-	<ul class="nav nav-topics nav-pills">
+	<ul class="nav nav-tabs themeboard-tabs">
 		<?php if(!empty($board['Topic'])): ?>
 		<?php foreach($board['Topic'] as $topic): 
 			$active = $this->params['topic'] == $topic['id'] ? ' class="active"' : '';

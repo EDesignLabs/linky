@@ -25,7 +25,7 @@ var addSummaryPhoto = (function(){
 	return {
 		init: function(){
 			_ = this;
-			photo = $('.photo-choice');
+			photo = $('.photo-choice').children('.check');
 			form = $('#photo-selects');
 			submit = $('.submit');
 			_.bindKeys();
@@ -35,13 +35,13 @@ var addSummaryPhoto = (function(){
 			submit.bind('click',_.checkSelects);
 		},
 		changeStatus: function(e){
-			if($(e.currentTarget).hasClass('active')){
-				$(e.currentTarget).removeClass('active');
+			if($(e.currentTarget).parent().hasClass('active')){
+				$(e.currentTarget).parent().removeClass('active');
 			}else{
 				if($('.photo-choice.active').length > 2){
 					alert('Sorry! You can only select 3 photos maximum. Try removing a photo first.');
 				}else{
-					$(e.currentTarget).addClass('active');
+					$(e.currentTarget).parent().addClass('active');
 				}
 			}
 			_.updateInputs();

@@ -90,20 +90,34 @@ textarea.input-xxlarge
 	font-weight: bold
 	font-size: 20px
 #action-bar
-	margin-bottom: 20px
+	margin-bottom: 60px
+	p
+		width: 500px
+		&+a
+			margin-left: 50px
 #footer
 	height: 150px
+.nav.nav-tabs.themeboard-tabs
+	font-family: $f
+	font-size: 28px
+	font-weight: bold
+	border-bottom-color: #999
+	li
+		a
+			padding-top: 12px
+			color: #000
+			border-color: #999
+			border-bottom-color: transparent
+			margin-right: 5px
+
 .btn-themeboard
 	background-color: #fff
-	padding: 5px 10px
+	padding: 10px
 	@include border-radius(10px)
 	font-family: $f
-	font-size: 20px
+	font-size: 30px
+	font-weight: bold
 	color: #000
-	&:hover
-		text-decoration: none
-		background-color: #eee
-		color: #000
 	&.plus
 		background-image: url('../images_sys/plus.png')
 		background-position: left center
@@ -112,6 +126,9 @@ textarea.input-xxlarge
 		font-size: 20px
 		font-weight: bold
 		border: 1px dashed #000
+		&:hover
+			background-color: #efefef
+			color: #000
 p+.plus
 	margin-top: 20px
 .nav-topics
@@ -154,36 +171,49 @@ p+.plus
 		padding-bottom: 20px
 		font-weight: normal
 		border-bottom: 1px solid #999
+	h3
+		font-size: 38px
 	.feed
 		&+h2
 			margin-top: 100px
 		article
-			width: 260px
+			width: 295px
+			height: 200px
+			text-align: center
 			float: left
 			margin-top: 10px
-			margin-left: 50px
+			margin-left: 27px
 			ul,li
 				list-style: none
 			ul
-				margin-top: 10px
+				margin: 10px 0 0
 				font-size: 12px
 				li
 					height: 24px
 					line-height: 24px
-			a
-				@include border-radius(10px)
-				padding: 10px
-				border: 1px solid #999
-				color: #000
-				font-size: 35px
-				font-weight: normal
-				width: 200px
+			.action
+				font-family: $f
 				text-align: center
-				display: block
-				&:hover
-					background-color: #000
-					color: #fff
-					text-decoration: none
+				width: 175px
+				margin: 0 auto
+				span.link
+					color: #C8C8C8
+					border-color: #efefef
+				.link
+					@include border-radius(10px)
+					padding: 5px
+					border: 1px solid #999
+					color: #000
+					font-size: 20px
+					display: block
+					font-weight: bold
+					text-align: center
+					&+a
+						margin-left: 10px
+#summary
+	p
+		font-size: 14px
+		line-height: 22px
 #add-summary-photos
 	article
 		margin-bottom: 10px
@@ -217,7 +247,7 @@ p+.plus
 #SummaryEditForm
 	textarea.input-huge
 		width: 700px
-		height: 500px
+		height: 300px
 	width: 700px
 .push
 	height: 20px
@@ -248,7 +278,7 @@ p+.plus
 			color: #000
 			text-decoration: none
 .summary
-	a
+	a.fancybox
 		&+a
 			margin-left: 20px
 	p
