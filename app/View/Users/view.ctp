@@ -40,7 +40,8 @@
 				    array(
 				    	'escape' => false,
 				    	'class' => 'fancybox left',
-				    	'rel' => 'group'
+				    	'rel' => 'group',
+					    'title' => $photo['description']
 				    )
 				  );
 			?>			

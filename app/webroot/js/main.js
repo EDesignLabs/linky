@@ -70,9 +70,13 @@ $(function(){
 	var summaryCheck = document.getElementById('add-summary-photos');
 	if(!!summaryCheck) addSummaryPhoto.init();
 	$(document).ready(function() {
-		$(".fancybox").fancybox().bind('beforeShow', function(e){
-			e.stopPropagation();
+		$(".fancybox").fancybox({
+			padding: 0,
+		    helpers : {
+		        title: {
+		            type: 'outside'
+		        }
+		    }
 		});
-		
 	});
 });

@@ -61,7 +61,8 @@
 						    array(
 						    	'escape' => false,
 						    	'class' => 'fancybox',
-						    	'rel' => 'group'
+						    	'rel' => 'group',
+					    		'title' => $photo['TopicPhoto']['description']
 						    )
 						  );
 				?>
