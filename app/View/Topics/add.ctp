@@ -1,6 +1,6 @@
 <?php $collapsed = ' collapsed'; ?>
 <?php echo $this->element('board_details'); ?>
-<h3>Add a new category to this board</h3>
+<h3>Add a new theme to this board</h3>
 <?php 
 	echo $this->Form->create(
 		'Topic', 
@@ -24,7 +24,7 @@
 	echo $this->Form->input(
 		'Topic.title',
 		array(
-			'label' => 'Category Title',
+			'label' => 'Theme title',
 			'after' => '<span class="help"></span>'
 			)
 		);
@@ -32,9 +32,9 @@
 		'Topic.description',
 		array(
 			'type' => 'textarea',
-			'label' => 'Category Prompt'
+			'label' => 'Theme prompt'
 			)
 		);
-	echo $this->Form->submit('Create Category',array('class' => 'btn btn-primary '));
+	echo $this->Form->submit('Create Theme',array('class' => 'btn btn-primary '));
 	echo $this->Form->end();
 ?>
