@@ -64,7 +64,7 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'root',
-		'password' => '',
+		'password' => 'root',
 		'database' => 'themeboard',
 		'prefix' => '',
 		//'encoding' => 'utf8',
