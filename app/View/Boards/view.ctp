@@ -1,0 +1,1 @@
+<?php echo $this->element('board_details'); ?>

@@ -1,0 +1,7 @@
+{
+    "require": {
+    	"guzzle/guzzle": "3.4.*@dev",
+        "aws/aws-sdk-php": "2.2.*@dev",
+        "smottt/wideimage": "dev-master"
+    }
+}
