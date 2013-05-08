@@ -43,7 +43,7 @@ class AppController extends Controller {
         //all index and view functions will be allowed on site
         //$this->Auth->deny();
         $url=parse_url(getenv("CLEARDB_DATABASE_URL"));
-        echo $url;
+        var_dump($url);
 
         $this->Auth->allow('view');
     }
