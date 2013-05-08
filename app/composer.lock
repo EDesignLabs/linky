@@ -3,28 +3,28 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "897e74eb337ef8f2c50217a6be86a19d",
+    "hash": "31a6d51296cb825c70c702d5e9a6269d",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "2.3.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "2.3.0"
+                "reference": "8cde2208dfb0b1c332c5f9bc47c41415885cfa7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2.3.0",
-                "reference": "2.3.0",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8cde2208dfb0b1c332c5f9bc47c41415885cfa7b",
+                "reference": "8cde2208dfb0b1c332c5f9bc47c41415885cfa7b",
                 "shasum": ""
             },
             "require": {
-                "guzzle/guzzle": ">=3.4.1,<3.5",
+                "guzzle/guzzle": ">=3.4.3,<3.5",
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "doctrine/common": "2.3.*",
+                "doctrine/cache": ">=1.0,<2.0",
                 "ext-apc": "*",
                 "ext-openssl": "*",
                 "monolog/monolog": "1.4.*",
@@ -70,20 +70,20 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2013-04-18 05:13:17"
+            "time": "2013-05-06 18:22:10"
         },
         {
             "name": "guzzle/guzzle",
-            "version": "v3.4.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "v3.4.2"
+                "reference": "037ba252f65eab6b49d6055cdfdd374c15a5a1e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/v3.4.2",
-                "reference": "v3.4.2",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/037ba252f65eab6b49d6055cdfdd374c15a5a1e7",
+                "reference": "037ba252f65eab6b49d6055cdfdd374c15a5a1e7",
                 "shasum": ""
             },
             "require": {
@@ -164,7 +164,36 @@
                 "rest",
                 "web service"
             ],
-            "time": "2013-04-29 23:55:30"
+            "time": "2013-05-06 17:31:20"
+        },
+        {
+            "name": "smottt/wideimage",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smottt/WideImage.git",
+                "reference": "9d0a3a14460c7b188fc3cd9c0ec7539489a84ddc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smottt/WideImage/zipball/9d0a3a14460c7b188fc3cd9c0ec7539489a84ddc",
+                "reference": "9d0a3a14460c7b188fc3cd9c0ec7539489a84ddc",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "WideImage": "lib/"
+                }
+            },
+            "notification-url": "http://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0",
+                "LGPL-2.1"
+            ],
+            "description": "An open-source PHP library for image manipulation. (With namespaces, PHP 5.3+)",
+            "homepage": "http://wideimage.sourceforge.net",
+            "time": "2012-09-03 11:14:31"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -228,9 +257,11 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "guzzle/guzzle": 20,
+        "aws/aws-sdk-php": 20,
+        "smottt/wideimage": 20
+    },
     "platform": [
 
     ],

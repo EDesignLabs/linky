@@ -1,5 +1,9 @@
 <?php
 
+use WideImage\WideImage;
+use Aws\S3\S3Client;
+use Aws\S3\Enum\CannedACL;
+
 class TopicPhoto extends AppModel {
 	var $name = 'TopicPhoto';
 	var $validate = array(
@@ -144,36 +148,62 @@ class TopicPhoto extends AppModel {
 
     function uploadPhoto($data) {
         $data = array_shift($data);
-        if(!IS_DIR(WWW_ROOT.DS.'files'.DS.'images')){
-            MKDIR(WWW_ROOT.DS.'files'.DS.'images');
+        if(!IS_DIR(WWW_ROOT.'files'.DS.'images')){
+            MKDIR(WWW_ROOT.'files'.DS.'images');
         }
-        if(!IS_DIR(WWW_ROOT.DS.'files'.DS.'thumbnails')){
-            MKDIR(WWW_ROOT.DS.'files'.DS.'thumbnails');
+        if(!IS_DIR(WWW_ROOT.'files'.DS.'thumbnails')){
+            MKDIR(WWW_ROOT.'files'.DS.'thumbnails');
         }
         $info = pathinfo($data['file']['name']);
-        $remove_these = array(' ','`','"','\'','\\','/','%','#');
-        $newFileName = str_replace($remove_these, '', $info['filename']);
-        $target_name = date('U').'_'.$newFileName.'.'.$info['extension'];
-        $move = @move_uploaded_file($data['file']['tmp_name'], WWW_ROOT.DS.'files'.DS.'images'.DS.$target_name);
+        $newFileName = uniqid();
+        $target_name = $newFileName.'.'.$info['extension'];
+        $move = @move_uploaded_file($data['file']['tmp_name'], WWW_ROOT.'files'.DS.'images'.DS.$target_name);
         if($move){
             $this->generateThumb($target_name);
         }else{
             return false;
         }
+
         $file_array = array();
         $file_array['filename'] = $target_name;
         $file_array['filetype'] = $data['file']['type'];
         $file_array['filesize'] = $data['file']['size'];
-        $file_array['filepath'] = '/files/images/';
-        return($file_array);
+        $file_array['filepath'] = Configure::read('bucket').'/';
+
+        $client = S3Client::factory(Configure::read('S3'));
+
+        $response1 = $client->putObject(array(
+            'Bucket' => Configure::read('bucket'),
+            'Key' => 'images/'.$target_name,
+            'SourceFile' => WWW_ROOT.'files'.DS.'images'.DS.$target_name,
+            'ACL' => 'public-read'
+            ));
+        $response2 = $client->putObject(array(
+            'Bucket' => Configure::read('bucket'),
+            'Key' => 'thumbnails/'.$target_name,
+            'SourceFile' => WWW_ROOT.'files'.DS.'thumbnails'.DS.$target_name,
+            'ACL' => 'public-read'
+            ));
+
+        if($response1 && $response2)
+        {
+            unlink(WWW_ROOT.'files'.DS.'images'.DS.$target_name);
+            unlink(WWW_ROOT.'files'.DS.'thumbnails'.DS.$target_name);
+            return($file_array);
+        }
+        else
+        {
+            return false;
+        }
+        
     }
 
     function uploadUrlPhoto($data) {
-        if(!IS_DIR(WWW_ROOT.DS.'files'.DS.'images')){
-            MKDIR(WWW_ROOT.DS.'files'.DS.'images');
+        if(!IS_DIR(WWW_ROOT.'files'.DS.'images')){
+            MKDIR(WWW_ROOT.'files'.DS.'images');
         }
-        if(!IS_DIR(WWW_ROOT.DS.'files'.DS.'thumbnails')){
-            MKDIR(WWW_ROOT.DS.'files'.DS.'thumbnails');
+        if(!IS_DIR(WWW_ROOT.'files'.DS.'thumbnails')){
+            MKDIR(WWW_ROOT.'files'.DS.'thumbnails');
         }
         $file_array = array();
         $allowedMime = array('image/gif','image/jpeg','image/pjpeg','image/png');
@@ -189,27 +219,56 @@ class TopicPhoto extends AppModel {
             return false;
         }
         $info = pathinfo($data['TopicPhoto']['url']);
-        $newFileName = substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' ) , 0 , 10 ); ;
-        $target_name = date('U').'_'.$newFileName.'.'.$info['extension'];
-        $fp = fopen(WWW_ROOT.DS.'files'.DS.'images'.DS.$target_name,'x');
+        $newFileName = uniqid();
+        $target_name = $newFileName.'.'.$info['extension'];
+        $fp = fopen(WWW_ROOT.'files'.DS.'images'.DS.$target_name,'x');
         fwrite($fp, $rawdata);
         fclose($fp);
         $this->generateThumb($target_name);
         $file_array['filetype'] = $mime;
         $file_array['filesize'] = $size;
         $file_array['filename'] = $target_name;
-        $file_array['filepath'] = '/files/images/';
-        return $file_array;
+        $file_array['filepath'] = Configure::read('bucket').'/';
+
+        $client = S3Client::factory(Configure::read('S3'));
+
+        $response1 = $client->putObject(array(
+            'Bucket' => Configure::read('bucket'),
+            'Key' => 'images/'.$target_name,
+            'SourceFile' => WWW_ROOT.'files'.DS.'images'.DS.$target_name,
+            'ACL' => 'public-read'
+            ));
+        $response2 = $client->putObject(array(
+            'Bucket' => Configure::read('bucket'),
+            'Key' => 'thumbnails/'.$target_name,
+            'SourceFile' => WWW_ROOT.'files'.DS.'thumbnails'.DS.$target_name,
+            'ACL' => 'public-read'
+            ));
+
+        if($response1 && $response2)
+        {
+            unlink(WWW_ROOT.'files'.DS.'images'.DS.$target_name);
+            unlink(WWW_ROOT.'files'.DS.'thumbnails'.DS.$target_name);
+            return($file_array);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     function removePhoto($data) {
         $data = array_shift($data);
-        if(file_exists(WWW_ROOT.$data['filepath'].$data['filename'])){
-            unlink(WWW_ROOT.$data['filepath'].$data['filename']);
-        }
-        if(file_exists(WWW_ROOT.'/files/thumbnails/'.$data['filename'])){
-            unlink(WWW_ROOT.'/files/thumbnails/'.$data['filename']);
-        }
+        $removed_images[]['Key'] = 'images/'.$data['filename'];
+        $removed_images[]['Key'] = 'thumbnails/'.$data['filename'];
+        $client = S3Client::factory(Config::get('s3'));
+        $response = $client->deleteObjects(array(
+            'Bucket' => Configure::read('bucket'),
+            'Objects' => $removed_images
+        ));
+
+        if($response) return true;
+        else return false;
     }
 
     public function isOwnedBy($photo, $user) {

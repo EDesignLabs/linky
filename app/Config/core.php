@@ -276,3 +276,14 @@ Cache::config('_cake_model_', array(
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration
 ));
+
+/**
+ * Settings for S3
+ */
+Configure::write(
+	'S3', array(
+		'key'    => 'AKIAJYLVMITAFLEGWBMQ',
+    	'secret' => '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'
+		)
+	);
+Configure::write('bucket', 'linky_heroku');

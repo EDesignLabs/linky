@@ -12,8 +12,7 @@
 <?php
 			if(!empty($photo['TopicPhoto']['filename'])) 
 				echo $this->Html->link(
-					    $this->Html->image('/files/thumbnails/'.$photo['TopicPhoto']['filename']),
-					    $photo['TopicPhoto']['filepath'].$photo['TopicPhoto']['filename'],
+					    $this->Html->image('https://s3.amazonaws.com/'.$photo['TopicPhoto']['filepath'].'thumbnails/'.$photo['TopicPhoto']['filename']),'https://s3.amazonaws.com/'.$photo['TopicPhoto']['filepath'].'images/'.$photo['TopicPhoto']['filename'],
 					    array(
 					    	'escape' => false,
 					    	'class' => 'fancybox',

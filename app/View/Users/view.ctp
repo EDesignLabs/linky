@@ -11,8 +11,8 @@
 			<?php for($i = 1; $i<=3; $i++){
 					if(!empty($summary['photo'.$i]))
 						echo $this->Html->link(
-						$this->Html->image('/files/thumbnails/'.$photos[$summary['photo'.$i]]),
-					    '/files/images/'.$photos[$summary['photo'.$i]],
+						$this->Html->image('https://s3.amazonaws.com/linky_heroku/thumbnails/'.$photos[$summary['photo'.$i]]),
+					    'https://s3.amazonaws.com/linky_heroku/images/'.$photos[$summary['photo'.$i]],
 					    array(
 					    	'escape' => false,
 					    	'class' => 'fancybox',

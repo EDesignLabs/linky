@@ -34,7 +34,7 @@ class UsersController extends AppController {
                 'conditions' => array('TopicPhoto.active' => 1),
                 'fields' => array(
                     'TopicPhoto.id',
-                    'TopicPhoto.filename',
+                    'TopicPhoto.filename'
                     )
                 )
             );

@@ -37,7 +37,8 @@
 				'value' => $this->data['TopicPhoto']['filepath']
 				)
 			);
-		echo $this->Html->image($this->data['TopicPhoto']['filepath'].$this->data['TopicPhoto']['filename'], array('class' => 'shrink'));
+		echo $this->Html->image('https://s3.amazonaws.com/'.$this->data['TopicPhoto']['filepath'].'thumbnails/'.$this->data['TopicPhoto']['filename'], array('class' => 'shrink'));
+
 	}
 ?>
 	<span class="clear"></span>
