@@ -42,6 +42,9 @@ class AppController extends Controller {
     public function beforeFilter() {
         //all index and view functions will be allowed on site
         //$this->Auth->deny();
+        $url=parse_url(getenv("CLEARDB_DATABASE_URL"));
+        echo $url;
+
         $this->Auth->allow('view');
     }
 
