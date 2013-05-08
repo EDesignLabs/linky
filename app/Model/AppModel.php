@@ -31,6 +31,9 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
+
+	public $useDbConfig = 'heroku';
+	
 	function unbindModelAll() { 
 		$unbind = array(); 
 		foreach ($this->belongsTo as $model=>$info) 

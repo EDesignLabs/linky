@@ -70,6 +70,17 @@ class DATABASE_CONFIG {
 		//'encoding' => 'utf8',
 	);
 
+	public $heroku = array(
+		'datasource' => 'Database/Mysql',
+		'persistent' => false,
+		'host' => 'us-cdbr-east-03.cleardb.com',
+		'login' => 'b708ce53db4080',
+		'password' => 'f2371582',
+		'database' => 'heroku_5f8367eb762a926',
+		'prefix' => '',
+		//'encoding' => 'utf8',
+	);
+
 	public $test = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
