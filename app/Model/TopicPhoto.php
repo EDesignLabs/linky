@@ -261,7 +261,7 @@ class TopicPhoto extends AppModel {
         $data = array_shift($data);
         $removed_images[]['Key'] = 'images/'.$data['filename'];
         $removed_images[]['Key'] = 'thumbnails/'.$data['filename'];
-        $client = S3Client::factory(Config::get('s3'));
+        $client = S3Client::factory(Configure::read('S3'));
         $response = $client->deleteObjects(array(
             'Bucket' => Configure::read('bucket'),
             'Objects' => $removed_images

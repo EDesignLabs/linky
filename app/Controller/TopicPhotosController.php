@@ -98,8 +98,8 @@ class TopicPhotosController extends AppController {
                 $this->TopicPhoto->save($this->data);
                 if(!empty($this->data['TopicPhoto']['file']) && $this->data['TopicPhoto']['file']['error'] == 0){
                     $this->TopicPhoto->removePhoto($this->data);
-                    unset($this->data['TopicPhoto']['filename']);
-                    unset($this->data['TopicPhoto']['filepath']);
+                    //unset($this->data['TopicPhoto']['filename']);
+                    //unset($this->data['TopicPhoto']['filepath']);
                     $uploaded = $this->TopicPhoto->uploadPhoto($this->data);
                     if(!empty($uploaded)){
                         $this->data = array_merge($this->data['TopicPhoto'],$uploaded);
