@@ -32,27 +32,25 @@ App::uses('Model', 'Model');
  */
 class AppModel extends Model {
 
-	public $useDbConfig = 'heroku';
-	
-	function unbindModelAll() { 
-		$unbind = array(); 
-		foreach ($this->belongsTo as $model=>$info) 
-		{ 
-		  $unbind['belongsTo'][] = $model; 
-		} 
-		foreach ($this->hasOne as $model=>$info) 
-		{ 
-		  $unbind['hasOne'][] = $model; 
-		} 
-		foreach ($this->hasMany as $model=>$info) 
-		{ 
-		  $unbind['hasMany'][] = $model; 
-		} 
-		foreach ($this->hasAndBelongsToMany as $model=>$info) 
-		{ 
-		  $unbind['hasAndBelongsToMany'][] = $model; 
-		} 
-		parent::unbindModel($unbind); 
+	function unbindModelAll() {
+		$unbind = array();
+		foreach ($this->belongsTo as $model=>$info)
+		{
+		  $unbind['belongsTo'][] = $model;
+		}
+		foreach ($this->hasOne as $model=>$info)
+		{
+		  $unbind['hasOne'][] = $model;
+		}
+		foreach ($this->hasMany as $model=>$info)
+		{
+		  $unbind['hasMany'][] = $model;
+		}
+		foreach ($this->hasAndBelongsToMany as $model=>$info)
+		{
+		  $unbind['hasAndBelongsToMany'][] = $model;
+		}
+		parent::unbindModel($unbind);
 	}
 	function deactivate($id,$model) {
         $to_save = array(
