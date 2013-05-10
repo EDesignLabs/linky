@@ -148,12 +148,6 @@ class TopicPhoto extends AppModel {
 
     function uploadPhoto($data) {
         $data = array_shift($data);
-        if(!IS_DIR(TMP.'files'.DS.'images')){
-            MKDIR(TMP.'files'.DS.'images');
-        }
-        if(!IS_DIR(TMP.'files'.DS.'thumbnails')){
-            MKDIR(TMP.'files'.DS.'thumbnails');
-        }
         $info = pathinfo($data['file']['name']);
         $newFileName = uniqid();
         $target_name = $newFileName.'.'.$info['extension'];
@@ -199,12 +193,6 @@ class TopicPhoto extends AppModel {
     }
 
     function uploadUrlPhoto($data) {
-        if(!IS_DIR(TMP.'files'.DS.'images')){
-            MKDIR(TMP.'files'.DS.'images');
-        }
-        if(!IS_DIR(TMP.'files'.DS.'thumbnails')){
-            MKDIR(TMP.'files'.DS.'thumbnails');
-        }
         $file_array = array();
         $allowedMime = array('image/gif','image/jpeg','image/pjpeg','image/png');
         $ch = curl_init ($data['TopicPhoto']['url']);
