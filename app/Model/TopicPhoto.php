@@ -52,7 +52,7 @@ class TopicPhoto extends AppModel {
             array('className'    => 'Topic',
                   'foreignKey'   => 'topic_id'
             ),
-        'User' => 
+        'User' =>
             array(
             'className'    => 'User',
             'foreignKey'   => 'user_id'
@@ -140,24 +140,24 @@ class TopicPhoto extends AppModel {
     }
 
     function generateThumb($target_name){
-        $thumb = WideImage::load(WWW_ROOT.DS.'files'.DS.'images'.DS.$target_name);
+        $thumb = WideImage::load(TMP.DS.'files'.DS.'images'.DS.$target_name);
         $newImage = $thumb->resize(200, 150, 'outside')->crop('center', 'middle', 150, 150);
-        $newImage->saveToFile(WWW_ROOT.DS.'files'.DS.'thumbnails'.DS.$target_name);
+        $newImage->saveToFile(TMP.DS.'files'.DS.'thumbnails'.DS.$target_name);
         return true;
     }
 
     function uploadPhoto($data) {
         $data = array_shift($data);
-        if(!IS_DIR(WWW_ROOT.'files'.DS.'images')){
-            MKDIR(WWW_ROOT.'files'.DS.'images');
+        if(!IS_DIR(TMP.'files'.DS.'images')){
+            MKDIR(TMP.'files'.DS.'images');
         }
-        if(!IS_DIR(WWW_ROOT.'files'.DS.'thumbnails')){
-            MKDIR(WWW_ROOT.'files'.DS.'thumbnails');
+        if(!IS_DIR(TMP.'files'.DS.'thumbnails')){
+            MKDIR(TMP.'files'.DS.'thumbnails');
         }
         $info = pathinfo($data['file']['name']);
         $newFileName = uniqid();
         $target_name = $newFileName.'.'.$info['extension'];
-        $move = @move_uploaded_file($data['file']['tmp_name'], WWW_ROOT.'files'.DS.'images'.DS.$target_name);
+        $move = @move_uploaded_file($data['file']['tmp_name'], TMP.'files'.DS.'images'.DS.$target_name);
         if($move){
             $this->generateThumb($target_name);
         }else{
@@ -175,35 +175,35 @@ class TopicPhoto extends AppModel {
         $response1 = $client->putObject(array(
             'Bucket' => Configure::read('bucket'),
             'Key' => 'images/'.$target_name,
-            'SourceFile' => WWW_ROOT.'files'.DS.'images'.DS.$target_name,
+            'SourceFile' => TMP.'files'.DS.'images'.DS.$target_name,
             'ACL' => 'public-read'
             ));
         $response2 = $client->putObject(array(
             'Bucket' => Configure::read('bucket'),
             'Key' => 'thumbnails/'.$target_name,
-            'SourceFile' => WWW_ROOT.'files'.DS.'thumbnails'.DS.$target_name,
+            'SourceFile' => TMP.'files'.DS.'thumbnails'.DS.$target_name,
             'ACL' => 'public-read'
             ));
 
         if($response1 && $response2)
         {
-            unlink(WWW_ROOT.'files'.DS.'images'.DS.$target_name);
-            unlink(WWW_ROOT.'files'.DS.'thumbnails'.DS.$target_name);
+            unlink(TMP.'files'.DS.'images'.DS.$target_name);
+            unlink(TMP.'files'.DS.'thumbnails'.DS.$target_name);
             return($file_array);
         }
         else
         {
             return false;
         }
-        
+
     }
 
     function uploadUrlPhoto($data) {
-        if(!IS_DIR(WWW_ROOT.'files'.DS.'images')){
-            MKDIR(WWW_ROOT.'files'.DS.'images');
+        if(!IS_DIR(TMP.'files'.DS.'images')){
+            MKDIR(TMP.'files'.DS.'images');
         }
-        if(!IS_DIR(WWW_ROOT.'files'.DS.'thumbnails')){
-            MKDIR(WWW_ROOT.'files'.DS.'thumbnails');
+        if(!IS_DIR(TMP.'files'.DS.'thumbnails')){
+            MKDIR(TMP.'files'.DS.'thumbnails');
         }
         $file_array = array();
         $allowedMime = array('image/gif','image/jpeg','image/pjpeg','image/png');
@@ -221,7 +221,7 @@ class TopicPhoto extends AppModel {
         $info = pathinfo($data['TopicPhoto']['url']);
         $newFileName = uniqid();
         $target_name = $newFileName.'.'.$info['extension'];
-        $fp = fopen(WWW_ROOT.'files'.DS.'images'.DS.$target_name,'x');
+        $fp = fopen(TMP.'files'.DS.'images'.DS.$target_name,'x');
         fwrite($fp, $rawdata);
         fclose($fp);
         $this->generateThumb($target_name);
@@ -235,20 +235,20 @@ class TopicPhoto extends AppModel {
         $response1 = $client->putObject(array(
             'Bucket' => Configure::read('bucket'),
             'Key' => 'images/'.$target_name,
-            'SourceFile' => WWW_ROOT.'files'.DS.'images'.DS.$target_name,
+            'SourceFile' => TMP.'files'.DS.'images'.DS.$target_name,
             'ACL' => 'public-read'
             ));
         $response2 = $client->putObject(array(
             'Bucket' => Configure::read('bucket'),
             'Key' => 'thumbnails/'.$target_name,
-            'SourceFile' => WWW_ROOT.'files'.DS.'thumbnails'.DS.$target_name,
+            'SourceFile' => TMP.'files'.DS.'thumbnails'.DS.$target_name,
             'ACL' => 'public-read'
             ));
 
         if($response1 && $response2)
         {
-            unlink(WWW_ROOT.'files'.DS.'images'.DS.$target_name);
-            unlink(WWW_ROOT.'files'.DS.'thumbnails'.DS.$target_name);
+            unlink(TMP.'files'.DS.'images'.DS.$target_name);
+            unlink(TMP.'files'.DS.'thumbnails'.DS.$target_name);
             return($file_array);
         }
         else
@@ -274,5 +274,5 @@ class TopicPhoto extends AppModel {
     public function isOwnedBy($photo, $user) {
         return $this->field('id', array('id' => $photo, 'user_id' => $user)) === $photo;
     }
-} 
+}
 ?>
