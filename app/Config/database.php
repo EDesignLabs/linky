@@ -61,9 +61,8 @@ class DATABASE_CONFIG {
 
 	function __construct() {
         $url = parse_url(getenv('CLEARDB_DATABASE_URL'));
-        var_dump($url);
         $this->default = array(
-            'driver' => 'mysql',
+            'datasource' => 'Database/MySql',
             'host' => $url['host'],
             'login' => $url['user'],
             'password' => $url['pass'],
