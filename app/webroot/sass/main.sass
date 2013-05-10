@@ -1,0 +1,304 @@
+@import compass
+$f : 'Amatic SC', cursive
+h1,h2,h3,h4,h5,h6
+	font-family: $f
+p
+	font-size: 12px
+a
+	color: #6699FF
+.shrink
+	width: 20%
+.left
+	float: left
+.right
+	float: right
+.clear
+	display: block
+	clear: both
+.alpha
+	margin-left: 0 !important
+.error-message
+	color: #B94A48
+.centered
+	margin: 0 auto 20px
+#add-photo
+	/*display: none*/
+	width: 700px
+	&.active
+		display: block
+#feed
+	margin-top: 20px
+	article
+		width: 470px
+		float: left
+		.info-area
+			width: 310px
+		.image-area
+			margin-right: 10px
+			width: 150px
+
+.width-big
+	width: 75%
+.margin-20
+	margin: 0px 20px
+.margin-20-all
+	margin: 20px
+.tiny
+	font:
+		size: 14px
+textarea.input-xxlarge
+	height: 300px
+.badges
+	width: 24px
+	height: 24px
+	background-image: url(../images_sys/badges.png)
+	background-repeat: no-repeat
+	display: block
+	float: left
+.award
+	margin: 0
+	font-size: 20px
+	line-height: 20px
+	&+.award
+		margin-left: 20px
+	.badges
+		margin-right: 5px
+#header
+	background-color: #000
+	margin-bottom: 10px
+	h2
+		line-height: 30px
+	.logo
+		font-size: 30px
+		font-weight: bold
+		font-family: $f
+		line-height: 40px
+		margin-right: 20px
+		a
+			color: #fff
+			text-decoration: none
+	.nav
+		margin: 0
+		a
+			color: #fff
+			font-size: 20px
+			&:hover
+				background-color: #fff
+				color: #000
+.nav.nav-pills
+	font-family: $f
+	font-weight: bold
+	font-size: 20px
+#action-bar
+	margin-bottom: 60px
+	p
+		width: 500px
+		&+a
+			margin-left: 50px
+#footer
+	height: 150px
+.nav.nav-tabs.themeboard-tabs
+	font-family: $f
+	font-size: 28px
+	font-weight: bold
+	border-bottom-color: #999
+	li
+		a
+			padding-top: 12px
+			color: #000
+			border-color: #999
+			border-bottom-color: transparent
+			margin-right: 5px
+
+.btn-themeboard
+	background-color: #fff
+	padding: 10px
+	@include border-radius(10px)
+	font-family: $f
+	font-size: 30px
+	font-weight: bold
+	color: #000
+	&.plus
+		background-image: url('../images_sys/plus.png')
+		background-position: left center
+		background-repeat: no-repeat
+		padding: 5px 15px 5px 50px
+		font-size: 20px
+		font-weight: bold
+		border: 1px dashed #000
+		&:hover
+			background-color: #efefef
+			color: #000
+p+.plus
+	margin-top: 20px
+.nav-topics
+	li
+		&+li
+			margin-left: 10px
+		a
+			color: #000
+			border-width: 1px
+			border-style: solid
+			border-color : #999
+			@include border-radius(10px)
+			padding: 5px 10px
+			height: 25px
+			line-height: 25px
+			font-size: 20px
+			font-family: $f
+		a:hover
+			color: #fff
+			background-color: #000
+	.active
+		a
+			color: #fff
+			background-color: #000
+		a:hover
+			color: #fff
+			background-color: #000
+.users.form
+	width: 530px
+	text-align: center
+	margin: 0 auto
+	h1
+		font-size: 120px
+		line-height: 120px
+		margin-bottom: 100px
+
+#activity
+	h2
+		font-size: 50px
+		padding-bottom: 20px
+		font-weight: normal
+		border-bottom: 1px solid #999
+	h3
+		font-size: 38px
+	.feed
+		&+h2
+			margin-top: 100px
+		article
+			width: 295px
+			height: 200px
+			text-align: center
+			float: left
+			margin-top: 10px
+			margin-left: 27px
+			ul,li
+				list-style: none
+			ul
+				margin: 10px 0 0
+				font-size: 12px
+				li
+					height: 24px
+					line-height: 24px
+			.action
+				font-family: $f
+				text-align: center
+				width: 175px
+				margin: 0 auto
+				span.link
+					color: #C8C8C8
+					border-color: #efefef
+				.link
+					@include border-radius(10px)
+					padding: 5px
+					border: 1px solid #999
+					color: #000
+					font-size: 20px
+					display: block
+					font-weight: bold
+					text-align: center
+					&+a
+						margin-left: 10px
+#summary
+	p
+		font-size: 14px
+		line-height: 22px
+#add-summary-photos
+	article
+		margin-bottom: 10px
+		width: 150px
+		float: left
+		border: 1px solid #B8B8B8
+		padding: 3px
+		&.active
+			background-color: #000
+			.check
+				i
+					display: block
+				div
+					border: 2px solid #000
+		&+article
+			margin-left: 10px
+		&:hover
+			background-color: #000
+		.check
+			padding: 3px 0 0
+			div
+				background-color: #fff
+				float: left
+				padding: 3px
+				height: 14px
+				width: 14px
+				border: 2px solid #fff
+				i
+					display: none
+
+#SummaryEditForm
+	textarea.input-huge
+		width: 700px
+		height: 300px
+	width: 700px
+.push
+	height: 20px
+.pagination
+	width: 265px
+	float: right
+	h3
+		float: left
+		margin: 0 20px 0
+		line-height: 30px
+	.page
+		padding: 10px
+		line-height: 10px
+		font-size: 18px
+		text-align: center
+		display: block
+		float: left
+		&+.page
+			margin-left: 2px
+	span
+		background-color: #efefef
+		color: #000
+	a
+		background-color: #000
+		color: #fff
+		&:hover
+			background-color: #efefef
+			color: #000
+			text-decoration: none
+.summary
+	a.fancybox
+		&+a
+			margin-left: 20px
+	p
+		margin: 20px 0
+#profile-page
+	h1+small
+		margin: 30px 0 20px 20px
+	h2
+		font-size: 25px
+		font-weight: bold
+		border-bottom: 1px solid #999
+	article
+		small
+			display: block
+		p
+			width: 600px
+		&+article
+			margin-top: 20px
+	.photos
+		p
+			margin: 0 20px
+
+
