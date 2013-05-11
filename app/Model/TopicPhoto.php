@@ -157,7 +157,7 @@ class TopicPhoto extends AppModel {
 
         if($move){
             var_dump('asdaaaaaaaasdasd');
-            $this->generateThumb($target_name);
+            //$this->generateThumb($target_name);
         }else{
             var_dump('asdaaaasssssssssssaaaasdasd');
             return false;
