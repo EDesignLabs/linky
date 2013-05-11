@@ -58,7 +58,7 @@
  * For MySQL to connect via socket specify the `unix_socket` parameter instead of `host` and `port`
  */
 class DATABASE_CONFIG {
-
+ 
 	function __construct() {
         $url = parse_url(getenv(CLEARDB_DATABASE_URL));
         $this->default = array(
