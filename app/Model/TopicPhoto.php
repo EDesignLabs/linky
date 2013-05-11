@@ -140,9 +140,9 @@ class TopicPhoto extends AppModel {
     }
 
     function generateThumb($target_name){
-        error_reporting(E_ALL);
-        var_dump(WideImage::load(TMP.'files'.DS.'images'.DS.$target_name));
-        $thumb = WideImage::load(TMP.'files'.DS.'images'.DS.$target_name);
+        $name = TMP.'files'.DS.'images'.DS.uniqid()."png";
+        imagepng(imagecreatefromstring(file_get_contents(TMP.'files'.DS.'images'.DS.$target_name)), $name);
+        $thumb = WideImage::load($name);
         var_dump('edfddfxpression');
         $newImage = $thumb->resize(200, 150, 'outside')->crop('center', 'middle', 150, 150);
         var_dump('edfdgon');
