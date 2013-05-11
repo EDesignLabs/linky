@@ -29,12 +29,14 @@ class TopicPhotosController extends AppController {
             $photo['TopicPhoto']['topic_id'] = $this->request->params['topic'];
             $topic_choices = $this->getTopics($photo['TopicPhoto']['board_id']);
             $this->set('topic_choices',$topic_choices);
+            var_dump('blah');
         }
         if(!empty($this->data)){
             $this->set('topic_choices',$this->getTopics($this->data['TopicPhoto']['board_id']));
             $this->TopicPhoto->set($this->data);
             $board = $this->data['TopicPhoto']['board_id'];
             $topic = $this->data['TopicPhoto']['topic_id'];
+            var_dump('blawwwh');
             if ($this->TopicPhoto->validates()) {
                 $this->TopicPhoto->create();  
                 if(!empty($this->data['TopicPhoto']['file']) && $this->data['TopicPhoto']['file']['error'] == 0){
@@ -42,17 +44,22 @@ class TopicPhotosController extends AppController {
                 }else{
                     $uploaded = $this->TopicPhoto->uploadUrlPhoto($this->data);
                 }
+                var_dump('pppwh');
                 if(!empty($uploaded)){
+                    var_dump('blaasadadwwwh');
                     $this->data = array_merge($this->data['TopicPhoto'],$uploaded);
                     $this->request->data['user_id'] = $this->Auth->user('id');
                     $this->TopicPhoto->save($this->data);
                     $this->Session->setFlash('Your photo was added','success');
                     $this->redirect('/boards/'.$board.'/categories/'.$topic);
+                     var_dump('iiih');
                     exit;
                 }else{
+                    var_dump('iipppppooooih');
                     $this->Session->setFlash('There was a problem. Your photo could not be added. Please try again.','fail');
                 }                
             } else {
+                 var_dump('b====h');
                 $this->Session->setFlash('There are errors in your submission, fix them and submit again','fail');
                 $errors = $this->TopicPhoto->validationErrors;
                 $this->set(compact('errors','data'));
