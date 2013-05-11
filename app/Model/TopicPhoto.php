@@ -1,6 +1,5 @@
 <?php
 
-use WideImage\WideImage;
 use Aws\S3\S3Client;
 use Aws\S3\Enum\CannedACL;
 
@@ -140,7 +139,7 @@ class TopicPhoto extends AppModel {
     }
 
     function generateThumb($target_name){
-        $thumb = WideImage::load(TMP.'files'.DS.'images'.DS.$target_name);
+        $thumb = WideImage\WideImage\WideImage::load(TMP.'files'.DS.'images'.DS.$target_name);
         $newImage = $thumb->resize(200, 150, 'outside')->crop('center', 'middle', 150, 150);
         $newImage->saveToFile(TMP.'files'.DS.'thumbnails'.DS.$target_name);
         return true;

@@ -1,7 +1,7 @@
 <?php
-use WideImage\WideImage;
 
 App::uses('AppController', 'Controller');
+
 class TopicPhotosController extends AppController {
 	public $name = 'TopicPhotos';
 	public $uses = array('Topic','Board','TopicPhoto');
