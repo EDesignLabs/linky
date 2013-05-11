@@ -151,12 +151,15 @@ class TopicPhoto extends AppModel {
         $info = pathinfo($data['file']['name']);
         $newFileName = uniqid();
         $target_name = $newFileName.'.'.$info['extension'];
-        var_dump('asdasdasd');
-        var_dump($data );
+
         $move = @move_uploaded_file($data['file']['tmp_name'], TMP.'files'.DS.'images'.DS.$target_name);
+        var_dump(TMP.'files'.DS.'images'.DS.$target_name);
+
         if($move){
+            var_dump('asdaaaaaaaasdasd');
             $this->generateThumb($target_name);
         }else{
+            var_dump('asdaaaasssssssssssaaaasdasd');
             return false;
         }
 
