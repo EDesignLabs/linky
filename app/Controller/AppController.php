@@ -22,7 +22,7 @@
 
 App::uses('Controller', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
-App::import('Vendor', array('file' => 'autoload'));
+App::import('vendor', array('file' => 'autoload'));
 
 /**
  * Application Controller
