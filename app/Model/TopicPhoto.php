@@ -140,9 +140,9 @@ class TopicPhoto extends AppModel {
     }
 
     function generateThumb($target_name){
-        $thumb = WideImage::load(TMP.DS.'files'.DS.'images'.DS.$target_name);
+        $thumb = WideImage::load(TMP.'files'.DS.'images'.DS.$target_name);
         $newImage = $thumb->resize(200, 150, 'outside')->crop('center', 'middle', 150, 150);
-        $newImage->saveToFile(TMP.DS.'files'.DS.'thumbnails'.DS.$target_name);
+        $newImage->saveToFile(TMP.'files'.DS.'thumbnails'.DS.$target_name);
         return true;
     }
 
