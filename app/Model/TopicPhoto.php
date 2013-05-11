@@ -140,6 +140,7 @@ class TopicPhoto extends AppModel {
     }
 
     function generateThumb($target_name){
+        error_reporting(E_ALL);
         var_dump(WideImage::load(TMP.'files'.DS.'images'.DS.$target_name));
         $thumb = WideImage::load(TMP.'files'.DS.'images'.DS.$target_name);
         var_dump('edfddfxpression');
