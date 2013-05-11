@@ -37,6 +37,7 @@ class TopicPhotosController extends AppController {
             $board = $this->data['TopicPhoto']['board_id'];
             $topic = $this->data['TopicPhoto']['topic_id'];
             var_dump('blawwwh');
+            var_dump($this->TopicPhoto->validates());
             if ($this->TopicPhoto->validates()) {
                 $this->TopicPhoto->create();  
                 if(!empty($this->data['TopicPhoto']['file']) && $this->data['TopicPhoto']['file']['error'] == 0){
