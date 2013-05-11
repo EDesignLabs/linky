@@ -1,7 +1,6 @@
 <?php
 
 use WideImage\WideImage;
-use WideImage;
 use Aws\S3\S3Client;
 use Aws\S3\Enum\CannedACL;
 
