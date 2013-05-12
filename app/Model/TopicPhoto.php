@@ -240,7 +240,7 @@ class TopicPhoto extends AppModel {
             'ACL' => 'public-read'
             ));
 
-        $this->generateThumb(TMP.'files'.DS.'images'.DS.$target_name,'x');
+        $this->generateThumb(fopen(TMP.'files'.DS.'images'.DS.$target_name,'x'));
 
         $response2 = $client->putObject(array(
             'Bucket' => Configure::read('bucket'),
