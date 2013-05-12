@@ -140,15 +140,7 @@ class TopicPhoto extends AppModel {
     }
 
     function generateThumb($handle){
-        /*
-        $name = TMP.'files'.DS.'images'.DS.uniqid()."png";
-        imagepng(imagecreatefromstring(file_get_contents(TMP.'files'.DS.'images'.DS.$target_name)), $name);
-        $thumb = WideImage::load($name);
-        var_dump('edfddfxpression');
-        $newImage = $thumb->resize(200, 150, 'outside')->crop('center', 'middle', 150, 150);
-        var_dump('edfdgon');
-        $newImage->saveToFile(TMP.'files'.DS.'thumbnails'.DS.$target_name);
-        */ 
+
         $image = new Imagick();
         $image->readImageFile($handle);
         $image->cropThumbnailImage(150,150);
@@ -157,6 +149,8 @@ class TopicPhoto extends AppModel {
         $filename = $meta_data["uri"];
 
         $image->writeImage ($filename);
+        fclose($handle);
+
         return true;
     }
 
@@ -196,7 +190,7 @@ class TopicPhoto extends AppModel {
             'Key' => 'thumbnails/'.$target_name,
             'SourceFile' => TMP.'files'.DS.'images'.DS.$target_name,
             'ACL' => 'public-read'
-            ));
+        ));
 
         if($response1 && $response2)
         {
@@ -230,8 +224,8 @@ class TopicPhoto extends AppModel {
         $target_name = $newFileName.'.'.$info['extension'];
         $fp = fopen(TMP.'files'.DS.'images'.DS.$target_name,'x');
         fwrite($fp, $rawdata);
+        $this->generateThumb($fp);
         fclose($fp);
-        $this->generateThumb($target_name);
         $file_array['filetype'] = $mime;
         $file_array['filesize'] = $size;
         $file_array['filename'] = $target_name;
