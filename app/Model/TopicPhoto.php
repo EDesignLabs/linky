@@ -139,7 +139,7 @@ class TopicPhoto extends AppModel {
         return true;
     }
 
-    function generateThumb($target_name){
+    function generateThumb($handle){
         /*
         $name = TMP.'files'.DS.'images'.DS.uniqid()."png";
         imagepng(imagecreatefromstring(file_get_contents(TMP.'files'.DS.'images'.DS.$target_name)), $name);
@@ -149,11 +149,10 @@ class TopicPhoto extends AppModel {
         var_dump('edfdgon');
         $newImage->saveToFile(TMP.'files'.DS.'thumbnails'.DS.$target_name);
         */ 
-        $handle = fopen(TMP.'files'.DS.'thumbnails'.DS.$target_name, 'rb');
         $image = new Imagick();
         $image->readImageFile($handle);
         $image->cropThumbnailImage(150,150);
-        $image->writeImageFile($handle);
+        $image->writeImageFile (TMP.'files'.DS.'thumbnails'.DS.$target_name );
         return true;
     }
 
@@ -168,7 +167,7 @@ class TopicPhoto extends AppModel {
 
         if($move){
             var_dump('asdaaaaaaaasdasd');
-            //$this->generateThumb($target_name);
+            $this->generateThumb(fopen(TMP.'files'.DS.'images'.DS.$target_name));
         }else{
             var_dump('asdaaaasssssssssssaaaasdasd');
             return false;
