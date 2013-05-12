@@ -140,6 +140,7 @@ class TopicPhoto extends AppModel {
     }
 
     function generateThumb($target_name){
+        /*
         $name = TMP.'files'.DS.'images'.DS.uniqid()."png";
         imagepng(imagecreatefromstring(file_get_contents(TMP.'files'.DS.'images'.DS.$target_name)), $name);
         $thumb = WideImage::load($name);
@@ -147,6 +148,11 @@ class TopicPhoto extends AppModel {
         $newImage = $thumb->resize(200, 150, 'outside')->crop('center', 'middle', 150, 150);
         var_dump('edfdgon');
         $newImage->saveToFile(TMP.'files'.DS.'thumbnails'.DS.$target_name);
+        */ 
+        
+        $image = new Imagick(TMP.'files'.DS.'thumbnails'.DS.$target_name);
+        $image->cropThumbnailImage(150,150);
+        $image->writeImage (TMP.'files'.DS.'thumbnails'.DS.$target_name );
         return true;
     }
 
