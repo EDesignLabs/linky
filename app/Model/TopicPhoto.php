@@ -153,7 +153,7 @@ class TopicPhoto extends AppModel {
         $image = new Imagick();
         $image->readImageFile($handle);
         $image->cropThumbnailImage(150,150);
-        $image->writeImage (TMP.'files'.DS.'thumbnails'.DS.$target_name );
+        $image->writeImageFile($handle);
         return true;
     }
 
@@ -168,7 +168,7 @@ class TopicPhoto extends AppModel {
 
         if($move){
             var_dump('asdaaaaaaaasdasd');
-            $this->generateThumb($target_name);
+            //$this->generateThumb($target_name);
         }else{
             var_dump('asdaaaasssssssssssaaaasdasd');
             return false;
