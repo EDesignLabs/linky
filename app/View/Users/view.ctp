@@ -35,8 +35,8 @@
 		<article>
 			<?php if(!empty($photo['filename'])) 
 				echo $this->Html->link(
-					$this->Html->image('/files/thumbnails/'.$photo['filename']),
-				    $photo['filepath'].$photo['filename'],
+					$this->Html->image('http://s3.amazonaws.com/'.$photo['filepath'].'thumbnails/'.$photo['filename']),
+					    'https://s3.amazonaws.com/'.$photo['filepath'].'images/'.$photo['filename'],
 				    array(
 				    	'escape' => false,
 				    	'class' => 'fancybox left',
