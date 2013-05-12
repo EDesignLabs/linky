@@ -149,10 +149,11 @@ class TopicPhoto extends AppModel {
         var_dump('edfdgon');
         $newImage->saveToFile(TMP.'files'.DS.'thumbnails'.DS.$target_name);
         */ 
-
-        $image = new Imagick(glob(TMP.'files'.DS.'thumbnails'.DS.$target_name));
+        $path = __dir__.DS.TMP.'files'.DS.'thumbnails'.DS.$target_name;
+        var_dump($path );
+        $image = new Imagick($path );
         $image->cropThumbnailImage(150,150);
-        $image->writeImage (TMP.'files'.DS.'thumbnails'.DS.$target_name );
+        $image->writeImage ($path );
         return true;
     }
 
