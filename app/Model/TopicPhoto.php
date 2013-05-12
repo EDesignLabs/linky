@@ -167,13 +167,8 @@ class TopicPhoto extends AppModel {
         $target_name = $newFileName.'.'.$info['extension'];
 
         $move = @move_uploaded_file($data['file']['tmp_name'], TMP.'files'.DS.'images'.DS.$target_name);
-        var_dump(TMP.'files'.DS.'images'.DS.$target_name);
 
-        if($move){
-            var_dump('asdaaaaaaaasdasd');
-            $this->generateThumb(fopen(TMP.'files'.DS.'images'.DS.$target_name, 'rb'));
-        }else{
-            var_dump('asdaaaasssssssssssaaaasdasd');
+        if(!$move){
             return false;
         }
 
@@ -193,10 +188,13 @@ class TopicPhoto extends AppModel {
             'SourceFile' => TMP.'files'.DS.'images'.DS.$target_name,
             'ACL' => 'public-read'
             ));
+
+        $this->generateThumb(fopen(TMP.'files'.DS.'images'.DS.$target_name, 'rb'));
+
         $response2 = $client->putObject(array(
             'Bucket' => Configure::read('bucket'),
             'Key' => 'thumbnails/'.$target_name,
-            'SourceFile' => TMP.'files'.DS.'thumbnails'.DS.$target_name,
+            'SourceFile' => TMP.'files'.DS.'images'.DS.$target_name,
             'ACL' => 'public-read'
             ));
 
