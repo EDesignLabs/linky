@@ -8,10 +8,6 @@
         echo $this->Form->input('username', array('label' => false, 'placeholder'=> 'email'));
         echo $this->Form->input('password', array('label' => false, 'placeholder'=> 'password'));
         echo $this->Form->input('repeat_password', array('type' => 'password', 'label' => false, 'placeholder'=> 'repeat password'));
-        echo $this->Form->input('role', array(
-            'type' => 'hidden',
-            'value' => 'student'
-        ));
         echo $this->Form->submit('Create Account', array('class' => 'plus btn-themeboard'));
     ?>
     </fieldset>

@@ -63,6 +63,9 @@ class UsersController extends AppController {
         if (!empty($this->data)) {
             if($this->User->validates()){
                 $this->User->create();
+                if(!isset($this->data['User']['role']) || empty(($this->data['User']['role']))) {
+                    $this->data['User']['role'] = 'student';
+                }
                 if ($this->User->save($this->data)) {
                     $this->Session->setFlash('New account was successfully created, welcome to Linky!', 'success');
                     $this->Auth->login();
