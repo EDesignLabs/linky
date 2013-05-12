@@ -224,8 +224,8 @@ class TopicPhoto extends AppModel {
         $target_name = $newFileName.'.'.$info['extension'];
         $fp = fopen(TMP.'files'.DS.'images'.DS.$target_name,'x');
         fwrite($fp, $rawdata);
-        $this->generateThumb($fp);
         fclose($fp);
+        
         $file_array['filetype'] = $mime;
         $file_array['filesize'] = $size;
         $file_array['filename'] = $target_name;
@@ -239,10 +239,13 @@ class TopicPhoto extends AppModel {
             'SourceFile' => TMP.'files'.DS.'images'.DS.$target_name,
             'ACL' => 'public-read'
             ));
+
+        $this->generateThumb(TMP.'files'.DS.'images'.DS.$target_name,'x');
+
         $response2 = $client->putObject(array(
             'Bucket' => Configure::read('bucket'),
             'Key' => 'thumbnails/'.$target_name,
-            'SourceFile' => TMP.'files'.DS.'thumbnails'.DS.$target_name,
+            'SourceFile' => TMP.'files'.DS.'images'.DS.$target_name,
             'ACL' => 'public-read'
             ));
 
