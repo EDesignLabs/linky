@@ -152,7 +152,7 @@ class TopicPhoto extends AppModel {
         $image = new Imagick();
         $image->readImageFile($handle);
         $image->cropThumbnailImage(150,150);
-        $image->writeImageFile (TMP.'files'.DS.'thumbnails'.DS.$target_name );
+        $image->writeImageFile ($handle);
         return true;
     }
 
