@@ -18,4 +18,4 @@
 ?>
 <?php echo $this->fetch('content');?>
 
-This email was sent from the Linky site, http://nilaratna.com/linky.
+This email was sent from the Linky site, <?php echo $this->webroot; ?>.

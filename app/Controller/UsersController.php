@@ -134,8 +134,8 @@ class UsersController extends AppController {
                     $this->User->saveField('password', $newpass);
                     if($this->User->save()) {
                         //============Email================//
-                        $email = new CakeEmail();
-                        $email->viewVars(array('newpass' => $newpass));
+                        $email = new CakeEmail('sendGrid');
+                        $email->viewVars(array('newpass' => $newpass, 'url' => Router::url('/', true)));
                         $email->template('password_reset','default')
                             ->emailFormat('both')
                             ->from(array('contact@nilaratna.com' => 'Linky'))

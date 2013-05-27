@@ -6,9 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'WideImage' => array($vendorDir . '/smottt/wideimage/lib'),
-    'Symfony\\Component\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher'),
-    'Guzzle\\Tests' => array($vendorDir . '/guzzle/guzzle/tests'),
-    'Guzzle' => array($vendorDir . '/guzzle/guzzle/src'),
-    'Aws' => array($vendorDir . '/aws/aws-sdk-php/src'),
+    'WideImage' => $vendorDir . '/smottt/wideimage/lib',
+    'Symfony\\Component\\EventDispatcher\\' => $vendorDir . '/symfony/event-dispatcher',
+    'Guzzle\\Tests' => $vendorDir . '/guzzle/guzzle/tests',
+    'Guzzle' => $vendorDir . '/guzzle/guzzle/src',
+    'Aws' => $vendorDir . '/aws/aws-sdk-php/src',
 );

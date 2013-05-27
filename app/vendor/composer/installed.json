@@ -167,7 +167,7 @@
             "shasum": ""
         },
         "require": {
-            "guzzle/guzzle": ">=3.4.3,<3.5",
+            "guzzle/guzzle": ">=3.4.3,<4",
             "php": ">=5.3.3"
         },
         "require-dev": {
