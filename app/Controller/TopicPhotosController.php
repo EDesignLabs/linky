@@ -4,6 +4,21 @@ class TopicPhotosController extends AppController {
 	public $name = 'TopicPhotos';
 	public $uses = array('Topic','Board','TopicPhoto');
 	public $helpers = array('Form', 'Html', 'Session');
+    public function isAuthorized($user) {
+        if($this->action === 'add'){
+            return true;
+        }
+        if (in_array($this->action,array('edit','deactivate'))) {
+            if(in_array($user['role'], array('teacher','admin'))){
+                return true;
+            }
+            $photo = $this->request->params['id'];
+            if ($this->TopicPhoto->isOwnedBy($photo, $user['id'])) {
+                return true;
+            }
+        }
+        return parent::isAuthorized($user);
+    }
 	public function index() {
        	
     }
@@ -24,22 +39,18 @@ class TopicPhotosController extends AppController {
                 $this->TopicPhoto->create();  
                 if(!empty($this->data['TopicPhoto']['file']) && $this->data['TopicPhoto']['file']['error'] == 0){
                     $uploaded = $this->TopicPhoto->uploadPhoto($this->data);
-                    if(!empty($uploaded)){
-                        $this->data = array_merge($this->data['TopicPhoto'],$uploaded);
-                        $this->TopicPhoto->save($this->data);
-                        $this->Session->setFlash('Yay! Your photo was added','success');
-                        $this->redirect('/boards/'.$board.'/categories/'.$topic);
-                        exit;
-                    }else{
-                        $this->Session->setFlash('There was a problem. Your photo could not be added. Please try again.','fail');
-                        $this->redirect('/boards/'.$board.'/categories/'.$topic);
-                        exit;
-                    }
                 }else{
+                    $uploaded = $this->TopicPhoto->uploadUrlPhoto($this->data);
+                }
+                if(!empty($uploaded)){
+                    $this->data = array_merge($this->data['TopicPhoto'],$uploaded);
+                    $this->request->data['user_id'] = $this->Auth->user('id');
                     $this->TopicPhoto->save($this->data);
-                    $this->Session->setFlash('Yay! Your photo was added','success');
+                    $this->Session->setFlash('Your photo was added','success');
                     $this->redirect('/boards/'.$board.'/categories/'.$topic);
                     exit;
+                }else{
+                    $this->Session->setFlash('There was a problem. Your photo could not be added. Please try again.','fail');
                 }                
             } else {
                 $this->Session->setFlash('There are errors in your submission, fix them and submit again','fail');
@@ -130,10 +141,15 @@ class TopicPhotosController extends AppController {
         $this->TopicPhoto->set(array(
             'active' => 0
         ));
-        $this->TopicPhoto->save();
-        $this->Session->setFlash('Photo id '.$id.' was deactivated','success');
-        $this->redirect('/boards/'.$photo['Topic']['board_id'].'/categories/'.$photo['Topic']['id']);
-        exit;
+        if( $this->TopicPhoto->save()) {
+            $this->Session->setFlash('Photo id '.$id.' was deactivated','success');
+            $this->redirect('/boards/'.$photo['Topic']['board_id'].'/categories/'.$photo['Topic']['id']);
+            exit;
+        }else{
+            $this->Session->setFlash('Something went wrong, could not deactivate the photo','fail');
+            $this->redirect('/boards/'.$photo['Topic']['board_id'].'/categories/'.$photo['Topic']['id']);
+            exit;
+        }        
     }
 
     public function getTopics($board_id){

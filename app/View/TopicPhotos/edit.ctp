@@ -1,5 +1,5 @@
 <section id="add-photo" class="margin-20">
-	<h4>Edit your photo</h4>
+	<h1>Edit your connection</h1>
 <?php
 	echo $this->Form->create(
 		'TopicPhoto', 
@@ -39,7 +39,6 @@
 			);
 		echo $this->Html->image($this->data['TopicPhoto']['filepath'].$this->data['TopicPhoto']['filename'], array('class' => 'shrink'));
 	}
-	if(!empty($this->data['TopicPhoto']['url'])) echo $this->Html->image($this->data['TopicPhoto']['url'], array('class' => 'shrink'));
 ?>
 	<span class="clear"></span>
 <?php
@@ -86,21 +85,27 @@
 			'label' => 'How is this photo relevant to this category?'
 			)
 		);
-	echo $this->Form->input(
-		'TopicPhoto.name',
+	$checked = $this->data['TopicPhoto']['anonymous'] === '0' ? 0 : 1;
+	/*echo $this->Form->input(
+		'TopicPhoto.anonymous',
 		array(
-			'label' => 'Your Name (optional)',
-			'value' => empty($this->data['TopicPhoto']['name']) ? 'anonymous' : $this->data['TopicPhoto']['name']
-			)
-		);
+			'legend' => 'Name shown in post',
+			'type' => 'radio',
+			'options' => array(
+				'0' => "Yes, please show <b>my name</b> in my post",
+				'1' => "Don't show my name and post as <b>anonymous</b> instead"
+			),
+			'checked' => $checked
+		)
+	);*/
 	echo $this->Form->input(
 			'Topic.board_id',
 			array(
 				'type' => 'hidden'
 				)
 			);
-	echo $this->Html->link('Deactivate this photo','/topic_photos/deactivate/'.$this->data['TopicPhoto']['id'], array('class' => 'btn btn-danger left margin-20 alpha'));
-	echo $this->Form->submit('Save', array('div' => array('class'=> 'left'), 'class' => 'btn btn-primary '));
+	echo $this->Html->link('Deactivate this photo','/topic_photos/deactivate/'.$this->data['TopicPhoto']['id'], array('class' => 'btn btn-themeboard btn-danger left margin-20 alpha'));
+	echo $this->Form->submit('Save connection', array('div' => array('class'=> 'left'), 'class' => 'btn-themeboard btn'));
 ?>
 	<span class="clear"></span>
 <?php

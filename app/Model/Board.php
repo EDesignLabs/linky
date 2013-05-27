@@ -13,6 +13,20 @@ class Board extends AppModel {
 		  'conditions'   => array(
 		  	'Topic.active' => 1
 		  	)
-	));
+	),
+	'Summary'
+	);
+
+	var $belongsTo = array(
+    'User' => 
+    	array(
+    		'className'    => 'User',
+		  	'foreignKey'   => 'user_id'
+    		)
+    	);
+
+	public function isOwnedBy($board, $user) {
+	    return $this->field('id', array('id' => $board, 'user_id' => $user)) === $board;
+	}
 } 
 ?>

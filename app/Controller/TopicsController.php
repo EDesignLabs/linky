@@ -2,46 +2,64 @@
 App::uses('AppController', 'Controller');
 class TopicsController extends AppController {
 	public $name = 'Topics';
-	public $uses = array('Topic','Board');
+	public $uses = array('Topic','Board','Badge','TopicPhoto');
 	public $helpers = array('Form', 'Html', 'Session');
+    public function isAuthorized($user) {
+        if (in_array($this->action,array('add','edit','deactivate')) && $user['role'] == 'teacher') {
+            return true;
+        }
+        if ($this->action === 'index') {
+           return true;
+        }
+        return parent::isAuthorized($user);
+    }
 	public function index() {
+        $limit = 20;
+        $page = isset($this->request->named['page']) ? $this->request->named['page'] : 1;
         $this->set('title','Add a photo');
        	$id = $this->request->params['id'];
     	$this->Board->id = $id;
-    	$board = $this->Board->read();
-    	$this->Topic->id = $this->request->params['topic'];
+        $this->Board->unbindModelAll();
+        $this->Board->bindModel(array('hasMany' => array('Topic')));
+        $board = $this->Board->read();
+        $this->Topic->id = $this->request->params['topic'];
+        $this->Topic->unbindModelAll();
     	$topic = $this->Topic->read();
-    	if(empty($board)){
-    		$this->redirect('/boards/');
-    		exit;
-    	}
-    	if(empty($topic)){
-    		$this->redirect('/boards/');
-    		exit;
-    	}
-        $topics = $this->Topic->find('all',
+        if(empty($board) || empty($topic)){
+            $this->redirect('/boards/');
+            exit;
+        }
+        $this->TopicPhoto->unbindModelAll();
+        $this->TopicPhoto->bindModel(array(
+            'belongsTo' => array('User' => array('fields' => 'User.name,User.id'))
+            ));
+        $photos = $this->TopicPhoto->find(
+            'all',
             array(
-                'fields' => array(
-                    'Topic.id',
-                    'Topic.title'
-                    ),
                 'conditions' => array(
-                    'Topic.active' => 1
+                    'TopicPhoto.topic_id' => $this->request->params['topic'],
+                    'TopicPhoto.active' => 1 
+                    ),
+                'order' => array('TopicPhoto.created DESC'),
+                'limit' => $limit,
+                'page' => $page,
+                'recursive' => 2
+                )
+            );
+        $all_photos = $this->TopicPhoto->find(
+            'count',
+            array(
+                'conditions' => array(
+                    'TopicPhoto.topic_id' => $this->request->params['topic'],
+                    'TopicPhoto.active' => 1
                     )
                 )
             );
-        $topic_choices = array();
-        if(!empty($topics)){
-            foreach ($topics as $t) {
-               $topic_choices[$t['Topic']['id']] = $t['Topic']['title'];
-            }
-        }
-        $photo['Topic']['id'] = $this->request->params['topic'];
-        $photo['Topic']['board_id'] = $id;
-        $this->set('photo',$photo);
-        $this->set('topic_choices',$topic_choices);
-    	$this->set('board',$board);
-    	$this->set('topic',$topic);
+        $total_pages = ceil($all_photos / $limit);
+        $this->set('board',$board);
+        $this->set('topic',$topic);
+        $this->set('photos',$photos);
+        $this->set('total_pages',$total_pages);
     }
     public function add() {
     	$id = $this->request->params['id'];
@@ -55,6 +73,7 @@ class TopicsController extends AppController {
     	if(!empty($this->data)){
     		if ($this->Topic->validates()) {
     			$this->Topic->create();
+                $this->request->data['Topic']['user_id'] = $this->Auth->user('id');
 				if($this->Topic->save($this->data)){
                     $this->Session->setFlash('Category has been created!', 'success');
                     $this->redirect('/boards/view/'.$id);

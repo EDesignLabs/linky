@@ -1,4 +1,4 @@
-<h3>Edit this category</h3>
+<h3>Edit this theme</h3>
 <?php 
 	echo $this->Form->create(
 		'Topic', 
@@ -27,18 +27,18 @@
 	echo $this->Form->input(
 		'Topic.title',
 		array(
-			'label' => 'Category Title'
+			'label' => 'Theme title'
 			)
 		);
 	echo $this->Form->input(
 		'Topic.description',
 		array(
 			'type' => 'textarea',
-			'label' => 'Category Prompt'
+			'label' => 'Theme prompt'
 			)
 		);
 	echo $this->Html->link('Deactivate this category?','/topics/deactivate/'.$this->data['Topic']['id'], array('class' => 'btn btn-danger left margin-20 alpha'));
-	echo $this->Form->submit('Save Category', array('div' => array('class'=> 'left'), 'class' => 'btn btn-primary '));
+	echo $this->Form->submit('Save Theme', array('div' => array('class'=> 'left'), 'class' => 'btn btn-primary '));
 ?>
 	<span class="clear"></span>
 <?php

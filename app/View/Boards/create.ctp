@@ -16,13 +16,13 @@
 	echo $this->Form->input(
 		'Board.title',
 		array(
-			'label' => 'Board Title'
+			'label' => 'Board name'
 			)
 		);
 	echo $this->Form->input(
 		'Board.description',
 		array(
-			'label' => 'Text Prompt'
+			'label' => 'Board description'
 			)
 		);
 	echo $this->Form->input(
