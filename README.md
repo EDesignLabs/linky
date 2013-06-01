@@ -5,7 +5,7 @@ Linky is a web-based app that allows teachers to scaffold learning via themeboar
 
 ## Install
 
-1. Import sql file `sql/linky.sql`
+1. Import sql file `linky.sql`
 2. Change database info in `app/config/database.php`
 3. Create folders for CakePHP caching with writing permissions
   * `app/tmp/cache`
