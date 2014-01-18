@@ -47,7 +47,7 @@
 		'TopicPhoto.description',
 		array(
 			'type' => 'textarea',
-			'label' => 'How does your photo connect to this theme? (required)'
+			'label' => 'How does your photo connect to this theme? (required, limit: 250 characters)'
 			)
 		);
 	$board_id = isset($this->data['TopicPhoto']['board_id']) ? $this->data['TopicPhoto']['board_id'] : $this->request->params['id'];
